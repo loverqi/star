@@ -4,6 +4,20 @@ spring:
   aop:
     proxy-target-class: true
     
+  thymeleaf:
+    prefix: classpath:/templates/  
+    suffix: .html  
+    mode: HTML5  
+    encoding: UTF-8  
+    content-type: text/html   
+    cache: false 
+
+  #文件上传配置
+  http:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 50MB
+    
   #数据库访问配置  #mysql
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -33,12 +47,15 @@ spring:
     # 合并多个DruidDataSource的监控数据  
     #useGlobalDataSourceStat: true  
 
-#服务的基本配置
+# 服务的基本配置
 server:
-  port: 8080
-  context-path: /star
+  port: 80
   session:
     timeout: 3600
+  # 关闭默认的错误处理
+  error:  
+    whitelabel:  
+      enabled: false  
 
     
 #开启mybatis驼峰命名和下划线命名的自动转换

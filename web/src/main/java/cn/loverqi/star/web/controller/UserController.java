@@ -71,9 +71,9 @@ public class UserController {
     @ApiOperation(value = "用户修改密码", notes = "用户修改密码的申请，code为0是成功成功")
     @RequestMapping(value = "/changePwd.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String", paramType = "query"), })
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String", paramType = "form"), })
     public ResponseDate<String> changePwd(String username, String oldPassword, String newPassword) {
         ResponseDate<String> responseDate = new ResponseDate<String>();
         UserInfo userInfo = new UserInfo();
@@ -106,8 +106,8 @@ public class UserController {
     @ApiOperation(value = "查询用户列表", notes = "根据查询用户列表，code为0是成功")
     @RequestMapping(value = "/getUsers.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "role", value = "权限", required = false, dataType = "String", paramType = "query"), })
+            @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = "String", paramType = "form"),
+            @ApiImplicitParam(name = "role", value = "权限", required = false, dataType = "String", paramType = "form"), })
     public ResponseDate<List<UserInfo>> getUsers(String username, String role) {
         ResponseDate<List<UserInfo>> responseDate = new ResponseDate<List<UserInfo>>();
         Example example = new Example();
@@ -130,7 +130,7 @@ public class UserController {
     @ApiOperation(value = "根据id删除用戶", notes = "根据id刪除用户，code为0是成功")
     @RequestMapping(value = "/deleteUser.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "岗位的id", required = true, dataType = "int", paramType = "query"), })
+            @ApiImplicitParam(name = "id", value = "岗位的id", required = true, dataType = "int", paramType = "form"), })
     public ResponseDate<Boolean> deleteUser(Integer id) {
         ResponseDate<Boolean> responseDate = new ResponseDate<Boolean>();
         if (id == null) {
