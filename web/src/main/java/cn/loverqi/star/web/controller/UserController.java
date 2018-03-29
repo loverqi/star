@@ -3,6 +3,7 @@ package cn.loverqi.star.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.loverqi.star.core.bean.ResponseDate;
 import cn.loverqi.star.core.bean.ResponseDateCode;
 import cn.loverqi.star.core.mybaties.pojo.Example;
-import cn.loverqi.star.core.utils.PasswordEncoder;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.UserInfoService;
@@ -32,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "新建或者修改用户", notes = "新建或者修改用户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyUser.do", method = { RequestMethod.POST })
@@ -40,7 +43,7 @@ public class UserController {
         ResponseDate<Boolean> responseDate = new ResponseDate<Boolean>();
 
         if (StringUtil.isNotNull(user.getPassword())) {
-            user.setPassword(PasswordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
         int insert = 0;
@@ -87,7 +90,7 @@ public class UserController {
         } else {
 
             userInfo = userInfos.get(0);
-            boolean matches = PasswordEncoder.matches(oldPassword, userInfo.getPassword());
+            boolean matches = passwordEncoder.matches(oldPassword, userInfo.getPassword());
 
             if (!matches) {
                 //密码错误
@@ -95,7 +98,7 @@ public class UserController {
                 responseDate.setMessage(ResponseDateCode.PASSWORD_ERROR_MESSAGE);
             } else {
                 //开始修改密码
-                userInfo.setPassword(PasswordEncoder.encode(newPassword));
+                userInfo.setPassword(passwordEncoder.encode(newPassword));
                 userInfoService.updateByPrimaryKeySelective(userInfo);
             }
         }

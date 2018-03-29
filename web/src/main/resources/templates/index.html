@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="base/layout">
+<head>
+<meta charset="utf-8" />
+<title>系统主页</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+			<!-- #section:basics/content.breadcrumbs -->
+			<div class="breadcrumbs" id="breadcrumbs">
+				<ul class="breadcrumb">
+					<li>
+						<i class="ace-icon fa fa-home home-icon"></i>
+						<a href="index.html">系统首页</a>
+					</li>
+				</ul>
+				<!-- /.breadcrumb -->
+
+
+				<!-- /section:basics/content.searchbox -->
+			</div>
+
+			<div class="page-content">
+				<!-- /section:settings.box -->
+				<div class="page-content-area">
+
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- PAGE CONTENT BEGINS -->
+							<div class="alert alert-block alert-info">
+								<button type="button" class="close" data-dismiss="alert">
+									<i class="ace-icon fa fa-times"></i>
+								</button>
+
+								<i class="ace-icon fa fa-check green"></i>
+								<strong class="green">温馨提示：</strong>
+								当前系统处于测试阶段，等您却受到收货后将给您正式授权。
+							</div>
+							<div class="row center">
+								<img class="img-responsive center-block" src="assets/avatars/logo_2.png" />
+							</div>
+							<!-- /.row -->
+
+							<!-- PAGE CONTENT ENDS -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content-area -->
+			</div>
+			<!-- /.page-content -->
+	</div>
+</body>
+</html>
