@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.loverqi.star.core.bean.ResponseDate;
 import cn.loverqi.star.core.bean.ResponseDateCode;
@@ -25,20 +28,20 @@ import io.swagger.annotations.ApiOperation;
  * @author LoverQi
  * @date 2018年3月5日
  */
-@RestController
+@Controller
 @RequestMapping("user")
 @Api(value = "用户管理", tags = "user")
 public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @ApiOperation(value = "新建或者修改用户", notes = "新建或者修改用户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyUser.do", method = { RequestMethod.POST })
-    public ResponseDate<Boolean> AddOrModifyUser(@RequestBody UserInfo user) {
+    public @ResponseBody ResponseDate<Boolean> AddOrModifyUser(@RequestBody UserInfo user) {
 
         ResponseDate<Boolean> responseDate = new ResponseDate<Boolean>();
 
@@ -77,7 +80,7 @@ public class UserController {
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String", paramType = "form"), })
-    public ResponseDate<String> changePwd(String username, String oldPassword, String newPassword) {
+    public @ResponseBody ResponseDate<String> changePwd(String username, String oldPassword, String newPassword) {
         ResponseDate<String> responseDate = new ResponseDate<String>();
         UserInfo userInfo = new UserInfo();
         Example example = new Example();
@@ -111,7 +114,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = "String", paramType = "form"),
             @ApiImplicitParam(name = "role", value = "权限", required = false, dataType = "String", paramType = "form"), })
-    public ResponseDate<List<UserInfo>> getUsers(String username, String role) {
+    public @ResponseBody ResponseDate<List<UserInfo>> getUsers(String username, String role) {
         ResponseDate<List<UserInfo>> responseDate = new ResponseDate<List<UserInfo>>();
         Example example = new Example();
 
@@ -134,7 +137,7 @@ public class UserController {
     @RequestMapping(value = "/deleteUser.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "岗位的id", required = true, dataType = "int", paramType = "form"), })
-    public ResponseDate<Boolean> deleteUser(Integer id) {
+    public @ResponseBody ResponseDate<Boolean> deleteUser(Integer id) {
         ResponseDate<Boolean> responseDate = new ResponseDate<Boolean>();
         if (id == null) {
             responseDate.setCode(ResponseDateCode.PARAMETER_ANOMALY);
@@ -152,7 +155,7 @@ public class UserController {
 
     @ApiOperation(value = "根据id删除用戶", notes = "根据id删除用戶，code为0是成功")
     @RequestMapping(value = "/deleteUsers.do", method = { RequestMethod.POST })
-    public ResponseDate<Boolean> deleteUsers(@RequestBody List<Integer> ids) {
+    public @ResponseBody ResponseDate<Boolean> deleteUsers(@RequestBody List<Integer> ids) {
         ResponseDate<Boolean> responseDate = new ResponseDate<Boolean>();
         if (ids == null || ids.size() == 0) {
             responseDate.setCode(ResponseDateCode.PARAMETER_ANOMALY);
@@ -167,6 +170,20 @@ public class UserController {
         }
 
         return responseDate;
+    }
+
+    @RequestMapping(value = "/create_user.html", method = { RequestMethod.GET, RequestMethod.POST })
+    public String createUser(@ModelAttribute("user") UserInfo userInfo, Model model) {
+
+        System.err.println("创建用户页面");
+        return "create_user";
+    }
+
+    @RequestMapping(value = "/view_user.html", method = { RequestMethod.GET, RequestMethod.POST })
+    public String viewUser(Model model) {
+
+        System.err.println("查询用户页面");
+        return "view_user";
     }
 
 }

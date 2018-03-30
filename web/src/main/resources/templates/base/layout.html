@@ -6,11 +6,11 @@
 <title>布局</title>
 <meta name="description" content="Restyling jQuery UI Widgets and Elements" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
-<link rel="stylesheet" href="assets/css/ace-fonts.css" />
-<link rel="stylesheet" href="assets/css/ace.min.css" id="main-ace-style" />
-<script src="assets/js/ace-extra.min.js"></script>
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
+<link rel="stylesheet" href="/assets/css/ace-fonts.css" />
+<link rel="stylesheet" href="/assets/css/ace.min.css" id="main-ace-style" />
+<script src="/assets/js/ace-extra.min.js"></script>
 </head>
 
 <body class="no-skin">
@@ -27,9 +27,9 @@
 			<!-- /section:basics/sidebar.mobile.toggle -->
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
-				<a href="index.html" class="navbar-brand">
+				<a href="/index.html" class="navbar-brand">
 					<small>
-						<img src="assets/avatars/logo.png" alt="" />
+						<img src="/assets/avatars/logo.png" alt="" />
 					</small>
 				</a>
 			</div>
@@ -128,18 +128,16 @@
 
 		<!-- #section:basics/sidebar -->
 		<div id="sidebar" class="sidebar responsive">
-
-
 			<ul class="nav nav-list">
-				<li class="active">
-					<a href="index.html">
+				<li th:class="${#httpServletRequest.getServletPath()=='/index.html'}? 'active' : ''">
+					<a href="/index.html">
 						<i class="menu-icon fa fa-home"></i>
 						<span class="menu-text"> 系统首页 </span>
 					</a>
 					<b class="arrow"></b>
 				</li>
 
-				<li class="">
+				<li>
 					<a href="#" class="dropdown-toggle">
 						<i class="menu-icon fa 	fa-book"></i>
 						<span class="menu-text"> 客户管理 </span>
@@ -149,14 +147,14 @@
 
 					<ul class="submenu">
 						<li class="">
-							<a href="typography.html">
+							<a href="create_customer">
 								<i class="menu-icon fa fa-caret-right"></i>
 								创建客户
 							</a>
 							<b class="arrow"></b>
 						</li>
 						<li class="">
-							<a href="typography.html">
+							<a href="view_customer.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								查询客户
 							</a>
@@ -175,14 +173,14 @@
 
 					<ul class="submenu">
 						<li class="">
-							<a href="form-elements.html">
+							<a href="create_bill.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								新建账单
 							</a>
 							<b class="arrow"></b>
 						</li>
 						<li class="">
-							<a href="form-elements.html">
+							<a href="view_bill.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								查询账单
 							</a>
@@ -191,7 +189,9 @@
 					</ul>
 				</li>
 
-				<li class="" th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}">
+				<li
+					th:class="${(#httpServletRequest.getServletPath()=='/user/create_user.html') or (#httpServletRequest.getServletPath()=='/user/view_user.html')}? 'active' : ''"
+					th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}">
 					<a href="#" class="dropdown-toggle">
 						<i class="menu-icon fa fa-users"></i>
 						<span class="menu-text"> 员工管理 </span>
@@ -200,15 +200,15 @@
 					<b class="arrow"></b>
 
 					<ul class="submenu">
-						<li class="">
-							<a href="tables.html">
+						<li th:class="${#httpServletRequest.getServletPath()=='/user/create_user.html'}? 'active' : ''">
+							<a href="/user/create_user.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								创建员工
 							</a>
 							<b class="arrow"></b>
 						</li>
-						<li class="">
-							<a href="tables.html">
+						<li th:class="${#httpServletRequest.getServletPath()=='/user/view_user.html'}? 'active' : ''">
+							<a href="/user/view_user.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								查看员工
 							</a>
@@ -218,12 +218,6 @@
 				</li>
 			</ul>
 			<!-- /.nav-list -->
-
-			<!-- #section:basics/sidebar.layout.minimize -->
-			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-				<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-			</div>
-
 		</div>
 
 		<!-- /section:basics/sidebar -->
@@ -249,7 +243,7 @@
 	<!--[if !IE]> -->
 	<script type="text/javascript">
 		window.jQuery
-				|| document.write("<script src='assets/js/jquery.min.js'>"
+				|| document.write("<script src='/assets/js/jquery.min.js'>"
 						+ "<"+"/script>");
 	</script>
 
@@ -258,10 +252,10 @@
 	<script type="text/javascript">
 		if ('ontouchstart' in document.documentElement)
 			document
-					.write("<script src='assets/js/jquery.mobile.custom.min.js'>"
+					.write("<script src='/assets/js/jquery.mobile.custom.min.js'>"
 							+ "<"+"/script>");
 	</script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/ace-elements.min.js"></script>
-	<script src="assets/js/ace.min.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<script src="/assets/js/ace-elements.min.js"></script>
+	<script src="/assets/js/ace.min.js"></script>
 </body>
