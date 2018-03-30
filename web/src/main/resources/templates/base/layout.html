@@ -137,7 +137,8 @@
 					<b class="arrow"></b>
 				</li>
 
-				<li>
+				<li
+					th:class="${(#httpServletRequest.getServletPath()=='/customer/create_customer.html') or (#httpServletRequest.getServletPath()=='/customer/view_customer.html')}? 'active' : ''">
 					<a href="#" class="dropdown-toggle">
 						<i class="menu-icon fa 	fa-book"></i>
 						<span class="menu-text"> 客户管理 </span>
@@ -146,15 +147,15 @@
 					<b class="arrow"></b>
 
 					<ul class="submenu">
-						<li class="">
-							<a href="create_customer">
+						<li th:class="${#httpServletRequest.getServletPath()=='/customer/create_customer.html'}? 'active' : ''">
+							<a href="/customer/create_customer.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								创建客户
 							</a>
 							<b class="arrow"></b>
 						</li>
-						<li class="">
-							<a href="view_customer.html">
+						<li th:class="${#httpServletRequest.getServletPath()=='/customer/view_customer.html'}? 'active' : ''">
+							<a href="/customer/view_customer.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								查询客户
 							</a>
@@ -163,7 +164,8 @@
 					</ul>
 				</li>
 
-				<li class="">
+				<li
+					th:class="${(#httpServletRequest.getServletPath()=='/bill/create_bill.html') or (#httpServletRequest.getServletPath()=='/bill/view_bill.html')}? 'active' : ''">
 					<a href="#" class="dropdown-toggle">
 						<i class="menu-icon fa fa-pencil-square-o"></i>
 						<span class="menu-text"> 账单管理 </span>
@@ -172,15 +174,15 @@
 					<b class="arrow"></b>
 
 					<ul class="submenu">
-						<li class="">
-							<a href="create_bill.html">
+						<li th:class="${#httpServletRequest.getServletPath()=='/bill/create_bill.html'}? 'active' : ''">
+							<a href="/bill/create_bill.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								新建账单
 							</a>
 							<b class="arrow"></b>
 						</li>
-						<li class="">
-							<a href="view_bill.html">
+						<li th:class="${#httpServletRequest.getServletPath()=='/bill/view_bill.html'}? 'active' : ''">
+							<a href="/bill/view_bill.html">
 								<i class="menu-icon fa fa-caret-right"></i>
 								查询账单
 							</a>

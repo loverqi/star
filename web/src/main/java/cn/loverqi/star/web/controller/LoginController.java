@@ -20,6 +20,11 @@ import io.swagger.annotations.Api;
 @Api(value = "登陆", tags = "login")
 public class LoginController {
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String welcome() {
+        return "index";
+    }
+
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
     public String login(Integer msg, Integer err, Model model) {
         String massage = null;
