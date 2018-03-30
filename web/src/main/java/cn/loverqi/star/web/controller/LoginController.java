@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.loverqi.star.web.security.util.SecurityUtil;
 import io.swagger.annotations.Api;
 
 /**
@@ -20,8 +19,8 @@ import io.swagger.annotations.Api;
 @Api(value = "登陆", tags = "login")
 public class LoginController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String welcome() {
+    @RequestMapping(value = { "/", "/index.html" }, method = RequestMethod.GET)
+    public String index(HttpSession session) {
         return "index";
     }
 
@@ -45,9 +44,4 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
-    public String index(HttpSession session) {
-        session.setAttribute("userInfo", SecurityUtil.getUser());
-        return "index";
-    }
 }

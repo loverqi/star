@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="base/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="base/layout">
 <head>
 <meta charset="utf-8" />
 <title>创建员工</title>
@@ -10,17 +11,87 @@
 		<!-- #section:basics/content.breadcrumbs -->
 		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li>
-					<i class="ace-icon fa fa-users home-icon"></i>
-					<a href="javascript:void(0)">员工管理</a>
-				</li>
-				<li>
-					<a href="javascript:void(0)">创建员工</a>
-				</li>
+				<li><i class="ace-icon fa fa-users home-icon"></i> <a href="javascript:void(0)">员工管理</a></li>
+				<li><a href="javascript:void(0)">创建员工</a></li>
 			</ul>
 			<!-- /.breadcrumb -->
 
 		</div>
+		<!-- /section:basics/content.breadcrumbs -->
+		<div class="page-content">
+
+			<div class="space-10"></div>
+
+			<div class="page-content-area">
+
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<form class="form-horizontal" role="form">
+							<!-- #section:elements.form -->
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 用户名：</label>
+
+								<div class="col-sm-9">
+									<input type="text" id="form-field-1" placeholder="请输入用户名" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1">真实姓名： </label>
+
+								<div class="col-sm-9">
+									<input type="text" id="form-field-1-1" placeholder="请输入用户真实姓名" class=" col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<!-- /section:elements.form -->
+							<div class="space-4"></div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-2">密码： </label>
+
+								<div class="col-sm-9">
+									<input type="password" id="form-field-2" placeholder="请输入密码" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="space-4"></div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-2">确认密码： </label>
+
+								<div class="col-sm-9">
+									<input type="password" id="form-field-2" placeholder="请再次输入密码" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+
+
+							<div class="clearfix form-actions">
+								<div class="col-md-offset-3 col-md-9">
+									<button class="btn" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> 重置
+									</button>
+									
+									&nbsp; &nbsp; &nbsp;
+
+									<button class="btn btn-info" type="button">
+										<i class="ace-icon fa fa-check bigger-110"></i> 创建员工
+									</button>
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.page-content-area -->
+		</div>
+		<!-- /.page-content -->
 	</div>
 </body>
 </html>
