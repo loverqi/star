@@ -206,7 +206,6 @@ public abstract class MyBatisPojo implements Serializable {
         }
 
         return true;
-
     }
 
     /**
