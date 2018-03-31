@@ -4,6 +4,38 @@
 <head>
 <meta charset="utf-8" />
 <title>查询账单</title>
+<style type="text/css">
+.table-responsive table {
+	margin-bottom: 0px;
+}
+
+.CSSearchTbl {
+	border: 1px #008CD4 solid;
+	margin-bottom: 15px;
+}
+
+.CSSearchTbl thead tr th {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.CSSearchTbl tbody tr td {
+	padding: 10px;
+}
+
+.CSSearchTbl tbody tr td.right {
+	text-align: left;
+}
+
+.CSSearchTbl tbody tr td.left {
+	text-align: right;
+}
+
+.table th, .table td {
+	text-align: center;
+	vertical-align: middle !important;
+}
+</style>
 </head>
 
 <body>
@@ -18,87 +50,341 @@
 
 			<div class="page-content">
 				<div class="page-content-area">
-					<div class="row" style="height:50px;">
-						<div class="col-xs-12 col-sm-3">
-							<label for="id-date-picker-1">含时间的日期表单</label>
-							<div class="input-group">
-								<input id="date-timepicker1" type="text" class="form-control" /> <span class="input-group-addon"> <i
-									class="fa fa-clock-o bigger-110"></i>
-								</span>
-							</div>
-						</div>
-					</div>
-
 					<div class="row">
 						<div class="col-xs-12">
 
-							<div class="table-responsive">
-								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+							<div class="table-header">查询条件</div>
+
+							<div class="table-responsive CSSearchTbl">
+
+								<table class="table no-margin-bottom">
+									<tr>
+										<td class="left">微信号：</td>
+										<td class="right"><input type="text" size="16" /></td>
+										<td class="left">微信名：</td>
+										<td class="right"><input type="text" size="16" /></td>
+										<td class="left">客户来源：</td>
+										<td class="right"><select>
+												<option value="">请选择客户来源</option>
+												<option>推广</option>
+												<option>单导</option>
+										</select></td>
+										<td class="left">账单状态：</td>
+										<td class="right"><select>
+												<option value="">请选择账单状态</option>
+												<option>未打款</option>
+												<option>已打款</option>
+										</select></td>
+									</tr>
+									<tr>
+										<td class="left">提交人：</td>
+										<td class="right"><input type="text" size="16" /></td>
+										<td class="left">开始时间：</td>
+										<td class="right"><input id="date-timepicker1" type="text" size="16" class="datePicker" /></td>
+										<td class="left ">结束时间：</td>
+										<td class="right"><input id="date-timepicker2" type="text" size="16" class="datePicker" /></td>
+										<td class="right" colspan="2">
+											<button class="btn btn-primary pull-left col-sm-12 tbl-search">
+												开始搜索 <i class="ace-icon fa fa-search"></i>
+											</button>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+
+							<div class="table-responsive no-margin-bottom">
+								<table id="sample-table-2 no-margin-bottom" class="table table-striped table-bordered table-hover">
 									<thead>
 										<tr>
-											<th>微信号</th>
-											<th>微信名</th>
-											<th>人数</th>
-											<th>金额</th>
-											<th>客户来源</th>
-											<th>状态</th>
-											<th>创建日期</th>
-											<th>创建人</th>
-											<th>操作</th>
+											<th class="center">微信号</th>
+											<th class="center">微信名</th>
+											<th class="center">人数</th>
+											<th class="center">金额</th>
+											<th class="center">客户来源</th>
+											<th class="center">状态</th>
+											<th class="center">创建日期</th>
+											<th class="center">提交人</th>
+											<th class="center">操作</th>
 										</tr>
 									</thead>
 
 									<tbody>
+
 										<tr>
 											<td>1025829590</td>
 											<td>念儿Papa</td>
 											<td>50</td>
 											<td>￥1000</td>
 											<td>推广</td>
-											<td><span class="label label-sm label-success">已打款</span><span class="label label-sm label-danger">未打款</span></td>
+											<td class="center"><span class="label label-sm label-success">已打款</span></td>
 											<td>2012-08-01 21:00:00</td>
 											<td>管理员</td>
 											<td>
 												<div class="center">
-													<button class="btn btn-xs btn-success" title="">
-														<i class="ace-icon fa fa-search-plus bigger-120"></i>
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
 													</button>
 
-													<button class="btn btn-xs btn-info">
-														<i class="ace-icon fa fa-pencil bigger-120"></i>
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
 													</button>
 
-													<button class="btn btn-xs btn-danger">
-														<i class="ace-icon fa fa-trash-o bigger-120"></i>
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
 													</button>
 												</div>
 											</td>
 										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-danger">未打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+
+
+
+
+
+
+
+
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-success">已打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-danger">未打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-success">已打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-danger">未打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-success">已打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-danger">未打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-success">已打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>1025829590</td>
+											<td>念儿Papa</td>
+											<td>50</td>
+											<td>￥1000</td>
+											<td>推广</td>
+											<td class="center"><span class="label label-sm label-danger">未打款</span></td>
+											<td>2012-08-01 21:00:00</td>
+											<td>管理员</td>
+											<td>
+												<div class="center">
+													<button class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</button>
+
+													<button class="btn btn-xs btn-info center" title="编辑">
+														<i class="ace-icon fa fa-pencil"></i>
+													</button>
+
+													<button class="btn btn-xs btn-danger center" title="删除">
+														<i class="ace-icon fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+
+
+
+
 									</tbody>
 								</table>
 							</div>
+							<div class="modal-footer no-margin no-padding-bottom no-padding-top">
+								小计：总人数:<strong><span>250</span></strong> 总金额:<strong>￥<span>25000</span></strong> 人均:<strong>￥<span>150</span></strong>
+							</div>
 							<div class="modal-footer no-margin-top">
-
-								<ul class="pagination pull-right no-margin">
-									<li class="prev disabled"><a href="#"> <i class="ace-icon fa fa-angle-double-left"></i>
-									</a></li>
-
-									<li class="active"><a href="#">1</a></li>
-
-									<li><a href="#">2</a></li>
-
-									<li><a href="#">3</a></li>
-
-									<li class="next"><a href="#"> <i class="ace-icon fa fa-angle-double-right"></i>
-									</a></li>
+								<span style="float: left;">共<strong><span>100</span></strong>页，当前第<strong><span id="thePageId">1</span></strong>页
+								</span>
+								<ul class="pagination pull-right no-margin" id="totalPages">
 								</ul>
 							</div>
-
-
-
-
-
-
 						</div>
 					</div>
 
@@ -109,6 +395,50 @@
 			<!-- /.page-content -->
 
 		</div>
+		<script src="/assets/js/jquery.min.js"></script>
+		<script src="/assets/js/jqpaginator.min.js"></script>
+		<script src="/assets/js/date-time/moment.min.js"></script>
+		<script src="/assets/js/date-time/daterangepicker.min.js"></script>
+		<script src="/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript">
+			$('#totalPages')
+					.jqPaginator(
+							{
+								totalPages : 50, //设置分页的总页数
+								visiblePages : 3, //设置最多显示数
+								currentPage : 1,
+								first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
+								prev : '<li class="prev"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-left"></i></a></li>',
+								next : '<li class="next"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-right"></i></a></li>',
+								last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
+								page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+								onPageChange : function(num, type) {
+									$('#thePageId').html(num);
+									/* alert('当前第' + num + '页' + type); */
+								}
+							});
+
+			$('#date-timepicker1').datetimepicker({
+				language : 'zh-CN',
+				format : 'YYYY-MM-DD hh:mm:00',
+				autoclose : true,
+				todayBtn : true,
+				clearBtn : true
+			}).next().on(ace.click_event, function() {
+				$(this).prev().focus();
+			});
+			$('#date-timepicker2').datetimepicker({
+				language : 'zh-CN',
+				format : 'YYYY-MM-DD hh:mm:00',
+				autoclose : true,
+				todayBtn : true,
+				clearBtn : true
+			}).next().on(ace.click_event, function() {
+				$(this).prev().focus();
+			});
+		</script>
+
+
 	</div>
 </body>
 </html>
