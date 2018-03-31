@@ -3,7 +3,7 @@
 	layout:decorator="base/layout">
 <head>
 <meta charset="utf-8" />
-<title>创建客户</title>
+<title>新建客户</title>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
 				<li><i class="ace-icon fa fa-book home-icon"></i> <a href="javascript:void(0)">客户管理</a></li>
-				<li><a href="javascript:void(0)">创建客户</a></li>
+				<li><a href="javascript:void(0)">新建客户</a></li>
 			</ul>
 			<!-- /.breadcrumb -->
 		</div>
@@ -64,6 +64,24 @@
 
 							<div class="space-4"></div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 创建人：</label>
+
+								<div class="col-sm-9">
+									<input type="text" readonly="readonly" id="form-field-1" value="管理员" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="space-4"></div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 创建日期：</label>
+
+								<div class="col-sm-9">
+									<input type="text" readonly="readonly" id="form-field-1" value="2018-01-02 21:59:00" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+
+							<div class="space-4"></div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">客户来源：</label>
 								<div class="col-sm-3">
 									<div class="pos-rel">
@@ -101,7 +119,7 @@
 									&nbsp; &nbsp; &nbsp;
 
 									<button class="btn btn-info" type="button">
-										<i class="ace-icon fa fa-check bigger-110"></i> 创建客户
+										<i class="ace-icon fa fa-check bigger-110"></i> 新建客户
 									</button>
 								</div>
 							</div>

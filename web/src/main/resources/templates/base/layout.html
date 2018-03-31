@@ -97,7 +97,7 @@
 
 						<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 							<li>
-								<a href="/index.html">
+								<a href="/user/create_user.html">
 									<i class="ace-icon fa fa-user"></i>
 									账号管理
 								</a>
@@ -150,7 +150,7 @@
 						<li th:class="${#httpServletRequest.getServletPath()=='/customer/create_customer.html'}? 'active' : ''">
 							<a href="/customer/create_customer.html">
 								<i class="menu-icon fa fa-caret-right"></i>
-								创建客户
+								新建客户
 							</a>
 							<b class="arrow"></b>
 						</li>
@@ -205,7 +205,7 @@
 						<li th:class="${#httpServletRequest.getServletPath()=='/user/create_user.html'}? 'active' : ''">
 							<a href="/user/create_user.html">
 								<i class="menu-icon fa fa-caret-right"></i>
-								创建员工
+								新建员工
 							</a>
 							<b class="arrow"></b>
 						</li>
@@ -230,7 +230,7 @@
 			<div class="footer-inner">
 				<!-- #section:basics/footer -->
 				<div class="footer-content">
-					<span class="bigger-120"> 客户账单管理系统 &copy; loverqi </span>
+					<span class="bigger-120"> 客户账单管理系统 &copy; <a href="http://mail.loverqi.cn">loverqi.cn</a> </span>
 				</div>
 				<!-- /section:basics/footer -->
 			</div>
