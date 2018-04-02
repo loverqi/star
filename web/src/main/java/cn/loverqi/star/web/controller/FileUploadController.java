@@ -1,6 +1,7 @@
 package cn.loverqi.star.web.controller;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("file")
+@PreAuthorize("hasRole('USER')")
 @Api(value = "文件上传", tags = "file")
 public class FileUploadController {
 

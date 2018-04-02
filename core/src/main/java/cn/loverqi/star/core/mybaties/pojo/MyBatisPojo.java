@@ -46,18 +46,18 @@ public abstract class MyBatisPojo implements Serializable {
 
     /**
      * 或许类的所有非静态属性
-     * 排除@FieldIgnore注解
+     * 排除@FieldIgnore注解, 添加mysql中的关键字转义字符
      * @return 类的所有非静态属性，返回用“,”分割形式的字符换
      */
     @JsonIgnore
-    public String getTableFields() {
+    public String getEscapeTableFields() {
         StringBuffer sb = new StringBuffer();
         Field[] declaredField = getClass().getDeclaredFields();
         for (Field field : declaredField) {
             FieldIgnore annotation = AnnotationUtil.getAnnotation(field, FieldIgnore.class);
             //根据注解判断当前字段是否需要隐藏
             if (annotation == null && !Modifier.isStatic(field.getModifiers())) {
-                sb.append(NameFormatConversionUtil.humpToLine(field.getName()) + ",");
+                sb.append("`" + NameFormatConversionUtil.humpToLine(field.getName()) + "`" + ",");
             }
         }
 

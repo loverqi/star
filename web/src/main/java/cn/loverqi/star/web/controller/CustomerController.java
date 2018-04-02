@@ -1,5 +1,6 @@
 package cn.loverqi.star.web.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +17,7 @@ import io.swagger.annotations.Api;
  */
 @Controller
 @RequestMapping("customer")
+@PreAuthorize("hasRole('USER')")
 @Api(value = "账单管理", tags = "customer")
 public class CustomerController {
 

@@ -29,8 +29,12 @@ public class Example {
         criteria = new Criteria(criterions);
     }
 
-    public void setOrderByClause(String orderByClause) {
-        this.orderByClause = NameFormatConversionUtil.humpToLine(orderByClause);
+    public void setASCOrderByClause(String orderByClause) {
+        this.orderByClause = "`" + NameFormatConversionUtil.humpToLine(orderByClause) + "`" + " ASC";
+    }
+
+    public void setDESCOrderByClause(String orderByClause) {
+        this.orderByClause = "`" + NameFormatConversionUtil.humpToLine(orderByClause) + "`" + " DESC";
     }
 
     public String getOrderByClause() {
@@ -156,7 +160,7 @@ public class Example {
          * 具体的添加属性
          */
         private void addCriterion(String condition, String value) {
-            criterions.add(new Criterion(condition, value));
+            criterions.add(new Criterion("`" + condition + "`", value));
         }
 
         /**
@@ -164,7 +168,7 @@ public class Example {
          */
         private void addCriterion(String fileld, String property, String value) {
             if (fileld != null && property != null && value != null) {
-                criterions.add(new Criterion(fileld, property, value));
+                criterions.add(new Criterion("`" + fileld + "`", property, value));
             }
         }
 
@@ -252,7 +256,7 @@ public class Example {
          */
         public Criteria andFieldIn(String fileld, List<?> values) {
             String sql = null;
-            fileld = NameFormatConversionUtil.humpToLine(fileld);
+            fileld = "`" + NameFormatConversionUtil.humpToLine(fileld) + "`";
 
             if (values != null) {
                 int size = values.size();
@@ -297,7 +301,7 @@ public class Example {
          */
         public Criteria andFieldNotIn(String fileld, List<?> values) {
             String sql = null;
-            fileld = NameFormatConversionUtil.humpToLine(fileld);
+            fileld = "`" + NameFormatConversionUtil.humpToLine(fileld) + "`";
             if (values != null) {
                 int size = values.size();
                 switch (size) {

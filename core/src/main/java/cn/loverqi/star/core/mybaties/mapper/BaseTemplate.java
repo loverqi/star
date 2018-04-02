@@ -27,15 +27,14 @@ public class BaseTemplate<T extends MyBatisPojo> {
 
         String sql = new SQL() {
             {
-                INSERT_INTO(record.getTablename());
+                INSERT_INTO("`" + record.getTablename() + "`");
                 List<String> fieldsList = record.getTableFieldsList();
                 for (String filed : fieldsList) {
-                    VALUES(NameFormatConversionUtil.humpToLine(filed), "#{" + filed + "}");
-
+                    VALUES("`" + NameFormatConversionUtil.humpToLine(filed) + "`", "#{" + filed + "}");
                 }
             }
         }.toString();
- 
+
         return sql;
     }
 
@@ -47,12 +46,12 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String insertSelective(final T record) {
         String sql = new SQL() {
             {
-                INSERT_INTO(record.getTablename());
+                INSERT_INTO("`" + record.getTablename() + "`");
                 List<String> fieldsList = record.getTableFieldsList();
                 for (String filed : fieldsList) {
 
                     if (record.getTableFieldValue(filed) != null) {
-                        VALUES(NameFormatConversionUtil.humpToLine(filed), "#{" + filed + "}");
+                        VALUES("`" + NameFormatConversionUtil.humpToLine(filed) + "`", "#{" + filed + "}");
                     }
 
                 }
@@ -70,11 +69,12 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String selectByPrimaryKey(final T record) {
         String sql = new SQL() {
             {
-                SELECT(record.getTableFields());
-                FROM(record.getTablename());
+                SELECT(record.getEscapeTableFields());
+                FROM("`" + record.getTablename() + "`");
                 if (record.getTablePrimaryKeyValue() != null) {
                     String tablePrimaryKey = record.getTablePrimaryKey();
-                    WHERE(tablePrimaryKey + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
+                    WHERE("`" + tablePrimaryKey + "`" + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey)
+                            + "}");
                 }
             }
         }.toString();
@@ -92,9 +92,9 @@ public class BaseTemplate<T extends MyBatisPojo> {
         String sql = new SQL() {
             {
                 SELECT("*");
-                FROM(tableName);
+                FROM("`" + tableName + "`");
                 if (id != null) {
-                    WHERE("id=#{id}");
+                    WHERE("`id`=#{id}");
                 }
             }
         }.toString();
@@ -112,11 +112,11 @@ public class BaseTemplate<T extends MyBatisPojo> {
         String sql = new SQL() {
             {
                 if (example != null && example.isDistinct()) {
-                    SELECT_DISTINCT(record.getTableFields());
+                    SELECT_DISTINCT(record.getEscapeTableFields());
                 } else {
-                    SELECT(record.getTableFields());
+                    SELECT(record.getEscapeTableFields());
                 }
-                FROM(record.getTablename());
+                FROM("`" + record.getTablename() + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {
@@ -150,7 +150,7 @@ public class BaseTemplate<T extends MyBatisPojo> {
                 } else {
                     SELECT("COUNT(1)");
                 }
-                FROM(record.getTablename());
+                FROM("`" + record.getTablename() + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {
@@ -186,7 +186,7 @@ public class BaseTemplate<T extends MyBatisPojo> {
                 } else {
                     SELECT("COUNT(1)");
                 }
-                FROM(tableName);
+                FROM("`" + tableName + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {
@@ -220,7 +220,7 @@ public class BaseTemplate<T extends MyBatisPojo> {
                 } else {
                     SELECT("*");
                 }
-                FROM(tableName);
+                FROM("`" + tableName + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {
@@ -248,14 +248,14 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String updateByPrimaryKey(final T record) {
         String sql = new SQL() {
             {
-                UPDATE(record.getTablename());
+                UPDATE("`" + record.getTablename() + "`");
 
                 List<String> fieldsList = record.getTableOrdinaryFieldsList();
                 for (String field : fieldsList) {
-                    SET(NameFormatConversionUtil.humpToLine(field) + "=#{" + field + "}");
+                    SET("`" + NameFormatConversionUtil.humpToLine(field) + "`" + "=#{" + field + "}");
                 }
                 String tablePrimaryKey = record.getTablePrimaryKey();
-                WHERE(tablePrimaryKey + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
+                WHERE("`" + tablePrimaryKey + "`" + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
             }
         }.toString();
 
@@ -270,23 +270,23 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String updateByPrimaryKeySelective(final T record) {
         String sql = new SQL() {
             {
-                UPDATE(record.getTablename());
+                UPDATE("`" + record.getTablename() + "`");
 
                 List<String> fieldsList = record.getTableOrdinaryFieldsList();
                 for (String filed : fieldsList) {
                     if (record.getTableFieldValue(filed) != null) {
-                        SET(NameFormatConversionUtil.humpToLine(filed) + "=#{" + filed + "}");
+                        SET("`" + NameFormatConversionUtil.humpToLine(filed) + "`" + "=#{" + filed + "}");
                     }
                 }
                 String tablePrimaryKey = record.getTablePrimaryKey();
-                WHERE(tablePrimaryKey + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
+                WHERE("`" + tablePrimaryKey + "`" + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
             }
         }.toString();
 
         return sql;
     }
 
-    /** TODO
+    /**
      * 根据条件更新对象的方法
      * @param record 修改后的对象
      * @param example 更新的条件
@@ -295,12 +295,12 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String updateByExample(final T record, final Example example) {
         String sql = new SQL() {
             {
-                UPDATE(record.getTablename());
+                UPDATE("`" + record.getTablename() + "`");
 
                 List<String> fieldsList = record.getTableOrdinaryFieldsList();
                 for (String filed : fieldsList) {
                     if (record.getTableFieldValue(filed) != null) {
-                        SET(NameFormatConversionUtil.humpToLine(filed) + "=#{record." + filed + "}");
+                        SET("`" + NameFormatConversionUtil.humpToLine(filed) + "`" + "=#{record." + filed + "}");
                     }
                 }
                 if (example != null && example.isValid()) {
@@ -316,7 +316,7 @@ public class BaseTemplate<T extends MyBatisPojo> {
         return sql;
     }
 
-    /** TODO
+    /**
      * 根据条件更新对象的方法，仅更新对象非空的属性
      * @param record 修改后的对象
      * @param example 更新的条件
@@ -325,12 +325,12 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String updateByExampleSelective(final T record, final Example example) {
         String sql = new SQL() {
             {
-                UPDATE(record.getTablename());
+                UPDATE("`" + record.getTablename() + "`");
 
                 List<String> fieldsList = record.getTableOrdinaryFieldsList();
                 for (String filed : fieldsList) {
                     if (record.getTableFieldValue(filed) != null) {
-                        SET(NameFormatConversionUtil.humpToLine(filed) + "=#{record." + filed + "}");
+                        SET("`" + NameFormatConversionUtil.humpToLine(filed) + "`" + "=#{record." + filed + "}");
                     }
                 }
                 if (example != null && example.isValid()) {
@@ -355,8 +355,8 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String deleteByPrimaryKeyValue(final String tableName, final Integer id) {
         String sql = new SQL() {
             {
-                DELETE_FROM(tableName);
-                WHERE("id=#{id}");
+                DELETE_FROM("`" + tableName + "`");
+                WHERE("`id`=#{id}");
             }
         }.toString();
 
@@ -371,16 +371,16 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String deleteByPrimaryKey(final T record) {
         String sql = new SQL() {
             {
-                DELETE_FROM(record.getTablename());
+                DELETE_FROM("`" + record.getTablename() + "`");
                 String tablePrimaryKey = record.getTablePrimaryKey();
-                WHERE(tablePrimaryKey + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
+                WHERE("`" + tablePrimaryKey + "`" + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey) + "}");
             }
         }.toString();
 
         return sql;
     }
 
-    /** TODO
+    /**
      * 根据条件删除对象的方法
      * @param tableName 查询的表名
      * @param example 删除的条件
@@ -389,7 +389,7 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String deleteByExample(final T t, final Example example) {
         String sql = new SQL() {
             {
-                DELETE_FROM(t.getTablename());
+                DELETE_FROM("`" + t.getTablename() + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {
@@ -412,7 +412,7 @@ public class BaseTemplate<T extends MyBatisPojo> {
     public String deleteByValueExample(final String tableName, final Example example) {
         String sql = new SQL() {
             {
-                DELETE_FROM(tableName);
+                DELETE_FROM("`" + tableName + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {

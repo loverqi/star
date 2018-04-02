@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @date 2018年1月12日
  */
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -70,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //设置忽略资源
-        web.ignoring().antMatchers("/static/**", "/druid/**", "/swagger-resources/**", "/v2/api-docs/**", "/webjars/**",
+        web.ignoring().antMatchers("/user/AddOrModifyUser.do","/static/**", "/druid/**", "/swagger-resources/**", "/v2/api-docs/**", "/webjars/**",
                 "/swagger-ui.html", "/**/*.jpg", "/**/*.gif", "/**/*.png", "/**/*.css", "/**/*.ttf", "/**/*.woff",
                 "/**/*.js");
         //        web.ignoring().anyRequest();

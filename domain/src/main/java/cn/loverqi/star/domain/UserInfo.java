@@ -2,6 +2,7 @@ package cn.loverqi.star.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -39,6 +40,9 @@ public class UserInfo extends MyBatisPojo implements UserDetails {
     /** 用户角色*/
     private String role;
 
+    /** 创建时间*/
+    private Date createDate;
+
     public Integer getId() {
         return id;
     }
@@ -71,6 +75,14 @@ public class UserInfo extends MyBatisPojo implements UserDetails {
         this.name = name;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     /**
      * 获取用户名
      */
@@ -94,7 +106,10 @@ public class UserInfo extends MyBatisPojo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority(role));
+        roles.add(new SimpleGrantedAuthority("ROLE_" + role));
+        if ("ADMIN".equals(role)) {
+            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
         return roles;
     }
 

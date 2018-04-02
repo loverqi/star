@@ -3,6 +3,7 @@ package cn.loverqi.star.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,6 +75,7 @@ public class UserController {
      * 用户修改密码
      * @return ResponseDate<String>
      */
+    @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "用户修改密码", notes = "用户修改密码的申请，code为0是成功成功")
     @RequestMapping(value = "/changePwd.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
@@ -109,6 +111,7 @@ public class UserController {
         return responseDate;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "查询用户列表", notes = "根据查询用户列表，code为0是成功")
     @RequestMapping(value = "/getUsers.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
@@ -133,6 +136,7 @@ public class UserController {
         return responseDate;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "根据id删除用戶", notes = "根据id刪除用户，code为0是成功")
     @RequestMapping(value = "/deleteUser.do", method = { RequestMethod.POST })
     @ApiImplicitParams({
@@ -153,6 +157,7 @@ public class UserController {
         return responseDate;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "根据id删除用戶", notes = "根据id删除用戶，code为0是成功")
     @RequestMapping(value = "/deleteUsers.do", method = { RequestMethod.POST })
     public @ResponseBody ResponseDate<Boolean> deleteUsers(@RequestBody List<Integer> ids) {
@@ -172,6 +177,7 @@ public class UserController {
         return responseDate;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/create_user.html", method = { RequestMethod.GET, RequestMethod.POST })
     public String createUser(@ModelAttribute("user") UserInfo userInfo, Model model) {
 
@@ -179,6 +185,7 @@ public class UserController {
         return "create_user";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/view_user.html", method = { RequestMethod.GET, RequestMethod.POST })
     public String viewUser(Model model) {
 
