@@ -2,6 +2,7 @@ package cn.loverqi.star.domain;
 
 import java.util.Date;
 
+import cn.loverqi.star.core.mybaties.annotation.FieldIgnore;
 import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
 
 /**
@@ -29,6 +30,10 @@ public class Customer extends MyBatisPojo {
     /** 创建人*/
     private Integer createUser;
 
+    /** 创建人*/
+    @FieldIgnore
+    private UserInfo createUserBean;
+
     /** 创建时间*/
     private Date createDate;
 
@@ -37,6 +42,8 @@ public class Customer extends MyBatisPojo {
 
     /** 客户类型*/
     private String customerType;
+
+    private boolean ifSee;
 
     public Integer getId() {
         return id;
@@ -109,4 +116,21 @@ public class Customer extends MyBatisPojo {
     public void setCustomerType(String customerType) {
         this.customerType = customerType == null ? null : customerType.trim();
     }
+
+    public void setCreateUserBean(UserInfo createUserBean) {
+        this.createUserBean = createUserBean;
+    }
+
+    public UserInfo getCreateUserBean() {
+        return createUserBean;
+    }
+
+    public boolean isIfSee() {
+        return ifSee;
+    }
+
+    public void setIfSee(boolean ifSee) {
+        this.ifSee = ifSee;
+    }
+
 }

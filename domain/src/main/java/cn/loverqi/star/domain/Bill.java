@@ -2,6 +2,7 @@ package cn.loverqi.star.domain;
 
 import java.util.Date;
 
+import cn.loverqi.star.core.mybaties.annotation.FieldIgnore;
 import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
 
 /**
@@ -20,14 +21,18 @@ public class Bill extends MyBatisPojo {
     /** 微信名*/
     private String wechatName;
 
-    /** */
+    private String imgPath;
+
     private Integer peopleNumber;
 
-    /** */
     private Double moneySum;
 
     /** 创建人*/
     private Integer createUser;
+
+    /** 创建人*/
+    @FieldIgnore
+    private UserInfo createUserBean;
 
     /** 创建时间*/
     private Date createDate;
@@ -37,6 +42,8 @@ public class Bill extends MyBatisPojo {
 
     /** 账单状态*/
     private String billingStatus;
+
+    private boolean ifSee;
 
     public Integer getId() {
         return id;
@@ -109,4 +116,29 @@ public class Bill extends MyBatisPojo {
     public void setBillingStatus(String billingStatus) {
         this.billingStatus = billingStatus == null ? null : billingStatus.trim();
     }
+
+    public boolean isIfSee() {
+        return ifSee;
+    }
+
+    public void setIfSee(boolean ifSee) {
+        this.ifSee = ifSee;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public UserInfo getCreateUserBean() {
+        return createUserBean;
+    }
+
+    public void setCreateUserBean(UserInfo createUserBean) {
+        this.createUserBean = createUserBean;
+    }
+
 }

@@ -41,7 +41,7 @@
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> QQ号：</label>
 
 								<div class="col-sm-9">
-									<input th:readonly="${type=='view'}" th:field="*{qqNumber}" type="text" id="qqNumber" placeholder="请输入QQ名"
+									<input th:readonly="${type=='view'}" th:field="*{qqNumber}" type="text" id="qqNumber" placeholder="请输入QQ号"
 										class="col-xs-10 col-sm-5" onkeyup="value=value.replace(/[^\d]/g,'')" />
 								</div>
 							</div>
@@ -50,7 +50,7 @@
 								<label class="col-sm-3 control-label no-padding-right" for="qqName"> QQ名：</label>
 
 								<div class="col-sm-9">
-									<input th:readonly="${type=='view'}" th:field="*{qqName}" type="text" id="qqName" placeholder="请输入QQ号"
+									<input th:readonly="${type=='view'}" th:field="*{qqName}" type="text" id="qqName" placeholder="请输入QQ名"
 										class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
@@ -60,7 +60,7 @@
 
 								<div class="col-sm-9">
 									<input th:readonly="${type=='view'}" th:field="*{wechatNumber}" type="text" id="wechatNumber"
-										placeholder="请输入微信名" class="col-xs-10 col-sm-5" />
+										placeholder="请输入微信号" class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
 							<div class="space-4"></div>
@@ -68,7 +68,7 @@
 								<label class="col-sm-3 control-label no-padding-right" for="wechatName"> 微信名：</label>
 
 								<div class="col-sm-9">
-									<input th:readonly="${type=='view'}" th:field="*{wechatName}" type="text" id="wechatName" placeholder="请输入微信号"
+									<input th:readonly="${type=='view'}" th:field="*{wechatName}" type="text" id="wechatName" placeholder="请输入微信名"
 										class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
@@ -78,7 +78,7 @@
 								<label class="col-sm-3 control-label no-padding-right" for="createUser"> 创建人：</label>
 
 								<div class="col-sm-9">
-									<input type="text" readonly="readonly" th:field="*{createUser}" id="createUser" value="管理员"
+									<input type="text" readonly="readonly" th:field="*{createUserBean.name}" id="createUser" value="管理员"
 										class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">客户来源：</label>
 								<div class="col-sm-3">
 									<div class="pos-rel">
-										<select class="form-control" th:field="*{customerSource}" id="customerSource" th:disabled="${type=='view'}">
+										<select class="form-control" th:disabled="${type=='view'}" th:field="*{customerSource}" id="customerSource">
 											<option value="">请选择客户来源</option>
 											<option value="tg">推广</option>
 											<option value="zmt">自媒体</option>

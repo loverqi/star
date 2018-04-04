@@ -71,10 +71,12 @@ public class BaseTemplate<T extends MyBatisPojo> {
             {
                 SELECT(record.getEscapeTableFields());
                 FROM("`" + record.getTablename() + "`");
+                String tablePrimaryKey = record.getTablePrimaryKey();
                 if (record.getTablePrimaryKeyValue() != null) {
-                    String tablePrimaryKey = record.getTablePrimaryKey();
                     WHERE("`" + tablePrimaryKey + "`" + "=#{" + NameFormatConversionUtil.lineToHump(tablePrimaryKey)
                             + "}");
+                } else {
+                    WHERE("`" + tablePrimaryKey + "`" + "is NULL");
                 }
             }
         }.toString();
@@ -95,6 +97,8 @@ public class BaseTemplate<T extends MyBatisPojo> {
                 FROM("`" + tableName + "`");
                 if (id != null) {
                     WHERE("`id`=#{id}");
+                } else {
+                    WHERE("`id` is NULL");
                 }
             }
         }.toString();

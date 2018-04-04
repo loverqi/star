@@ -12,12 +12,6 @@ spring:
     content-type: text/html   
     cache: false 
 
-  #文件上传配置
-  http:
-    multipart:
-      max-file-size: 5MB
-      max-request-size: 50MB
-    
   #数据库访问配置  #mysql
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

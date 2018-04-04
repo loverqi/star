@@ -86,7 +86,6 @@ public class CustomerController {
         return "create_customer";
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/edit_customer.html", method = { RequestMethod.GET, RequestMethod.POST })
     public String editCustomer(Integer id, Model model) {
 
@@ -102,7 +101,6 @@ public class CustomerController {
         return "create_customer";
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/customer_details.html", method = { RequestMethod.GET, RequestMethod.POST })
     public String customerDetails(Integer id, Model model) {
 
