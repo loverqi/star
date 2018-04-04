@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.loverqi.star.domain.UserInfo;
+import cn.loverqi.star.domain.Customer;
 import io.swagger.annotations.Api;
 
 /**
@@ -22,7 +22,7 @@ import io.swagger.annotations.Api;
 public class CustomerController {
 
     @RequestMapping(value = "/create_customer.html", method = { RequestMethod.GET, RequestMethod.POST })
-    public String createCustomer(@ModelAttribute("user") UserInfo userInfo, Model model) {
+    public String createCustomer(@ModelAttribute Customer customer, Model model) {
 
         System.err.println("创建客户页面");
         return "create_customer";

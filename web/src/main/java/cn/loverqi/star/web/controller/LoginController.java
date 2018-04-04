@@ -7,10 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.loverqi.star.domain.UserInfo;
 import io.swagger.annotations.Api;
 
 /**
- * 文件上传的测试类
+ * 登陆
  * @author LoverQi
  * @date 2018年3月28日
  */
@@ -40,6 +41,7 @@ public class LoginController {
             }
         }
 
+        model.addAttribute("user", new UserInfo());
         model.addAttribute("massage", massage);
         return "login";
     }

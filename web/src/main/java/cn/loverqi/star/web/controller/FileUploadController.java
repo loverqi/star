@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import cn.loverqi.star.core.bean.ResponseDate;
+import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.utils.FileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,8 +30,8 @@ public class FileUploadController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "名称", required = true, dataType = "string", paramType = "form"),
             @ApiImplicitParam(name = "file", value = "文件", required = true, dataType = "file", paramType = "form"), })
-    public ResponseDate<String> uploadImg(String name, MultipartFile file) {
-        ResponseDate<String> responseDate = new ResponseDate<String>();
+    public ResponseData<String> uploadImg(String name, MultipartFile file) {
+        ResponseData<String> responseDate = new ResponseData<String>();
         FileUtil.uploadFile(name, file);
 
         System.err.println(FileUtil.getClassPath());

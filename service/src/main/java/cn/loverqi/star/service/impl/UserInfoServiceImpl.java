@@ -13,6 +13,7 @@ import cn.loverqi.star.service.UserInfoService;
 import cn.loverqi.star.service.base.BaseServiceImpl;
 
 /**
+ * 用户
  * @author LoverQi
  * @date 2018年3月5日
  */

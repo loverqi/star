@@ -2,7 +2,7 @@ package cn.loverqi.star.service.base;
 
 import java.util.List;
 
-import cn.loverqi.star.core.bean.ResponsePageDate;
+import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.pojo.Example;
 import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
 
@@ -75,14 +75,14 @@ public interface BaseService<T extends MyBatisPojo> {
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    ResponsePageDate<T> selectByExampleWithRowbounds(T record, Example example, int page, int pageSize);
+    ResponsePageData<T> selectByExampleWithRowbounds(T record, Example example, int page, int pageSize);
 
     /**
      * 根据条件查询对象的方法, 支持分页
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    ResponsePageDate<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize);
+    ResponsePageData<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize);
 
     /**
      * 根据主键id更新对象的方法

@@ -12,10 +12,11 @@ import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
  * @author loverqi
  * @date 2018年1月5日
  */
-public class ResponsePageDate<T extends MyBatisPojo> implements Serializable {
+public class ResponsePageData<T extends MyBatisPojo> implements Serializable {
 
     private static final long serialVersionUID = -2869658134927577905L;
 
+    //当前页
     private int pageNum;
 
     //每页的数量
@@ -36,7 +37,7 @@ public class ResponsePageDate<T extends MyBatisPojo> implements Serializable {
     /**
      * @param pageInfo PageHeper中的PageInfo类，无法直接实例化
      */
-    public ResponsePageDate(PageInfo<T> pageInfo) {
+    public ResponsePageData(PageInfo<T> pageInfo) {
         this.pageNum = pageInfo.getPageNum();
         this.pageSize = pageInfo.getPageSize();
         this.size = pageInfo.getSize();

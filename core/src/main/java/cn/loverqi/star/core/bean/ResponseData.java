@@ -7,21 +7,21 @@ import java.io.Serializable;
  * @author loverqi
  * @date 2018年1月5日
  */
-public class ResponseDate<T> implements Serializable {
+public class ResponseData<T> implements Serializable {
 
     private static final long serialVersionUID = -4988435676311767997L;
     private int code;
     private String message;
     private T data;
 
-    public ResponseDate() {
+    public ResponseData() {
 
         //默认为操作成功
-        this.code = ResponseDateCode.SUCCESS;
-        this.message = ResponseDateCode.SUCCESS_MESSAGE;
+        this.code = ResponseDataCode.SUCCESS;
+        this.message = ResponseDataCode.SUCCESS_MESSAGE;
     }
     
-    public ResponseDate(int code, String message) {
+    public ResponseData(int code, String message) {
 
         //默认为操作成功
         this.code = code;

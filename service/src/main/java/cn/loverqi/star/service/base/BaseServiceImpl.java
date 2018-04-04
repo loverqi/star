@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import cn.loverqi.star.core.bean.ResponsePageDate;
+import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.mapper.BaseMapper;
 import cn.loverqi.star.core.mybaties.pojo.Example;
 import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
@@ -118,7 +118,7 @@ public abstract class BaseServiceImpl<T extends MyBatisPojo> implements BaseServ
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    public ResponsePageDate<T> selectByExampleWithRowbounds(T record, Example example, int page, int pageSize) {
+    public ResponsePageData<T> selectByExampleWithRowbounds(T record, Example example, int page, int pageSize) {
 
         //添加分页属性
         PageHelper.startPage(page, pageSize);
@@ -127,7 +127,7 @@ public abstract class BaseServiceImpl<T extends MyBatisPojo> implements BaseServ
         //用PageInfo对结果进行包装
         PageInfo<T> pageInfo = new PageInfo<T>(selectByExampleWithRowbounds);
 
-        return new ResponsePageDate<T>(pageInfo);
+        return new ResponsePageData<T>(pageInfo);
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class BaseServiceImpl<T extends MyBatisPojo> implements BaseServ
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    public ResponsePageDate<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize) {
+    public ResponsePageData<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize) {
         //添加分页属性
         PageHelper.startPage(1, 10);
         List<T> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
@@ -143,7 +143,7 @@ public abstract class BaseServiceImpl<T extends MyBatisPojo> implements BaseServ
         //用PageInfo对结果进行包装
         PageInfo<T> pageInfo = new PageInfo<T>(selectByExampleWithRowbounds);
 
-        return new ResponsePageDate<T>(pageInfo);
+        return new ResponsePageData<T>(pageInfo);
     }
 
     /**

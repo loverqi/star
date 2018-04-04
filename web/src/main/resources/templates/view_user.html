@@ -57,19 +57,29 @@
 
 							<div class="table-responsive CSSearchTbl">
 
-								<table class="table no-margin-bottom">
-									<tr>
-										<td class="left">用户号：</td>
-										<td class="right"><input type="text" size="16" /></td>
-										<td class="left">真实姓名：</td>
-										<td class="right"><input type="text" size="16" /></td>
-										<td class="right" colspan="2">
-											<button class="btn btn-primary pull-left col-sm-12 tbl-search">
-												开始搜索 <i class="ace-icon fa fa-search"></i>
-											</button>
-										</td>
-									</tr>
-								</table>
+								<form id="form1" action="/user/view_user.html" method="post" class="form-horizontal" role="form"
+									th:object="${param}">
+									<input id="thePageIdInput" th:field="*{page}" type="hidden" />
+									<table class="table no-margin-bottom">
+										<tr>
+											<td class="left">用户号：</td>
+											<td class="right"><input th:field="*{username}" name="username" type="text" size="16" /></td>
+											<td class="left">真实姓名：</td>
+											<td class="right"><input th:field="*{name}" name="name" type="text" size="16" /></td>
+											<td class="left">账户类型：</td>
+											<td class="right"><select th:field="*{role}">
+													<option value="">所有账户</option>
+													<option value="USER">普通账户</option>
+													<option value="ADMIN">管理员账户</option>
+											</select></td>
+											<td class="right" colspan="2">
+												<button class="btn btn-primary pull-left col-sm-12 tbl-search" type="button" onclick="submitForm()">
+													开始搜索 <i class="ace-icon fa fa-search"></i>
+												</button>
+											</td>
+										</tr>
+									</table>
+								</form>
 							</div>
 
 
@@ -79,43 +89,39 @@
 										<tr>
 											<th class="center">用户名</th>
 											<th class="center">真实姓名</th>
+											<th class="center">用户类型</th>
 											<th class="center">创建时间</th>
 											<th class="center">操作</th>
 										</tr>
 									</thead>
 
 									<tbody>
-
-										<tr>
-											<td>1025829590</td>
-											<td>念儿Papa</td>
-											<td>2012-08-01 21:00:00</td>
+										<tr th:each="user : ${datas.list}">
+											<td th:text="${user.username}">-</td>
+											<td th:text="${user.name}">-</td>
+											<td th:if="${user.role=='USER'}">普通账户</td>
+											<td th:if="${user.role=='ADMIN'}">管理员账户</td>
+											<td th:text="${#dates.format(user.createDate,'yyyy-MM-dd HH:mm:ss')}">-</td>
 											<td>
 												<div class="center">
-													<button class="btn btn-xs btn-success center" title="查看">
+													<a th:href="@{'/user/user_details.html?id='+${user.id}}" class="btn btn-xs btn-success center" title="查看">
 														<i class="ace-icon fa fa-search"></i>
-													</button>
-
-													<button class="btn btn-xs btn-info center" title="编辑">
-														<i class="ace-icon fa fa-pencil"></i>
-													</button>
-
-													<button class="btn btn-xs btn-danger center" title="删除">
+													</a> <a th:href="@{'/user/edit_user.html?id='+${user.id}}" class="btn btn-xs btn-info center" title="编辑"> <i
+														class="ace-icon fa fa-pencil"></i>
+													</a>
+													<button th:disabled="${user.id==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}"
+														th:id="${user.id}" onclick="deleteUser(this)" class="btn btn-xs btn-danger center" title="删除">
 														<i class="ace-icon fa fa-trash-o"></i>
 													</button>
 												</div>
 											</td>
 										</tr>
-
-
-
-
 									</tbody>
 								</table>
 							</div>
 							<div class="modal-footer no-margin-top">
-								<span style="margin-right: 15px">共<strong><span>100</span></strong>页，当前第<strong><span
-										id="thePageId">1</span></strong>页
+								<span style="margin-right: 15px">共<strong><span th:text="${datas.pages}"></span></strong>页，当前第<strong><span
+										id="thePageId" th:text="${datas.pageNum}"></span></strong>页
 								</span>
 								<ul class="pagination pull-right no-margin" id="totalPages">
 								</ul>
@@ -133,20 +139,49 @@
 		<script src="/assets/js/jquery.min.js"></script>
 		<script src="/assets/js/jqpaginator.min.js"></script>
 		<script type="text/javascript">
-			$('#totalPages')
-					.jqPaginator(
-							{
-								totalPages : 50, //设置分页的总页数
-								visiblePages : 5, //设置最多显示数
-								currentPage : 1,
-								first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
-								last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
-								page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
-								onPageChange : function(num, type) {
-									$('#thePageId').html(num);
-									/* alert('当前第' + num + '页' + type); */
+		
+		function submitForm(){
+			$('#thePageIdInput').val(1);
+			$("#form1").submit();
+		}
+		function deleteUser(btn){
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/user/deleteUser.do",
+				data : {id:btn.id},//
+				async : false,
+				error : function(request) {
+					alert("网络超时");
+				},
+				success : function(data) {
+					if (data.code == 0) {
+						alert(data.message);
+						$("#form1").submit();
+					} else {
+						alert(data.message);
+					}
+				}
+			});
+		}
+		
+		$('#totalPages')
+				.jqPaginator(
+						{
+							totalPages : [[${datas.pages}]], //设置分页的总页数
+							visiblePages : 5, //设置最多显示数
+							currentPage : [[${datas.pageNum}]], //当前页数
+							first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
+							last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
+							page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+							onPageChange : function(num, type) {
+								$('#thePageId').html(num);
+								$('#thePageIdInput').val(num);
+								if (type == 'change') {
+									$("#form1").submit();
 								}
-							});
+							}
+						});
 		</script>
 
 

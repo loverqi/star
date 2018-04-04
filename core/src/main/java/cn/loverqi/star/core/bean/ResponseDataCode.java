@@ -5,7 +5,7 @@ package cn.loverqi.star.core.bean;
  * @author loverqi
  * @date 2018年1月5日
  */
-public class ResponseDateCode {
+public class ResponseDataCode {
 
     /** 操作成功 */
     public static int SUCCESS = 0;
