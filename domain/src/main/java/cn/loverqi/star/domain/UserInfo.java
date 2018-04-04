@@ -119,7 +119,6 @@ public class UserInfo extends MyBatisPojo implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        // TODO 自动生成的方法存根
         return true;
     }
 

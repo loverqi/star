@@ -50,5 +50,11 @@ public class ResponseDataCode {
     public static String PASSWORD_COMPLEXITY_ERROR_MESSAGE = "密码复杂度不符合要求";
     
     /*登录模块  ================================== 结束*/
+    
+    public static int  FIND_CUSTOMER_QQ_ERROR  = 3001;
+    public static String FIND_CUSTOMER_QQ_MESSAGE = "该客户QQ号已存在";
+    
+    public static int  FIND_CUSTOMER_WX_ERROR  = 3001;
+    public static String FIND_CUSTOMER_WX_MESSAGE = "该客户微信号已存在";
 
 }

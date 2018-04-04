@@ -11,8 +11,15 @@
 		<!-- #section:basics/content.breadcrumbs -->
 		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-book home-icon"></i> <a href="javascript:void(0)">客户管理</a></li>
-				<li><a href="javascript:void(0)">新建客户</a></li>
+				<li>
+					<i class="ace-icon fa fa-book home-icon"></i>
+					<a href="javascript:void(0)">客户管理</a>
+				</li>
+				<li th:switch="${type}">
+					<a th:case="'create'" href="javascript:void(0)">新建客户</a>
+					<a th:case="'edit'" href="javascript:void(0)">编辑客户</a>
+					<a th:case="'view'" href="javascript:void(0)">客户详情</a>
+				</li>
 			</ul>
 			<!-- /.breadcrumb -->
 		</div>
@@ -27,56 +34,62 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
-						<form class="form-horizontal" role="form">
+						<form id="form1" class="form-horizontal" role="form" th:object="${customer}">
+							<input th:field="*{id}" type="hidden" />
 							<!-- #section:elements.form -->
-							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> QQ名：</label>
-
-								<div class="col-sm-9">
-									<input type="text" id="form-field-1" placeholder="请输入QQ名" class="col-xs-10 col-sm-5" />
-								</div>
-							</div>
-							<div class="space-4"></div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> QQ号：</label>
 
 								<div class="col-sm-9">
-									<input type="text" id="form-field-1" placeholder="请输入QQ号" class="col-xs-10 col-sm-5"
-										onkeyup="value=value.replace(/[^\d]/g,'')" />
+									<input th:readonly="${type=='view'}" th:field="*{qqNumber}" type="text" id="qqNumber" placeholder="请输入QQ名"
+										class="col-xs-10 col-sm-5" onkeyup="value=value.replace(/[^\d]/g,'')" />
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 微信名：</label>
+								<label class="col-sm-3 control-label no-padding-right" for="qqName"> QQ名：</label>
 
 								<div class="col-sm-9">
-									<input type="text" id="form-field-1" placeholder="请输入微信名" class="col-xs-10 col-sm-5" />
+									<input th:readonly="${type=='view'}" th:field="*{qqName}" type="text" id="qqName" placeholder="请输入QQ号"
+										class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 微信号：</label>
+								<label class="col-sm-3 control-label no-padding-right" for="wechatNumber"> 微信号：</label>
 
 								<div class="col-sm-9">
-									<input type="text" id="form-field-1" placeholder="请输入微信号" class="col-xs-10 col-sm-5" />
+									<input th:readonly="${type=='view'}" th:field="*{wechatNumber}" type="text" id="wechatNumber"
+										placeholder="请输入微信名" class="col-xs-10 col-sm-5" />
+								</div>
+							</div>
+							<div class="space-4"></div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="wechatName"> 微信名：</label>
+
+								<div class="col-sm-9">
+									<input th:readonly="${type=='view'}" th:field="*{wechatName}" type="text" id="wechatName" placeholder="请输入微信号"
+										class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
 
-							<div class="space-4"></div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 创建人：</label>
+							<div class="space-4" th:if="${{type!='create'}}"></div>
+							<div class="form-group" th:if="${{type!='create'}}">
+								<label class="col-sm-3 control-label no-padding-right" for="createUser"> 创建人：</label>
 
 								<div class="col-sm-9">
-									<input type="text" readonly="readonly" id="form-field-1" value="管理员" class="col-xs-10 col-sm-5" />
+									<input type="text" readonly="readonly" th:field="*{createUser}" id="createUser" value="管理员"
+										class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
 
-							<div class="space-4"></div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 创建日期：</label>
+							<div class="space-4" th:if="${{type!='create'}}"></div>
+							<div class="form-group" th:if="${{type!='create'}}">
+								<label class="col-sm-3 control-label no-padding-right" for="createDate"> 创建日期：</label>
 
 								<div class="col-sm-9">
-									<input type="text" readonly="readonly" id="form-field-1" value="2018-01-02 21:59:00" class="col-xs-10 col-sm-5" />
+									<input type="text" readonly="readonly" th:value="${#dates.format(customer.createDate, 'yyyy-MM-dd HH:mm:ss')}"
+										id="createDate" class="col-xs-10 col-sm-5" />
 								</div>
 							</div>
 
@@ -85,11 +98,11 @@
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">客户来源：</label>
 								<div class="col-sm-3">
 									<div class="pos-rel">
-										<select class="form-control" id="form-field-select-1">
+										<select class="form-control" th:field="*{customerSource}" id="customerSource" th:disabled="${type=='view'}">
 											<option value="">请选择客户来源</option>
-											<option value="AL">推广</option>
-											<option value="AK">自媒体</option>
-											<option value="AZ">单导</option>
+											<option value="tg">推广</option>
+											<option value="zmt">自媒体</option>
+											<option value="dd">单导</option>
 										</select>
 									</div>
 								</div>
@@ -99,27 +112,45 @@
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">客户类型：</label>
 								<div class="col-sm-3">
 									<div class="pos-rel">
-										<select class="form-control" id="form-field-select-1">
+										<select class="form-control" th:field="*{customerType}" id="customerType" th:disabled="${type=='view'}">
 											<option value="">请选择客户类型</option>
-											<option value="AL">未回复客户</option>
-											<option value="AK">回复客户</option>
-											<option value="AZ">同行</option>
+											<option value="whf">未回复客户</option>
+											<option value="yhf">回复客户</option>
+											<option value="th">同行</option>
 										</select>
 									</div>
 								</div>
 							</div>
 
 
-							<div class="clearfix form-actions">
+							<div class="clearfix form-actions" th:if="${{type!='view'}}">
 								<div class="col-md-offset-3 col-md-9">
-									<button class="btn" type="reset">
-										<i class="ace-icon fa fa-undo bigger-110"></i> 重置
+									<button class="btn" type="reset" id="reset" th:if="${{type=='create'}}">
+										<i class="ace-icon fa fa-undo bigger-110"></i>
+										重置
+									</button>
+									<button class="btn" type="button" th:if="${{type=='edit'}}" onclick="javascript:history.back()">
+										<i class="ace-icon fa fa-undo bigger-110"></i>
+										返回上一页
 									</button>
 
 									&nbsp; &nbsp; &nbsp;
 
-									<button class="btn btn-info" type="button">
-										<i class="ace-icon fa fa-check bigger-110"></i> 新建客户
+									<button th:if="${{type=='create'}}" class="btn btn-info" type="button" onclick="toVaild()">
+										<i class="ace-icon fa fa-check bigger-110"></i>
+										新建客户
+									</button>
+									<button th:if="${{type=='edit'}}" class="btn btn-info" type="button" onclick="toVaildEdit()">
+										<i class="ace-icon fa fa-check bigger-110"></i>
+										保存
+									</button>
+								</div>
+							</div>
+							<div class="clearfix form-actions" th:if="${{type=='view'}}">
+								<div class="col-md-offset-3 col-md-9">
+									<button class="btn btn-info" type="button" onclick="javascript:history.back()">
+										<i class="ace-icon fa fa-check bigger-110"></i>
+										返回上一页
 									</button>
 								</div>
 							</div>
@@ -134,6 +165,67 @@
 			<!-- /.page-content-area -->
 		</div>
 		<!-- /.page-content -->
+		<script src="/assets/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			function toVaild() {
+				if ($("#qqNumber").val() == ""
+						&& $("#wechatNumber").val() == "") {
+					alert("QQ号和微信号不能同时为空");
+					return false;
+				}
+				if ($("#customerSource").val() == "") {
+					alert("请选择客户来源");
+					return false;
+				}
+				if ($("#customerType").val() == "") {
+					alert("请选择客户类型");
+					return false;
+				}
+
+				submitDatd(true);
+			}
+
+			function toVaildEdit() {
+				if ($("#qqNumber").val() == ""
+						&& $("#wechatNumber").val() == "") {
+					alert("QQ号和微信号不能同时为空");
+					return false;
+				}
+				if ($("#customerSource").val() == "") {
+					alert("请选择客户来源");
+					return false;
+				}
+				if ($("#customerType").val() == "") {
+					alert("请选择客户类型");
+					return false;
+				}
+
+				submitDatd(false);
+			}
+
+			function submitDatd(ifCreate) {
+				$.ajax({
+					cache : true,
+					type : "POST",
+					url : "/customer/AddOrModifyCustomer.do",
+					data : $("#form1").serialize(),// 你的formid
+					async : false,
+					error : function(request) {
+						alert("网络超时");
+					},
+					success : function(data) {
+						if (data.code == 0) {
+							alert(data.message);
+							if (ifCreate) {
+								$("#reset").click();
+							}
+						} else {
+							alert(data.message);
+						}
+					}
+				});
+			}
+		</script>
 	</div>
 </body>
 </html>
