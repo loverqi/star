@@ -43,8 +43,13 @@
 		<!-- #section:basics/content.breadcrumbs -->
 		<div class="breadcrumbs" id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-pencil-square-o home-icon"></i> <a href="javascript:void(0)">账单管理</a></li>
-				<li><a href="javascript:void(0)">查询账单</a></li>
+				<li>
+					<i class="ace-icon fa fa-pencil-square-o home-icon"></i>
+					<a href="javascript:void(0)">账单管理</a>
+				</li>
+				<li>
+					<a href="javascript:void(0)">查询账单</a>
+				</li>
 			</ul>
 			<!-- /.breadcrumb -->
 
@@ -56,40 +61,61 @@
 							<div class="table-header ">查询条件</div>
 
 							<div class="table-responsive CSSearchTbl">
-
-								<table class="table no-margin-bottom">
-									<tr>
-										<td class="left">微信号：</td>
-										<td class="right"><input type="text" size="16" /></td>
-										<td class="left">微信名：</td>
-										<td class="right"><input type="text" size="16" /></td>
-										<td class="left">客户来源：</td>
-										<td class="right"><select>
-												<option value="">请选择客户来源</option>
-												<option>推广</option>
-												<option>单导</option>
-										</select></td>
-										<td class="left">账单状态：</td>
-										<td class="right"><select>
-												<option value="">请选择账单状态</option>
-												<option>未打款</option>
-												<option>已打款</option>
-										</select></td>
-									</tr>
-									<tr>
-										<td class="left">提交人：</td>
-										<td class="right"><input type="text" size="16" /></td>
-										<td class="left">开始时间：</td>
-										<td class="right"><input id="date-timepicker1" type="text" size="16" class="datePicker" /></td>
-										<td class="left ">结束时间：</td>
-										<td class="right"><input id="date-timepicker2" type="text" size="16" class="datePicker" /></td>
-										<td class="right" colspan="2">
-											<button class="btn btn-primary pull-left col-sm-12 tbl-search">
-												开始搜索 <i class="ace-icon fa fa-search"></i>
-											</button>
-										</td>
-									</tr>
-								</table>
+								<form id="form1" action="/bill/view_bill.html" method="post" class="form-horizontal" role="form"
+									th:object="${param}">
+									<input th:field="*{page}" id="thePageIdInput" type="hidden" />
+									<table class="table no-margin-bottom">
+										<tr>
+											<td class="left">微信号：</td>
+											<td class="right">
+												<input th:field="*{wechatNumber}" type="text" size="16" />
+											</td>
+											<td class="left">微信名：</td>
+											<td class="right">
+												<input th:field="*{wechatName}" type="text" size="16" />
+											</td>
+											<td class="left">客户来源：</td>
+											<td class="right">
+												<select th:field="*{customerSource}">
+													<option value="">请选择客户来源</option>
+													<option value="tg">推广</option>
+													<option value="dd">单导</option>
+												</select>
+											</td>
+											<td class="left">账单状态：</td>
+											<td class="right">
+												<select th:field="*{billingStatus}">
+													<option value="">请选择账单状态</option>
+													<option value="wdk">未打款</option>
+													<option value="ydk">已打款</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="left">提交人：</td>
+											<td class="right">
+												<select th:field="*{createUser}">
+													<option th:if="${'ADMIN'==session.SPRING_SECURITY_CONTEXT.authentication.principal.role}" value="">请选择提交人</option>
+													<option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name+'('+user.username+')'}"></option>
+												</select>
+											</td>
+											<td class="left">开始时间：</td>
+											<td class="right">
+												<input th:field="*{startTime}" id="date-timepicker1" type="text" size="16" class="datePicker" />
+											</td>
+											<td class="left ">结束时间：</td>
+											<td class="right">
+												<input th:field="*{endTime}" id="date-timepicker2" type="text" size="16" class="datePicker" />
+											</td>
+											<td class="right" colspan="2">
+												<button class="btn btn-primary pull-left col-sm-12 tbl-search" type="submit">
+													开始搜索
+													<i class="ace-icon fa fa-search"></i>
+												</button>
+											</td>
+										</tr>
+									</table>
+								</form>
 							</div>
 
 
@@ -100,7 +126,7 @@
 											<th class="center">微信号</th>
 											<th class="center">微信名</th>
 											<th class="center">人数</th>
-											<th class="center">金额</th>
+											<th class="center">金额/元</th>
 											<th class="center">客户来源</th>
 											<th class="center">状态</th>
 											<th class="center">创建日期</th>
@@ -110,73 +136,68 @@
 									</thead>
 
 									<tbody>
-
-										<tr>
-											<td>110110110</td>
-											<td>念儿Papa</td>
-											<td>50</td>
-											<td>￥1000</td>
-											<td>推广</td>
-											<td class="center"><span class="label label-sm label-success">已打款</span></td>
-											<td>2012-08-01 21:00:00</td>
-											<td>管理员</td>
+										<tr th:each="bill : ${datas.list}">
+											<td th:text="${bill.wechatNumber}">-</td>
+											<td th:text="${bill.wechatName}">-</td>
+											<td th:text="${bill.peopleNumber}">-</td>
+											<td th:text="${#numbers.formatDecimal(bill.moneySum,1,2)}">-</td>
+											<td th:if="${bill.customerSource=='tg'}">推广</td>
+											<td th:if="${bill.customerSource=='dd'}">单导</td>
+											<td class="center" th:if="${bill.billingStatus=='ydk'}">
+												<span class="label label-sm label-success">已打款</span>
+											</td>
+											<td class="center" th:if="${bill.billingStatus=='wdk'}">
+												<span class="label label-sm label-danger">未打款</span>
+											</td>
+											<td th:text="${#dates.format(bill.createDate,'yyyy-MM-dd HH:mm:ss')}">-</td>
+											<td th:text="${bill.createUserBean.name}">-</td>
 											<td>
 												<div class="center">
-													<button class="btn btn-xs btn-success center" title="查看">
-														<i class="ace-icon fa fa-eye"></i>
-													</button>
-
-													<button class="btn btn-xs btn-info center" title="编辑">
+													<a target="_blank" th:href="@{'/bill/bill_details.html?id='+${bill.id}}"
+														class="btn btn-xs btn-success center" title="查看">
+														<i class="ace-icon fa fa-search"></i>
+													</a>
+													<a target="_blank" th:href="@{'/bill/edit_bill.html?id='+${bill.id}}" class="btn btn-xs btn-info center"
+														title="编辑">
 														<i class="ace-icon fa fa-pencil"></i>
-													</button>
-
-													<button class="btn btn-xs btn-danger center" title="删除">
+													</a>
+													<button th:id="${bill.id}" onclick="deleteBill(this)" class="btn btn-xs btn-danger center" title="删除">
 														<i class="ace-icon fa fa-trash-o"></i>
 													</button>
 												</div>
 											</td>
 										</tr>
-										<tr>
-											<td>110110110</td>
-											<td>念儿Papa</td>
-											<td>50</td>
-											<td>￥1000</td>
-											<td>自导</td>
-											<td class="center"><span class="label label-sm label-danger">未打款</span></td>
-											<td>2012-08-01 21:00:00</td>
-											<td>管理员</td>
-											<td>
-												<div class="center">
-													<button class="btn btn-xs btn-success center" title="查看">
-														<i class="ace-icon fa fa-eye"></i>
-													</button>
-
-													<button class="btn btn-xs btn-info center" title="编辑">
-														<i class="ace-icon fa fa-pencil"></i>
-													</button>
-
-													<button class="btn btn-xs btn-danger center" title="删除">
-														<i class="ace-icon fa fa-trash-o"></i>
-													</button>
-												</div>
-											</td>
-										</tr>
-
-
-
-
-
-
 
 									</tbody>
 								</table>
 							</div>
 							<div class="modal-footer no-margin no-padding-bottom no-padding-top">
-								小计：总人数:<strong><span>250</span></strong> 总金额:<strong>￥<span>25000</span></strong> 人均:<strong>￥<span>150</span></strong>
+								小计：总人数:
+								<strong>
+									<span th:text="${numberData.people}">-</span>
+								</strong>
+								总金额:
+								<strong>
+									￥
+									<span th:text="${#numbers.formatDecimal(numberData.money, 1, 3)}">-</span>
+								</strong>
+								人均:
+								<strong>
+									￥
+									<span th:text="${#numbers.formatDecimal(numberData.avg, 1, 3)}">-</span>
+								</strong>
 							</div>
 							<div class="modal-footer no-margin-top">
-								<span style="margin-right: 15px">共<strong><span>100</span></strong>页，当前第<strong><span
-										id="thePageId">1</span></strong>页
+								<span style="margin-right: 15px">
+									共
+									<strong>
+										<span th:text="${datas.pages}"></span>
+									</strong>
+									页，当前第
+									<strong>
+										<span id="thePageId" th:text="${datas.pageNum}"></span>
+									</strong>
+									页
 								</span>
 								<ul class="pagination pull-right no-margin" id="totalPages">
 								</ul>
@@ -197,24 +218,47 @@
 		<script src="/assets/js/date-time/daterangepicker.min.js"></script>
 		<script src="/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript">
+		function deleteBill(btn){
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/bill/deletebill.do",
+				data : {"id":btn.id},//
+				async : false,
+				error : function(request) {
+					alert("网络超时");
+				},
+				success : function(data) {
+					if (data.code == 0) {
+						alert(data.message);
+						$("#form1").submit();
+					} else {
+						alert(data.message);
+					}
+				}
+			});
+		}
 			$('#totalPages')
 					.jqPaginator(
 							{
-								totalPages : 50, //设置分页的总页数
+								totalPages : [[${datas.pages}]], //设置分页的总页数
 								visiblePages : 5, //设置最多显示数
-								currentPage : 1,
+								currentPage : [[${datas.pageNum}]], //当前页数
 								first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
 								last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
 								page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
 								onPageChange : function(num, type) {
 									$('#thePageId').html(num);
-									/* alert('当前第' + num + '页' + type); */
+									$('#thePageIdInput').val(num);
+									if (type == 'change') {
+										$("#form1").submit();
+									}
 								}
 							});
 
 			$('#date-timepicker1').datetimepicker({
 				language : 'zh-CN',
-				format : 'YYYY-MM-DD hh:mm:00',
+				format : 'YYYY-MM-DD HH:mm:00',
 				autoclose : true,
 				todayBtn : true,
 				clearBtn : true
@@ -223,7 +267,7 @@
 			});
 			$('#date-timepicker2').datetimepicker({
 				language : 'zh-CN',
-				format : 'YYYY-MM-DD hh:mm:00',
+				format : 'YYYY-MM-DD HH:mm:00',
 				autoclose : true,
 				todayBtn : true,
 				clearBtn : true

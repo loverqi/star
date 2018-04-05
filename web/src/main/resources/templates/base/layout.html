@@ -69,7 +69,7 @@
 					</a>
 
 						<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-							<li><a th:href="@{'/user/edit_user.html?id='+${session.SPRING_SECURITY_CONTEXT.authentication.principal.id}}">
+							<li><a target="_blank" th:href="@{'/user/edit_user.html?id='+${session.SPRING_SECURITY_CONTEXT.authentication.principal.id}}">
 									<i class="ace-icon fa fa-user"></i> 账号管理
 							</a></li>
 

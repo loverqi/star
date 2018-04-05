@@ -44,9 +44,11 @@ public class BillServiceImpl extends BaseServiceImpl<Bill> implements BillServic
     }
 
     private void setCreateBean(Bill bill) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(bill.getCreateUser());
-        userInfo = userInfoMapper.selectByPrimaryKey(userInfo);
-        bill.setCreateUserBean(userInfo);
+        if (bill != null && bill.getCreateUser() != null) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(bill.getCreateUser());
+            userInfo = userInfoMapper.selectByPrimaryKey(userInfo);
+            bill.setCreateUserBean(userInfo);
+        }
     }
 }

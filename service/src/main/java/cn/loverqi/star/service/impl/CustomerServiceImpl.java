@@ -45,10 +45,12 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
     }
 
     private void setCreateBean(Customer customer) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(customer.getCreateUser());
-        userInfo = userInfoMapper.selectByPrimaryKey(userInfo);
-        customer.setCreateUserBean(userInfo);
+        if (customer != null && customer.getCreateUser() != null) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(customer.getCreateUser());
+            userInfo = userInfoMapper.selectByPrimaryKey(userInfo);
+            customer.setCreateUserBean(userInfo);
+        }
     }
 
 }

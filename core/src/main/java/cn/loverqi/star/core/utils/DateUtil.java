@@ -1,15 +1,17 @@
 package cn.loverqi.star.core.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * DateUtil
+ * 时间格式转换工具类
+ * @author LoverQi
+ * @date 2018年4月6日
  */
 public final class DateUtil {
     private static final Logger LOG = LoggerFactory.getLogger(DateUtil.class);
@@ -84,30 +86,30 @@ public final class DateUtil {
         Calendar cld = Calendar.getInstance();
         cld.setTime(date);
         switch (timeUnit) {
-            case ConstantUtil.SYMBOL_DATE_YEAR:
-                cld.add(Calendar.YEAR, n);
-                break;
-            case ConstantUtil.SYMBOL_DATE_MONTH:
-                cld.add(Calendar.MONTH, n);
-                break;
-            case ConstantUtil.SYMBOL_DATE_DAY:
-                cld.add(Calendar.DATE, n);
-                break;
-            case ConstantUtil.SYMBOL_DATE_HOUR:
-                cld.add(Calendar.HOUR_OF_DAY, n);
-                break;
-            case ConstantUtil.SYMBOL_DATE_MINUTE:
-                cld.add(Calendar.MINUTE, n);
-                break;
-            case ConstantUtil.SYMBOL_DATE_SECOND:
-                cld.add(Calendar.SECOND, n);
-                break;
-            case ConstantUtil.SYMBOL_DATE_MILLISECOND:
-                cld.add(Calendar.MILLISECOND, n);
-                break;
-            default:
-                LOG.error("timeUnit[{}] Unrecognized, please check!", timeUnit);
-                return null;
+        case ConstantUtil.SYMBOL_DATE_YEAR:
+            cld.add(Calendar.YEAR, n);
+            break;
+        case ConstantUtil.SYMBOL_DATE_MONTH:
+            cld.add(Calendar.MONTH, n);
+            break;
+        case ConstantUtil.SYMBOL_DATE_DAY:
+            cld.add(Calendar.DATE, n);
+            break;
+        case ConstantUtil.SYMBOL_DATE_HOUR:
+            cld.add(Calendar.HOUR_OF_DAY, n);
+            break;
+        case ConstantUtil.SYMBOL_DATE_MINUTE:
+            cld.add(Calendar.MINUTE, n);
+            break;
+        case ConstantUtil.SYMBOL_DATE_SECOND:
+            cld.add(Calendar.SECOND, n);
+            break;
+        case ConstantUtil.SYMBOL_DATE_MILLISECOND:
+            cld.add(Calendar.MILLISECOND, n);
+            break;
+        default:
+            LOG.error("timeUnit[{}] Unrecognized, please check!", timeUnit);
+            return null;
         }
         return cld.getTime();
     }

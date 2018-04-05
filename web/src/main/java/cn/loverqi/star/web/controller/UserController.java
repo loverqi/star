@@ -22,6 +22,7 @@ import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.UserInfoService;
 import cn.loverqi.star.web.controller.param.UserInfoParam;
+import cn.loverqi.star.web.security.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -201,10 +202,13 @@ public class UserController {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
         userInfo = userInfoService.selectByPrimaryKey(userInfo);
-        if (userInfo == null) {
-            userInfo = new UserInfo();
-        }
+        if (userInfo != null) {
+            UserInfo user = SecurityUtil.getUser();
+            if (!"ADMIN".equals(user.getRole()) && userInfo.getId() != user.getId()) {
+                return "error";
+            }
 
+        }
         model.addAttribute("user", userInfo);
         model.addAttribute("type", "edit");
         return "create_user";
@@ -217,8 +221,12 @@ public class UserController {
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
         userInfo = userInfoService.selectByPrimaryKey(userInfo);
-        if (userInfo == null) {
-            userInfo = new UserInfo();
+        if (userInfo != null) {
+            UserInfo user = SecurityUtil.getUser();
+            if (!"ADMIN".equals(user.getRole()) && userInfo.getId() != user.getId()) {
+                return "error";
+            }
+
         }
 
         model.addAttribute("user", userInfo);

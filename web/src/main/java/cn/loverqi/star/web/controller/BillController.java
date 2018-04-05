@@ -14,11 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
+import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.pojo.Example;
+import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Bill;
+import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.BillService;
+import cn.loverqi.star.service.UserInfoService;
+import cn.loverqi.star.web.controller.param.BillParam;
 import cn.loverqi.star.web.security.util.SecurityUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -34,7 +41,10 @@ public class BillController {
 
     @Autowired
     private BillService billService;
-    
+
+    @Autowired
+    private UserInfoService userInfoService;
+
     @ApiOperation(value = "新建或者修改账单", notes = "新建或者修改客户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyBill.do", method = { RequestMethod.POST })
     public @ResponseBody ResponseData<Boolean> AddOrModifyBill(@ModelAttribute Bill bill) {
@@ -63,13 +73,6 @@ public class BillController {
         return responseDate;
     }
 
-    @RequestMapping(value = "/view_bill.html", method = { RequestMethod.GET, RequestMethod.POST })
-    public String viewBill(Model model) {
-
-        System.err.println("查询账单页面");
-        return "view_bill";
-    }
-
     @RequestMapping(value = "/create_bill.html", method = { RequestMethod.GET, RequestMethod.POST })
     public String createBill(Model model) {
 
@@ -86,8 +89,12 @@ public class BillController {
         Bill bill = new Bill();
         bill.setId(id);
         bill = billService.selectByPrimaryKey(bill);
-        if (bill == null) {
-            bill = new Bill();
+        if (bill != null) {
+            UserInfo user = SecurityUtil.getUser();
+            if (bill.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
+                return "error";
+            }
+
         }
 
         model.addAttribute("bill", bill);
@@ -101,13 +108,152 @@ public class BillController {
         Bill bill = new Bill();
         bill.setId(id);
         bill = billService.selectByPrimaryKey(bill);
-        if (bill == null) {
-            bill = new Bill();
+        if (bill != null) {
+            UserInfo user = SecurityUtil.getUser();
+            if (bill.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
+                return "error";
+            }
+
         }
 
         model.addAttribute("bill", bill);
         model.addAttribute("type", "view");
         return "create_bill";
+    }
+
+    @ApiOperation(value = "根据id删除账单", notes = "根据id刪除账单，code为0是成功")
+    @RequestMapping(value = "/deletebill.do", method = { RequestMethod.POST })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "账单的id", required = true, dataType = "int", paramType = "form"), })
+    public @ResponseBody ResponseData<Boolean> deletebill(Integer id) {
+        ResponseData<Boolean> responseDate = new ResponseData<Boolean>();
+        if (id == null) {
+            responseDate.setCode(ResponseDataCode.PARAMETER_ANOMALY);
+            responseDate.setMessage(ResponseDataCode.PARAMETER_ANOMALY_MESSAGE);
+        } else {
+            Bill bill = new Bill();
+            bill.setId(id);
+            bill = billService.selectByPrimaryKey(bill);
+            int deleteByPrimaryKey = 0;
+            if (bill != null) {
+                UserInfo user = SecurityUtil.getUser();
+                if (bill.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
+                    responseDate.setCode(ResponseDataCode.LACK_AUTHORITY);
+                    responseDate.setMessage(ResponseDataCode.LACK_AUTHORITY_MESSAGE);
+                } else {
+                    deleteByPrimaryKey = billService.deleteByPrimaryKey(bill);
+                }
+            }
+
+            responseDate.setData(deleteByPrimaryKey > 0);
+        }
+
+        return responseDate;
+    }
+
+    @RequestMapping(value = "/view_bill.html", method = { RequestMethod.GET, RequestMethod.POST })
+    public String viewBill(@ModelAttribute BillParam param, Model model) {
+
+        if (param == null) {
+            param = new BillParam();
+        }
+        Example exampleUser = null;
+        if ("USER".equals(SecurityUtil.getUser().getRole())) {
+            exampleUser = new Example();
+            exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
+            param.setCreateUser(SecurityUtil.getUser().getId());
+        }
+        List<UserInfo> users = userInfoService.selectByExample(new UserInfo(), exampleUser);
+        model.addAttribute("users", users);
+
+        Example example = new Example();
+        if (StringUtil.isNotNull(param.getWechatNumber())) {
+            example.createCriteria().andFieldLike("wechatNumber", "%" + param.getWechatNumber() + "%");
+        }
+        if (StringUtil.isNotNull(param.getWechatName())) {
+            example.createCriteria().andFieldLike("wechatName", "%" + param.getWechatName() + "%");
+        }
+        if (StringUtil.isNotNull(param.getCustomerSource())) {
+            example.createCriteria().andFieldEqualTo("customerSource", param.getCustomerSource());
+        }
+        if (StringUtil.isNotNull(param.getBillingStatus())) {
+            example.createCriteria().andFieldEqualTo("billingStatus", param.getBillingStatus());
+        }
+        if (StringUtil.isNotNull(param.getStartTime())) {
+            example.createCriteria().andFieldGreaterThanOrEqualTo("createDate", param.getStartTime());
+        }
+        if (StringUtil.isNotNull(param.getEndTime())) {
+            example.createCriteria().andFieldLessThan("createDate", param.getEndTime());
+        }
+        if (param.getCreateUser() != null) {
+            example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
+        }
+        if (param.getPage() == null) {
+            param.setPage(1);
+        }
+        if (param.getPageSize() == null) {
+            param.setPageSize(10);
+        }
+
+        Bill bill = new Bill();
+        ResponsePageData<Bill> datas = billService.selectByExampleWithRowbounds(bill, example, param.getPage(),
+                param.getPageSize());
+        
+        List<Bill> datasTemp = billService.selectByExample(bill, example);
+        NumberData numberData = new NumberData();
+        for (Bill billTemp : datasTemp) {
+            numberData.addPeople(billTemp.getPeopleNumber());
+            numberData.addMoney(billTemp.getMoneySum());
+        }
+
+        model.addAttribute("numberData", numberData);
+        model.addAttribute("param", param);
+        model.addAttribute("datas", datas);
+        return "view_bill";
+    }
+
+    /**
+     * 统计字段的内部类
+     * @author LoverQi
+     * @date 2018年4月6日
+     */
+    static class NumberData {
+        private int people;
+        private double money;
+        private double avg;
+
+        public int getPeople() {
+            return people;
+        }
+
+        public void addPeople(int people) {
+            this.people += people;
+        }
+
+        public void setPeople(int people) {
+            this.people = people;
+        }
+
+        public double getMoney() {
+            return money;
+        }
+
+        public void addMoney(double money) {
+            this.money += money;
+        }
+
+        public void setMoney(double money) {
+            this.money = money;
+        }
+
+        public double getAvg() {
+            avg = people == 0 ? 0 : money / people;
+            return avg;
+        }
+
+        public void setAvg(double avg) {
+            this.avg = avg;
+        }
     }
 
 }

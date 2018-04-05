@@ -35,7 +35,7 @@ public class FileUploadController {
     public ResponseData<String> uploadImg(MultipartFile file) {
         ResponseData<String> responseDate = new ResponseData<String>();
         String[] split = file.getOriginalFilename().split("\\.");
-        String name = SecurityUtil.getUser().getUsername() + "_" + UUID.randomUUID().toString() + "."
+        String name = "img_" + SecurityUtil.getUser().getId() + "_" + UUID.randomUUID().toString() + "."
                 + split[split.length - 1];
         FileUtil.uploadFile(name, file);
 

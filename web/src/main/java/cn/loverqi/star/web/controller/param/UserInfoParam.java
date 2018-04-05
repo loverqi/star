@@ -17,30 +17,18 @@ public class UserInfoParam extends UserInfo {
     /** 每页的个数*/
     private Integer pageSize;
 
-    /**
-     * @return page
-     */
     public Integer getPage() {
         return page;
     }
 
-    /**
-     * @param page 要设置的 page
-     */
     public void setPage(Integer page) {
         this.page = page;
     }
 
-    /**
-     * @return pageSize
-     */
     public Integer getPageSize() {
         return pageSize;
     }
 
-    /**
-     * @param pageSize 要设置的 pageSize
-     */
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }

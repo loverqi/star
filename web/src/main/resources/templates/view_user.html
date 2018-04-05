@@ -116,10 +116,10 @@
 											<td th:text="${#dates.format(user.createDate,'yyyy-MM-dd HH:mm:ss')}">-</td>
 											<td>
 												<div class="center">
-													<a th:href="@{'/user/user_details.html?id='+${user.id}}" class="btn btn-xs btn-success center" title="查看">
+													<a target="_blank" th:href="@{'/user/user_details.html?id='+${user.id}}" class="btn btn-xs btn-success center" title="查看">
 														<i class="ace-icon fa fa-search"></i>
 													</a>
-													<a th:href="@{'/user/edit_user.html?id='+${user.id}}" class="btn btn-xs btn-info center" title="编辑">
+													<a target="_blank" th:href="@{'/user/edit_user.html?id='+${user.id}}" class="btn btn-xs btn-info center" title="编辑">
 														<i class="ace-icon fa fa-pencil"></i>
 													</a>
 													<button th:disabled="${user.id==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}"
