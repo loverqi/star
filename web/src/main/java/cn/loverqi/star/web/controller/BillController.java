@@ -57,18 +57,10 @@ public class BillController {
             insert = billService.updateByPrimaryKeySelective(bill);
             responseDate.setData(insert > 0);
         } else {
-            Example example = new Example();
-            example.createCriteria().andFieldEqualTo("wechatNumber", bill.getWechatNumber());
-            List<Bill> customers = billService.selectByExample(bill, example);
-            if (customers != null && customers.size() > 0) {
-                responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_WX_ERROR);
-                responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_WX_MESSAGE);
-            } else {
-                bill.setCreateDate(new Date());
-                bill.setCreateUser(SecurityUtil.getUser().getId());
-                insert = billService.insertSelective(bill);
-                responseDate.setData(insert > 0);
-            }
+            bill.setCreateDate(new Date());
+            bill.setCreateUser(SecurityUtil.getUser().getId());
+            insert = billService.insertSelective(bill);
+            responseDate.setData(insert > 0);
         }
 
         return responseDate;
