@@ -12,27 +12,27 @@ public class Message implements Serializable {
 
     private static final long serialVersionUID = 606677703603654398L;
 
-    private Integer billMsgCount;
+    private int billMsgCount;
 
-    private Integer cuntomerMsgCount;
+    private int cuntomerMsgCount;
 
     private Date billMsgDate;
 
     private Date cuntomerMsgDate;
 
-    public Integer getBillMsgCount() {
+    public int getBillMsgCount() {
         return billMsgCount;
     }
 
-    public void setBillMsgCount(Integer billMsgCount) {
+    public void setBillMsgCount(int billMsgCount) {
         this.billMsgCount = billMsgCount;
     }
 
-    public Integer getCuntomerMsgCount() {
+    public int getCuntomerMsgCount() {
         return cuntomerMsgCount;
     }
 
-    public void setCuntomerMsgCount(Integer cuntomerMsgCount) {
+    public void setCuntomerMsgCount(int cuntomerMsgCount) {
         this.cuntomerMsgCount = cuntomerMsgCount;
     }
 

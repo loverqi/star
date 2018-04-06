@@ -56,13 +56,27 @@ public class UserController {
 
         int insert = 0;
         if (user.getId() != null) {
-            insert = userInfoService.updateByPrimaryKeySelective(user);
+            if (StringUtil.isNotNull(user.getUsername())) {
+                Example example = new Example();
+                example.createCriteria().andFieldEqualTo("username", user.getUsername()).andFieldNotEqualTo("id",
+                        user.getId());
+                List<UserInfo> userInfos = userInfoService.selectByExample(user, example);
+                if (userInfos == null || userInfos.size() < 1) {
+                    insert = userInfoService.updateByPrimaryKeySelective(user);
+                } else {
+                    responseDate.setCode(ResponseDataCode.FIND_USER_ERROR);
+                    responseDate.setMessage(ResponseDataCode.FIND_USER_MESSAGE);
+                }
+            } else {
+                insert = userInfoService.updateByPrimaryKeySelective(user);
+            }
+
             responseDate.setData(insert > 0);
         } else {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("username", user.getUsername());
             List<UserInfo> userInfos = userInfoService.selectByExample(user, example);
-            if (userInfos == null || userInfos.size() <= 0) {
+            if (userInfos == null || userInfos.size() < 1) {
                 user.setCreateDate(new Date());
                 if (StringUtil.isNull(user.getRole())) {
                     user.setRole("USER");

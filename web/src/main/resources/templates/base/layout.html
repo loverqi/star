@@ -50,8 +50,11 @@
 						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 							<li class="dropdown-header">
 								<i class="ace-icon fa fa-envelope-o"></i>
-								<span id="msgCount">0</span>
-								条未读信息
+								新添加
+								<strong>
+									<span id="msgCount">0</span>
+								</strong>
+								个账单
 							</li>
 
 							<li class="dropdown-content">
@@ -61,8 +64,11 @@
 											<span class="msg-body">
 												<span class="msg-title">
 													<span class="blue" onclick="toCustomerPage()">客户管理:</span>
-													<span id="customerCount"></span>
-													条未读消息
+													新增加
+													<strong>
+														<span id="customerCount"></span>
+													</strong>
+													位客户
 												</span>
 												<span class="msg-time">
 													<i class="ace-icon fa fa-clock-o"></i>
@@ -272,11 +278,33 @@
 	<script src="/assets/js/ace-elements.min.js"></script>
 	<script src="/assets/js/ace.min.js"></script>
 	<script type="text/javascript" th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}">
+		getMsg();
 		setInterval(function() {
-			/* 	$("#msgCount").text($("#msgCount").text() + "1");
-				$("#msgCountNum").text($("#msgCount").text());
-			 */}, 1000);
-
+			getMsg();
+		}, 1500);
+		function getMsg() {
+			$.ajax({
+				cache : true,
+				type : "GET",
+				url : "/msg/getMessages.do",
+				async : false,
+				error : function(request) {
+				},
+				success : function(data) {
+					if (data.code == 0) {
+						data = data.data;
+						$("#msgCountNum").text(
+								data.cuntomerMsgCount + data.billMsgCount);
+						$("#msgCount").text(
+								data.cuntomerMsgCount + data.billMsgCount);
+						$("#customerCount").text(data.cuntomerMsgCount);
+						$("#customerDate").text(data.cuntomerMsgDate);
+						$("#billCount").text(data.billMsgCount);
+						$("#billDate").text(data.billMsgDate);
+					}
+				}
+			});
+		}
 		function toCustomerPage() {
 			window.open("/customer/view_customer.html?ifSee=false");
 		}

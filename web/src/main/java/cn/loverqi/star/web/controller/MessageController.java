@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.loverqi.star.core.bean.ResponseData;
@@ -33,7 +34,8 @@ public class MessageController {
     @Autowired
     private BillService billService;
 
-    @ApiOperation(value = "新建或者修改客户", notes = "新建或者修改客户,有id时为修改，无id时为新建，code为0是成功")
+    @ApiOperation(value = "查询未读消息", notes = "查询未读消息，code为0是成功")
+    @RequestMapping(value = "/getMessages.do", method = { RequestMethod.GET })
     public ResponseData<Message> getMessages() {
 
         ResponseData<Message> responseDate = new ResponseData<Message>();
@@ -55,6 +57,8 @@ public class MessageController {
             message.setBillMsgCount(bills.size());
             message.setBillMsgDate(bills.get(bills.size() - 1).getCreateDate());
         }
+        
+        responseDate.setData(message);
 
         return responseDate;
     }

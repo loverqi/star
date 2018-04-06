@@ -44,7 +44,7 @@ public class ResponseDataCode {
     public static String PASSWORD_ERROR_MESSAGE = "密码错误";
     
     public static int  FIND_USER_ERROR  = 2004;
-    public static String FIND_USER_MESSAGE = "用户已存在";
+    public static String FIND_USER_MESSAGE = "该用户名已存在";
     
     public static int  PASSWORD_COMPLEXITY_ERROR  = 2003;
     public static String PASSWORD_COMPLEXITY_ERROR_MESSAGE = "密码复杂度不符合要求";
