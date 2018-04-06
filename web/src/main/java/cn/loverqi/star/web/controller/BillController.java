@@ -162,7 +162,7 @@ public class BillController {
         Example example = new Example();
         example.setDESCOrderByClause("createDate");
         if (StringUtil.isNotNull(param.getWechatNumber())) {
-            example.createCriteria().andFieldLike("wechatNumber", "%" + param.getWechatNumber() + "%");
+            example.createCriteria().andFieldEqualTo("wechatNumber", param.getWechatNumber());
         }
         if (StringUtil.isNotNull(param.getWechatName())) {
             example.createCriteria().andFieldLike("wechatName", "%" + param.getWechatName() + "%");

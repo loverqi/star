@@ -60,14 +60,14 @@ public class CustomerController {
                             .andFieldNotEqualTo("id", customer.getId());
                 }
                 List<Customer> customers1 = customerService.selectByExample(customer, example1);
-                
+
                 Example example2 = new Example();
                 if (StringUtil.isNotNull(customer.getWechatNumber())) {
                     example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber())
                             .andFieldNotEqualTo("id", customer.getId());
                 }
                 List<Customer> customers2 = customerService.selectByExample(customer, example2);
-                
+
                 if (customers1 != null && customers1.size() > 0) {
                     responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
                     responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_QQ_MESSAGE);
@@ -202,13 +202,13 @@ public class CustomerController {
         Example example = new Example();
         example.setDESCOrderByClause("createDate");
         if (StringUtil.isNotNull(param.getQqNumber())) {
-            example.createCriteria().andFieldLike("qqNumber", "%" + param.getQqNumber() + "%");
+            example.createCriteria().andFieldEqualTo("qqNumber", param.getQqNumber());
         }
         if (StringUtil.isNotNull(param.getQqName())) {
             example.createCriteria().andFieldLike("qqName", "%" + param.getQqName() + "%");
         }
         if (StringUtil.isNotNull(param.getWechatNumber())) {
-            example.createCriteria().andFieldLike("wechatNumber", "%" + param.getWechatNumber() + "%");
+            example.createCriteria().andFieldEqualTo("wechatNumber", param.getWechatNumber());
         }
         if (StringUtil.isNotNull(param.getWechatName())) {
             example.createCriteria().andFieldLike("wechatName", "%" + param.getWechatName() + "%");
