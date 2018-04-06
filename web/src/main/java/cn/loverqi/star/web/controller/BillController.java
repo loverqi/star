@@ -18,6 +18,7 @@ import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.pojo.Example;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Bill;
+import cn.loverqi.star.domain.NumberData;
 import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.BillService;
 import cn.loverqi.star.service.UserInfoService;
@@ -152,7 +153,7 @@ public class BillController {
     }
 
     @RequestMapping(value = "/view_bill.html", method = { RequestMethod.GET, RequestMethod.POST })
-    public String viewBill(@ModelAttribute BillParam param, Model model) {
+    public String viewBill(@ModelAttribute BillParam param, Boolean ifSee, Model model) {
 
         if (param == null) {
             param = new BillParam();
@@ -167,6 +168,7 @@ public class BillController {
         model.addAttribute("users", users);
 
         Example example = new Example();
+        example.setDESCOrderByClause("createDate");
         if (StringUtil.isNotNull(param.getWechatNumber())) {
             example.createCriteria().andFieldLike("wechatNumber", "%" + param.getWechatNumber() + "%");
         }
@@ -188,6 +190,9 @@ public class BillController {
         if (param.getCreateUser() != null) {
             example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
         }
+        if (ifSee != null) {
+            example.createCriteria().andFieldEqualTo("ifSee", ifSee);
+        }
         if (param.getPage() == null) {
             param.setPage(1);
         }
@@ -198,7 +203,13 @@ public class BillController {
         Bill bill = new Bill();
         ResponsePageData<Bill> datas = billService.selectByExampleWithRowbounds(bill, example, param.getPage(),
                 param.getPageSize());
-        
+        if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
+            for (Bill billTemp : datas.getList()) {
+                billTemp.setIfSee(true);
+                billService.updateByPrimaryKey(billTemp);
+            }
+        }
+
         List<Bill> datasTemp = billService.selectByExample(bill, example);
         NumberData numberData = new NumberData();
         for (Bill billTemp : datasTemp) {
@@ -209,51 +220,8 @@ public class BillController {
         model.addAttribute("numberData", numberData);
         model.addAttribute("param", param);
         model.addAttribute("datas", datas);
+
         return "view_bill";
-    }
-
-    /**
-     * 统计字段的内部类
-     * @author LoverQi
-     * @date 2018年4月6日
-     */
-    static class NumberData {
-        private int people;
-        private double money;
-        private double avg;
-
-        public int getPeople() {
-            return people;
-        }
-
-        public void addPeople(int people) {
-            this.people += people;
-        }
-
-        public void setPeople(int people) {
-            this.people = people;
-        }
-
-        public double getMoney() {
-            return money;
-        }
-
-        public void addMoney(double money) {
-            this.money += money;
-        }
-
-        public void setMoney(double money) {
-            this.money = money;
-        }
-
-        public double getAvg() {
-            avg = people == 0 ? 0 : money / people;
-            return avg;
-        }
-
-        public void setAvg(double avg) {
-            this.avg = avg;
-        }
     }
 
 }

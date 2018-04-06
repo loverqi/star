@@ -29,6 +29,10 @@ public class Example {
         criteria = new Criteria(criterions);
     }
 
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = NameFormatConversionUtil.humpToLine(orderByClause);
+    }
+
     public void setASCOrderByClause(String orderByClause) {
         this.orderByClause = "`" + NameFormatConversionUtil.humpToLine(orderByClause) + "`" + " ASC";
     }

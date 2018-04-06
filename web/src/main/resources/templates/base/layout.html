@@ -22,62 +22,105 @@
 		<div class="navbar-container" id="navbar-container">
 
 			<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler">
-				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
+				<span class="sr-only">Toggle sidebar</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
 			</button>
 
 			<!-- /section:basics/sidebar.mobile.toggle -->
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
-				<a href="/index.html" class="navbar-brand"> <small> <img src="/assets/avatars/logo.png" alt="" />
-				</small>
+				<a href="/index.html" class="navbar-brand">
+					<small>
+						<img src="/assets/avatars/logo.png" alt="" />
+					</small>
 				</a>
 			</div>
 
 			<div class="navbar-buttons navbar-header pull-right" role="navigation">
 				<ul class="nav ace-nav">
 
-					<li class="green"><a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i
-							class="ace-icon fa fa-envelope icon-animated-vertical"></i> <span class="badge badge-success">2</span>
-					</a>
+					<li class="green" th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}">
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+							<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+							<span class="badge badge-success" id="msgCountNum">0</span>
+						</a>
 
 						<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-							<li class="dropdown-header"><i class="ace-icon fa fa-envelope-o"></i> x条未读信息</li>
+							<li class="dropdown-header">
+								<i class="ace-icon fa fa-envelope-o"></i>
+								<span id="msgCount">0</span>
+								条未读信息
+							</li>
 
 							<li class="dropdown-content">
 								<ul class="dropdown-menu dropdown-navbar">
-									<li><a href="#"> <span class="msg-body"> <span class="msg-title"> <span class="blue">会员管理:</span>
-													xxxx添加了一个用户
-											</span> <span class="msg-time"> <i class="ace-icon fa fa-clock-o"></i> <span>2014-12-15 18:00:00</span>
+									<li>
+										<a href="#">
+											<span class="msg-body">
+												<span class="msg-title">
+													<span class="blue" onclick="toCustomerPage()">客户管理:</span>
+													<span id="customerCount"></span>
+													条未读消息
+												</span>
+												<span class="msg-time">
+													<i class="ace-icon fa fa-clock-o"></i>
+													<span id="customerDate">2018-00-00 00:00:00</span>
+												</span>
 											</span>
-										</span>
-									</a></li>
-									<li><a href="#"> <span class="msg-body"> <span class="msg-title"> <span class="blue">账单管理:</span>
-													xxxx添加了一个账单
-											</span> <span class="msg-time"> <i class="ace-icon fa fa-clock-o"></i> <span>2014-12-15 18:00:00</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span class="msg-body">
+												<span class="msg-title">
+													<span class="blue" onclick="toBillPage()">账单管理:</span>
+													<span id="billCount"></span>
+													条未读消息
+												</span>
+												<span class="msg-time">
+													<i class="ace-icon fa fa-clock-o"></i>
+													<span id="billDate">2018-00-00 00:00:00</span>
+												</span>
 											</span>
-										</span>
-									</a></li>
+										</a>
+									</li>
 								</ul>
 							</li>
-						</ul></li>
+						</ul>
+					</li>
 
 					<!-- #section:basics/navbar.user_menu -->
-					<li class="light-blue"><a data-toggle="dropdown" href="#" class="dropdown-toggle"> <span class="user-info">
-								欢迎您 <br class="hidden-xs" /> <span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.name}">用户名</span>
-						</span> <i class="ace-icon fa fa-caret-down"></i>
-					</a>
+					<li class="light-blue">
+						<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+							<span class="user-info">
+								欢迎您
+								<br class="hidden-xs" />
+								<span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.name}">用户名</span>
+							</span>
+							<i class="ace-icon fa fa-caret-down"></i>
+						</a>
 
 						<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-							<li><a target="_blank" th:href="@{'/user/edit_user.html?id='+${session.SPRING_SECURITY_CONTEXT.authentication.principal.id}}">
-									<i class="ace-icon fa fa-user"></i> 账号管理
-							</a></li>
+							<li>
+								<a target="_blank"
+									th:href="@{'/user/edit_user.html?id='+${session.SPRING_SECURITY_CONTEXT.authentication.principal.id}}">
+									<i class="ace-icon fa fa-user"></i>
+									账号管理
+								</a>
+							</li>
 
 							<li class="divider"></li>
 
-							<li><a href="/unlogin.do"> <i class="ace-icon fa fa-power-off"></i> 注销登陆
-							</a></li>
-						</ul></li>
+							<li>
+								<a href="/unlogin.do">
+									<i class="ace-icon fa fa-power-off"></i>
+									注销登陆
+								</a>
+							</li>
+						</ul>
+					</li>
 
 					<!-- /section:basics/navbar.user_menu -->
 				</ul>
@@ -94,57 +137,95 @@
 		<!-- #section:basics/sidebar -->
 		<div id="sidebar" class="sidebar responsive">
 			<ul class="nav nav-list">
-				<li th:class="${#httpServletRequest.getServletPath()=='/index.html'}? 'active' : ''"><a href="/index.html">
-						<i class="menu-icon fa fa-home"></i> <span class="menu-text"> 系统首页 </span>
-				</a> <b class="arrow"></b></li>
+				<li th:class="${#httpServletRequest.getServletPath()=='/index.html'}? 'active' : ''">
+					<a href="/index.html">
+						<i class="menu-icon fa fa-home"></i>
+						<span class="menu-text"> 系统首页 </span>
+					</a>
+					<b class="arrow"></b>
+				</li>
 
 				<li
 					th:class="${(#httpServletRequest.getServletPath()=='/customer/create_customer.html') or (#httpServletRequest.getServletPath()=='/customer/view_customer.html')}? 'active' : ''">
-					<a href="#" class="dropdown-toggle"> <i class="menu-icon fa 	fa-book"></i> <span class="menu-text"> 客户管理
-					</span> <b class="arrow fa fa-angle-down"></b>
-				</a> <b class="arrow"></b>
+					<a href="#" class="dropdown-toggle">
+						<i class="menu-icon fa 	fa-book"></i>
+						<span class="menu-text"> 客户管理 </span>
+						<b class="arrow fa fa-angle-down"></b>
+					</a>
+					<b class="arrow"></b>
 
 					<ul class="submenu">
-						<li th:class="${#httpServletRequest.getServletPath()=='/customer/create_customer.html'}? 'active' : ''"><a
-							href="/customer/create_customer.html"> <i class="menu-icon fa fa-caret-right"></i> 新建客户
-						</a> <b class="arrow"></b></li>
-						<li th:class="${#httpServletRequest.getServletPath()=='/customer/view_customer.html'}? 'active' : ''"><a
-							href="/customer/view_customer.html"> <i class="menu-icon fa fa-caret-right"></i> 查询客户
-						</a> <b class="arrow"></b></li>
+						<li th:class="${#httpServletRequest.getServletPath()=='/customer/create_customer.html'}? 'active' : ''">
+							<a href="/customer/create_customer.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								新建客户
+							</a>
+							<b class="arrow"></b>
+						</li>
+						<li th:class="${#httpServletRequest.getServletPath()=='/customer/view_customer.html'}? 'active' : ''">
+							<a href="/customer/view_customer.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								查询客户
+							</a>
+							<b class="arrow"></b>
+						</li>
 					</ul>
 				</li>
 
 				<li
 					th:class="${(#httpServletRequest.getServletPath()=='/bill/create_bill.html') or (#httpServletRequest.getServletPath()=='/bill/view_bill.html')}? 'active' : ''">
-					<a href="#" class="dropdown-toggle"> <i class="menu-icon fa fa-pencil-square-o"></i> <span class="menu-text">
-							账单管理 </span> <b class="arrow fa fa-angle-down"></b>
-				</a> <b class="arrow"></b>
+					<a href="#" class="dropdown-toggle">
+						<i class="menu-icon fa fa-pencil-square-o"></i>
+						<span class="menu-text"> 账单管理 </span>
+						<b class="arrow fa fa-angle-down"></b>
+					</a>
+					<b class="arrow"></b>
 
 					<ul class="submenu">
-						<li th:class="${#httpServletRequest.getServletPath()=='/bill/create_bill.html'}? 'active' : ''"><a
-							href="/bill/create_bill.html"> <i class="menu-icon fa fa-caret-right"></i> 新建账单
-						</a> <b class="arrow"></b></li>
-						<li th:class="${#httpServletRequest.getServletPath()=='/bill/view_bill.html'}? 'active' : ''"><a
-							href="/bill/view_bill.html"> <i class="menu-icon fa fa-caret-right"></i> 查询账单
-						</a> <b class="arrow"></b></li>
+						<li th:class="${#httpServletRequest.getServletPath()=='/bill/create_bill.html'}? 'active' : ''">
+							<a href="/bill/create_bill.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								新建账单
+							</a>
+							<b class="arrow"></b>
+						</li>
+						<li th:class="${#httpServletRequest.getServletPath()=='/bill/view_bill.html'}? 'active' : ''">
+							<a href="/bill/view_bill.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								查询账单
+							</a>
+							<b class="arrow"></b>
+						</li>
 					</ul>
 				</li>
 
 				<li
 					th:class="${(#httpServletRequest.getServletPath()=='/user/create_user.html') or (#httpServletRequest.getServletPath()=='/user/view_user.html')}? 'active' : ''"
-					th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}"><a href="#"
-					class="dropdown-toggle"> <i class="menu-icon fa fa-users"></i> <span class="menu-text"> 员工管理 </span> <b
-						class="arrow fa fa-angle-down"></b>
-				</a> <b class="arrow"></b>
+					th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}">
+					<a href="#" class="dropdown-toggle">
+						<i class="menu-icon fa fa-users"></i>
+						<span class="menu-text"> 员工管理 </span>
+						<b class="arrow fa fa-angle-down"></b>
+					</a>
+					<b class="arrow"></b>
 
 					<ul class="submenu">
-						<li th:class="${#httpServletRequest.getServletPath()=='/user/create_user.html'}? 'active' : ''"><a
-							href="/user/create_user.html"> <i class="menu-icon fa fa-caret-right"></i> 新建员工
-						</a> <b class="arrow"></b></li>
-						<li th:class="${#httpServletRequest.getServletPath()=='/user/view_user.html'}? 'active' : ''"><a
-							href="/user/view_user.html"> <i class="menu-icon fa fa-caret-right"></i> 查询员工
-						</a> <b class="arrow"></b></li>
-					</ul></li>
+						<li th:class="${#httpServletRequest.getServletPath()=='/user/create_user.html'}? 'active' : ''">
+							<a href="/user/create_user.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								新建员工
+							</a>
+							<b class="arrow"></b>
+						</li>
+						<li th:class="${#httpServletRequest.getServletPath()=='/user/view_user.html'}? 'active' : ''">
+							<a href="/user/view_user.html">
+								<i class="menu-icon fa fa-caret-right"></i>
+								查询员工
+							</a>
+							<b class="arrow"></b>
+						</li>
+					</ul>
+				</li>
 			</ul>
 			<!-- /.nav-list -->
 		</div>
@@ -157,15 +238,17 @@
 			<div class="footer-inner">
 				<!-- #section:basics/footer -->
 				<div class="footer-content">
-					<span class="bigger-120"> 客户账单管理系统 &copy; <a href="http://mail.loverqi.cn" target="_blank">loverqi.cn</a>
+					<span class="bigger-120">
+						客户账单管理系统 &copy;
+						<a href="http://mail.loverqi.cn" target="_blank">loverqi.cn</a>
 					</span>
 				</div>
 				<!-- /section:basics/footer -->
 			</div>
 		</div>
 
-		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"> <i
-			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+			<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
 		</a>
 	</div>
 	<!-- /.main-container -->
@@ -188,4 +271,17 @@
 	<script src="/assets/js/bootstrap.min.js"></script>
 	<script src="/assets/js/ace-elements.min.js"></script>
 	<script src="/assets/js/ace.min.js"></script>
+	<script type="text/javascript" th:if="${'ADMIN' == session.SPRING_SECURITY_CONTEXT.authentication.principal.role}">
+		setInterval(function() {
+			/* 	$("#msgCount").text($("#msgCount").text() + "1");
+				$("#msgCountNum").text($("#msgCount").text());
+			 */}, 1000);
+
+		function toCustomerPage() {
+			window.open("/customer/view_customer.html?ifSee=false");
+		}
+		function toBillPage() {
+			window.open("/bill/view_bill.html?ifSee=false");
+		}
+	</script>
 </body>

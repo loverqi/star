@@ -158,7 +158,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/view_customer.html", method = { RequestMethod.GET, RequestMethod.POST })
-    public String viewCustomer(@ModelAttribute CustomerParam param, Model model) {
+    public String viewCustomer(@ModelAttribute CustomerParam param, Boolean ifSee, Model model) {
 
         if (param == null) {
             param = new CustomerParam();
@@ -173,6 +173,7 @@ public class CustomerController {
         model.addAttribute("users", users);
 
         Example example = new Example();
+        example.setDESCOrderByClause("createDate");
         if (StringUtil.isNotNull(param.getQqNumber())) {
             example.createCriteria().andFieldLike("qqNumber", "%" + param.getQqNumber() + "%");
         }
@@ -197,6 +198,9 @@ public class CustomerController {
         if (StringUtil.isNotNull(param.getEndTime())) {
             example.createCriteria().andFieldLessThan("createDate", param.getEndTime());
         }
+        if (ifSee != null) {
+            example.createCriteria().andFieldEqualTo("ifSee", ifSee);
+        }
         if (param.getCreateUser() != null) {
             example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
         }
@@ -211,8 +215,16 @@ public class CustomerController {
         ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(customer, example,
                 param.getPage(), param.getPageSize());
 
+        if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
+            for (Customer customerTemp : datas.getList()) {
+                customerTemp.setIfSee(true);
+                customerService.updateByPrimaryKey(customerTemp);
+            }
+        }
+
         model.addAttribute("param", param);
         model.addAttribute("datas", datas);
+
         return "view_customer";
     }
 
