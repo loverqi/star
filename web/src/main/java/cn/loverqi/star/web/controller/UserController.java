@@ -3,13 +3,16 @@ package cn.loverqi.star.web.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,32 +49,40 @@ public class UserController {
 
     @ApiOperation(value = "新建或者修改用户", notes = "新建或者修改用户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyUser.do", method = { RequestMethod.POST })
-    public @ResponseBody ResponseData<Boolean> AddOrModifyUser(@ModelAttribute UserInfo user) {
+    public @ResponseBody ResponseData<Boolean> AddOrModifyUser(@ModelAttribute UserInfo user,
+            HttpServletRequest request) {
 
         ResponseData<Boolean> responseDate = new ResponseData<Boolean>();
 
         if (StringUtil.isNotNull(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-
         int insert = 0;
         if (user.getId() != null) {
-            if (StringUtil.isNotNull(user.getUsername())) {
-                Example example = new Example();
-                example.createCriteria().andFieldEqualTo("username", user.getUsername()).andFieldNotEqualTo("id",
-                        user.getId());
-                List<UserInfo> userInfos = userInfoService.selectByExample(user, example);
-                if (userInfos == null || userInfos.size() < 1) {
-                    insert = userInfoService.updateByPrimaryKeySelective(user);
-                } else {
-                    responseDate.setCode(ResponseDataCode.FIND_USER_ERROR);
-                    responseDate.setMessage(ResponseDataCode.FIND_USER_MESSAGE);
-                }
-            } else {
-                insert = userInfoService.updateByPrimaryKeySelective(user);
-            }
+            HttpSession session = request.getSession();
+            SecurityContext securityContext = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+            UserInfo userInfo = (UserInfo) securityContext.getAuthentication().getPrincipal();
 
-            responseDate.setData(insert > 0);
+            if (user.getId() != 1 || (user.getId() == 1 && userInfo.getId() == 1)) {
+                if (StringUtil.isNotNull(user.getUsername())) {
+                    Example example = new Example();
+                    example.createCriteria().andFieldEqualTo("username", user.getUsername()).andFieldNotEqualTo("id",
+                            user.getId());
+                    List<UserInfo> userInfos = userInfoService.selectByExample(user, example);
+                    if (userInfos == null || userInfos.size() < 1) {
+                        insert = userInfoService.updateByPrimaryKeySelective(user);
+                    } else {
+                        responseDate.setCode(ResponseDataCode.FIND_USER_ERROR);
+                        responseDate.setMessage(ResponseDataCode.FIND_USER_MESSAGE);
+                    }
+                } else {
+                    insert = userInfoService.updateByPrimaryKeySelective(user);
+                }
+                responseDate.setData(insert > 0);
+            } else {
+                responseDate.setCode(ResponseDataCode.LACK_AUTHORITY);
+                responseDate.setMessage(ResponseDataCode.LACK_AUTHORITY_MESSAGE);
+            }
         } else {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("username", user.getUsername());
@@ -92,71 +103,6 @@ public class UserController {
         return responseDate;
     }
 
-    /**
-     * 用户修改密码
-     * @return ResponseDate<String>
-     */
-    @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "用户修改密码", notes = "用户修改密码的申请，code为0是成功成功")
-    @RequestMapping(value = "/changePwd.do", method = { RequestMethod.POST })
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String", paramType = "form"), })
-    public @ResponseBody ResponseData<String> changePwd(String username, String oldPassword, String newPassword) {
-        ResponseData<String> responseDate = new ResponseData<String>();
-        UserInfo userInfo = new UserInfo();
-        Example example = new Example();
-        example.createCriteria().andFieldEqualTo("username", username);
-        List<UserInfo> userInfos = userInfoService.selectByExample(userInfo, example);
-        if (userInfos == null || userInfos.size() <= 0) {
-            //未找到用户
-            responseDate.setCode(ResponseDataCode.NOT_FIND_USER_ERROR);
-            responseDate.setMessage(ResponseDataCode.USERNAME_OR_PASSWORD_ERROR_MESSAGE);
-        } else {
-
-            userInfo = userInfos.get(0);
-            boolean matches = passwordEncoder.matches(oldPassword, userInfo.getPassword());
-
-            if (!matches) {
-                //密码错误
-                responseDate.setCode(ResponseDataCode.PASSWORD_ERROR);
-                responseDate.setMessage(ResponseDataCode.PASSWORD_ERROR_MESSAGE);
-            } else {
-                //开始修改密码
-                userInfo.setPassword(passwordEncoder.encode(newPassword));
-                userInfoService.updateByPrimaryKeySelective(userInfo);
-            }
-        }
-
-        return responseDate;
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "查询用户列表", notes = "根据查询用户列表，code为0是成功")
-    @RequestMapping(value = "/getUsers.do", method = { RequestMethod.POST })
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = "String", paramType = "form"),
-            @ApiImplicitParam(name = "role", value = "权限", required = false, dataType = "String", paramType = "form"), })
-    public @ResponseBody ResponseData<List<UserInfo>> getUsers(String username, String role) {
-        ResponseData<List<UserInfo>> responseDate = new ResponseData<List<UserInfo>>();
-        Example example = new Example();
-
-        if (StringUtil.isNotNull(username)) {
-            example.createCriteria().andFieldLike("username", "%" + username + "%");
-        }
-        if (StringUtil.isNotNull(role)) {
-            example.createCriteria().andFieldLike("role", "%" + role + "%");
-        }
-
-        UserInfo userInfo = new UserInfo();
-        List<UserInfo> userInfos = userInfoService.selectByExample(userInfo, example);
-
-        responseDate.setData(userInfos);
-
-        return responseDate;
-    }
-
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "根据id删除用戶", notes = "根据id刪除用户，code为0是成功")
     @RequestMapping(value = "/deleteUser.do", method = { RequestMethod.POST })
@@ -167,30 +113,13 @@ public class UserController {
         if (id == null) {
             responseDate.setCode(ResponseDataCode.PARAMETER_ANOMALY);
             responseDate.setMessage(ResponseDataCode.PARAMETER_ANOMALY_MESSAGE);
+        } else if (id == 1) {
+            responseDate.setCode(ResponseDataCode.LACK_AUTHORITY);
+            responseDate.setMessage(ResponseDataCode.LACK_AUTHORITY_MESSAGE);
         } else {
             UserInfo userInfo = new UserInfo();
             userInfo.setId(id);
             int deleteByPrimaryKey = userInfoService.deleteByPrimaryKey(userInfo);
-
-            responseDate.setData(deleteByPrimaryKey > 0);
-        }
-
-        return responseDate;
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "根据id删除用戶", notes = "根据id删除用戶，code为0是成功")
-    @RequestMapping(value = "/deleteUsers.do", method = { RequestMethod.POST })
-    public @ResponseBody ResponseData<Boolean> deleteUsers(@RequestBody List<Integer> ids) {
-        ResponseData<Boolean> responseDate = new ResponseData<Boolean>();
-        if (ids == null || ids.size() == 0) {
-            responseDate.setCode(ResponseDataCode.PARAMETER_ANOMALY);
-            responseDate.setMessage(ResponseDataCode.PARAMETER_ANOMALY_MESSAGE);
-        } else {
-            UserInfo userInfo = new UserInfo();
-            Example example = new Example();
-            example.createCriteria().andFieldIn("id", ids);
-            int deleteByPrimaryKey = userInfoService.deleteByExample(userInfo, example);
 
             responseDate.setData(deleteByPrimaryKey > 0);
         }
