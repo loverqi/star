@@ -10,9 +10,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import cn.loverqi.star.core.mybaties.annotation.FieldIgnore;
-import cn.loverqi.star.core.mybaties.annotation.Table;
-import cn.loverqi.star.core.mybaties.annotation.TableId;
+import cn.loverqi.star.core.annotation.FieldIgnore;
+import cn.loverqi.star.core.annotation.Table;
+import cn.loverqi.star.core.annotation.TableId;
 import cn.loverqi.star.core.mybaties.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
 import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;

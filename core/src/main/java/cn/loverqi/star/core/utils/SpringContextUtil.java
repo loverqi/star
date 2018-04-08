@@ -37,10 +37,8 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @param t 想要获取的类型
      * @return 获得到的Bean
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T getBean(T t) {
-        t = (T) context.getBean(t.getClass());
-        return t;
+    public static <T> T getBean(Class<T> clazz) {
+        return (T) context.getBean(clazz);
     }
 
     /**
@@ -49,9 +47,8 @@ public class SpringContextUtil implements ApplicationContextAware {
      * @return 获得到的Bean
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getBean(String beanName) {
-        T t = (T) context.getBean(beanName);
-        return t;
+    public static <T> T getBean(String beanName, Class<T> clazz) {
+        return (T) context.getBean(beanName);
     }
 
 }

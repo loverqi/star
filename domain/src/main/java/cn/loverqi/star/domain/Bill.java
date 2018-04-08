@@ -2,7 +2,7 @@ package cn.loverqi.star.domain;
 
 import java.util.Date;
 
-import cn.loverqi.star.core.mybaties.annotation.FieldIgnore;
+import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
 
 /**
