@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //iframe跨域
         http.headers().frameOptions().disable();
-        
+
         http.authorizeRequests().anyRequest().authenticated()
                 //登录处理路径       
                 .and().formLogin().loginPage("/login.html").loginProcessingUrl("/login.do")
@@ -76,9 +76,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //设置忽略资源
-        web.ignoring().antMatchers("/user/AddOrModifyUser.do", "/static/**", "/druid/**", "/swagger-resources/**",
-                "/v2/api-docs/**", "/webjars/**", "/swagger-ui.html", "/**/*.jpg", "/**/*.gif", "/**/*.png",
-                "/**/*.css", "/**/*.ttf", "/**/*.woff", "/**/*.js");
+        web.ignoring().antMatchers("/static/**", "/druid/**", "/swagger-resources/**", "/v2/api-docs/**", "/webjars/**",
+                "/swagger-ui.html", "/**/*.jpg", "/**/*.gif", "/**/*.png", "/**/*.css", "/**/*.ttf", "/**/*.woff",
+                "/**/*.js");
         //        web.ignoring().anyRequest();
 
     }

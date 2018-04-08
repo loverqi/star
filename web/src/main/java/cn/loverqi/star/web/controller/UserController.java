@@ -4,11 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +20,11 @@ import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.pojo.Example;
 import cn.loverqi.star.core.utils.StringUtil;
+import cn.loverqi.star.domain.Bill;
+import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.UserInfo;
+import cn.loverqi.star.service.BillService;
+import cn.loverqi.star.service.CustomerService;
 import cn.loverqi.star.service.UserInfoService;
 import cn.loverqi.star.web.controller.param.UserInfoParam;
 import cn.loverqi.star.web.security.util.SecurityUtil;
@@ -43,10 +45,15 @@ public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private BillService billService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "新建或者修改用户", notes = "新建或者修改用户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyUser.do", method = { RequestMethod.POST })
     public @ResponseBody ResponseData<Boolean> AddOrModifyUser(@ModelAttribute UserInfo user,
@@ -59,11 +66,8 @@ public class UserController {
         }
         int insert = 0;
         if (user.getId() != null) {
-            HttpSession session = request.getSession();
-            SecurityContext securityContext = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
-            UserInfo userInfo = (UserInfo) securityContext.getAuthentication().getPrincipal();
 
-            if (user.getId() != 1 || (user.getId() == 1 && userInfo.getId() == 1)) {
+            if (user.getId() != 1 || (user.getId() == 1 && SecurityUtil.getUser().getId() == 1)) {
                 if (StringUtil.isNotNull(user.getUsername())) {
                     Example example = new Example();
                     example.createCriteria().andFieldEqualTo("username", user.getUsername()).andFieldNotEqualTo("id",
@@ -109,6 +113,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "岗位的id", required = true, dataType = "int", paramType = "form"), })
     public @ResponseBody ResponseData<Boolean> deleteUser(Integer id) {
+        int deleteByPrimaryKey = 0;
         ResponseData<Boolean> responseDate = new ResponseData<Boolean>();
         if (id == null) {
             responseDate.setCode(ResponseDataCode.PARAMETER_ANOMALY);
@@ -117,12 +122,24 @@ public class UserController {
             responseDate.setCode(ResponseDataCode.LACK_AUTHORITY);
             responseDate.setMessage(ResponseDataCode.LACK_AUTHORITY_MESSAGE);
         } else {
-            UserInfo userInfo = new UserInfo();
-            userInfo.setId(id);
-            int deleteByPrimaryKey = userInfoService.deleteByPrimaryKey(userInfo);
+            Example example = new Example();
+            example.createCriteria().andFieldEqualTo("createUser", id);
+            int customerCount = customerService.selectCountByExample(new Customer(), example);
+            int billCount = billService.selectCountByExample(new Bill(), example);
 
-            responseDate.setData(deleteByPrimaryKey > 0);
+            if (customerCount > 0) {
+                responseDate.setCode(ResponseDataCode.CUSTOMER_NOT_NULL_ERROR);
+                responseDate.setMessage(ResponseDataCode.CUSTOMER_NOT_NULL_MESSAGE);
+            } else if (billCount > 0) {
+                responseDate.setCode(ResponseDataCode.Bill_NOT_NULL_ERROR);
+                responseDate.setMessage(ResponseDataCode.Bill_NOT_NULL_MESSAGE);
+            } else {
+                UserInfo userInfo = new UserInfo();
+                userInfo.setId(id);
+                deleteByPrimaryKey = userInfoService.deleteByPrimaryKey(userInfo);
+            }
         }
+        responseDate.setData(deleteByPrimaryKey > 0);
 
         return responseDate;
     }

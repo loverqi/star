@@ -239,9 +239,9 @@
 			$('#totalPages')
 					.jqPaginator(
 							{
-								totalPages : [[${datas.pages}]], //设置分页的总页数
+								totalPages : [[${datas.pages==0?1:datas.pages}]], //设置分页的总页数
 								visiblePages : 5, //设置最多显示数
-								currentPage : [[${datas.pageNum}]], //当前页数
+								currentPage : [[${datas.pageNum==0?1:datas.pageNum}]], //当前页数
 								first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
 								last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
 								page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',

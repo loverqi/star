@@ -70,4 +70,28 @@ public class ResponsePageData<T extends MyBatisPojo> implements Serializable {
         return list;
     }
 
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public void setList(List<T> list) {
+        this.list = list;
+    }
+
 }
