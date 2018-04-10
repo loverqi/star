@@ -44,20 +44,18 @@ public class MessageController {
         Example example = new Example();
         example.createCriteria().andFieldEqualTo("ifSee", false);
 
-        Customer customer = new Customer();
-        List<Customer> customers = customerService.selectByExample(customer, example);
+        List<Customer> customers = customerService.selectByExample(Customer.class, example);
         if (customers != null && customers.size() > 0) {
             message.setCuntomerMsgCount(customers.size());
             message.setCuntomerMsgDate(customers.get(customers.size() - 1).getCreateDate());
         }
 
-        Bill bill = new Bill();
-        List<Bill> bills = billService.selectByExample(bill, example);
+        List<Bill> bills = billService.selectByExample(Bill.class, example);
         if (bills != null && bills.size() > 0) {
             message.setBillMsgCount(bills.size());
             message.setBillMsgDate(bills.get(bills.size() - 1).getCreateDate());
         }
-        
+
         responseDate.setData(message);
 
         return responseDate;

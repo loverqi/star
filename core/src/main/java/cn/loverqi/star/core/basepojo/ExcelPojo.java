@@ -42,8 +42,7 @@ public abstract class ExcelPojo extends BasePojo {
             ExcelColumn annotation = AnnotationUtil.getAnnotation(field, ExcelColumn.class);
             //根据注解判断当前字段是否需要隐藏
             if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
-                list.add(new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order(),
-                        annotation.isIfUtf()));
+                list.add(new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order()));
             }
         }
 

@@ -26,11 +26,10 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserInfo userInfo = new UserInfo();
         Example example = new Example();
 
         example.createCriteria().andFieldEqualTo("username", username);
-        List<UserInfo> userInfos = baseMapper.selectByExample(userInfo, example);
+        List<UserInfo> userInfos = baseMapper.selectByExample(UserInfo.class, example);
         if (userInfos == null || userInfos.size() == 0) {
             throw new UsernameNotFoundException("用户不存在");
         }

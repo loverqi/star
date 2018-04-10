@@ -59,14 +59,14 @@ public class CustomerController {
                     example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber())
                             .andFieldNotEqualTo("id", customer.getId());
                 }
-                List<Customer> customers1 = customerService.selectByExample(customer, example1);
+                List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
 
                 Example example2 = new Example();
                 if (StringUtil.isNotNull(customer.getWechatNumber())) {
                     example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber())
                             .andFieldNotEqualTo("id", customer.getId());
                 }
-                List<Customer> customers2 = customerService.selectByExample(customer, example2);
+                List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
 
                 if (customers1 != null && customers1.size() > 0) {
                     responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
@@ -87,8 +87,8 @@ public class CustomerController {
             example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber());
             Example example2 = new Example();
             example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber());
-            List<Customer> customers1 = customerService.selectByExample(customer, example1);
-            List<Customer> customers2 = customerService.selectByExample(customer, example2);
+            List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
+            List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
             if (customers1 != null && customers1.size() > 0) {
                 responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
                 responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_QQ_MESSAGE);
@@ -196,7 +196,7 @@ public class CustomerController {
             exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
             param.setCreateUser(SecurityUtil.getUser().getId());
         }
-        List<UserInfo> users = userInfoService.selectByExample(new UserInfo(), exampleUser);
+        List<UserInfo> users = userInfoService.selectByExample(UserInfo.class, exampleUser);
         model.addAttribute("users", users);
 
         Example example = new Example();
@@ -238,8 +238,7 @@ public class CustomerController {
             param.setPageSize(10);
         }
 
-        Customer customer = new Customer();
-        ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(customer, example,
+        ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(Customer.class, example,
                 param.getPage(), param.getPageSize());
 
         if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {

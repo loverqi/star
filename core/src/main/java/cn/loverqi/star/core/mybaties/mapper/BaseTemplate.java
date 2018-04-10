@@ -111,8 +111,12 @@ public class BaseTemplate<T extends BasePojo> {
      * @param record 查询的表名
      * @param example 指定的条件
      * @return 所有符合条件的对象
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    public String selectByExample(final T record, final Example example) {
+    public String selectByExample(final Class<T> t, final Example example)
+            throws InstantiationException, IllegalAccessException {
+        final T record = t.newInstance();
         String sql = new SQL() {
             {
                 if (example != null && example.isDistinct()) {
@@ -145,8 +149,12 @@ public class BaseTemplate<T extends BasePojo> {
      * @param tableName 查询的表名
      * @param example 指定的条件
      * @return 所有符合条件的对象
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    public String selectCountByExample(final T record, final Example example) {
+    public String selectCountByExample(final Class<T> t, final Example example)
+            throws InstantiationException, IllegalAccessException {
+        final T record = t.newInstance();
         String sql = new SQL() {
             {
                 if (example != null && example.isDistinct()) {
@@ -295,8 +303,12 @@ public class BaseTemplate<T extends BasePojo> {
      * @param record 修改后的对象
      * @param example 更新的条件
      * @return 修改的对象数量
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    public String updateByExample(final T record, final Example example) {
+    public String updateByExample(final Class<T> t, final Example example)
+            throws InstantiationException, IllegalAccessException {
+        final T record = t.newInstance();
         String sql = new SQL() {
             {
                 UPDATE("`" + record.getTablename() + "`");
@@ -325,8 +337,12 @@ public class BaseTemplate<T extends BasePojo> {
      * @param record 修改后的对象
      * @param example 更新的条件
      * @return 修改的对象数量
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    public String updateByExampleSelective(final T record, final Example example) {
+    public String updateByExampleSelective(final Class<T> t, final Example example)
+            throws InstantiationException, IllegalAccessException {
+        final T record = t.newInstance();
         String sql = new SQL() {
             {
                 UPDATE("`" + record.getTablename() + "`");
@@ -389,11 +405,15 @@ public class BaseTemplate<T extends BasePojo> {
      * @param tableName 查询的表名
      * @param example 删除的条件
      * @return 删除的对象的个数
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    public String deleteByExample(final T t, final Example example) {
+    public String deleteByExample(final Class<T> t, final Example example)
+            throws InstantiationException, IllegalAccessException {
+        final T record = t.newInstance();
         String sql = new SQL() {
             {
-                DELETE_FROM("`" + t.getTablename() + "`");
+                DELETE_FROM("`" + record.getTablename() + "`");
                 if (example != null && example.isValid()) {
                     List<Criterion> criterions = example.getCriterions();
                     for (Criterion criterion : criterions) {

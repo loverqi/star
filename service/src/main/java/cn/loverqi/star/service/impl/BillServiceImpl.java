@@ -33,8 +33,8 @@ public class BillServiceImpl extends BaseServiceImpl<Bill> implements BillServic
     }
 
     @Override
-    public ResponsePageData<Bill> selectByExampleWithRowbounds(Bill record, Example example, int page, int pageSize) {
-        ResponsePageData<Bill> pageDatas = super.selectByExampleWithRowbounds(record, example, page, pageSize);
+    public ResponsePageData<Bill> selectByExampleWithRowbounds(Class<Bill> t, Example example, int page, int pageSize) {
+        ResponsePageData<Bill> pageDatas = super.selectByExampleWithRowbounds(t, example, page, pageSize);
         List<Bill> list = pageDatas.getList();
         for (Bill bill : list) {
             setCreateBean(bill);
@@ -44,7 +44,7 @@ public class BillServiceImpl extends BaseServiceImpl<Bill> implements BillServic
     }
 
     @Override
-    public List<Bill> selectByExample(Bill t, Example example) {
+    public List<Bill> selectByExample(Class<Bill> t, Example example) {
         List<Bill> bills = super.selectByExample(t, example);
         for (Bill bill : bills) {
             setCreateBean(bill);

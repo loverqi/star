@@ -28,6 +28,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param record 需要插入的对象
      * @return 插入成功的条数
      */
+    @Override
     public int insert(T record) {
         int insert = baseMapper.insert(record);
 
@@ -51,6 +52,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param record 需要插入的对象
      * @return 插入成功的条数
      */
+    @Override
     public int insertSelective(T record) {
         int insertSelective = baseMapper.insertSelective(record);
 
@@ -74,6 +76,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param 对象
      * @return 查询到的对象，查询不到返回null
      */
+    @Override
     public T selectByPrimaryKey(T record) {
         T selectByPrimaryKey = baseMapper.selectByPrimaryKey(record);
 
@@ -85,6 +88,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param 对象
      * @return 查询到的对象，查询不到返回null
      */
+    @Override
     public T selectByPrimaryKey(String tableName, Integer id) {
         T selectByPrimaryKey = baseMapper.selectByPrimaryKeyValue(tableName, id);
 
@@ -96,6 +100,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
+    @Override
     public List<T> selectByExample(String tableName, Example example) {
         List<T> selectByExample = baseMapper.selectByValueExample(tableName, example);
 
@@ -107,7 +112,8 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    public List<T> selectByExample(T t, Example example) {
+    @Override
+    public List<T> selectByExample(Class<T> t, Example example) {
         List<T> selectByExample = baseMapper.selectByExample(t, example);
 
         return selectByExample;
@@ -118,11 +124,12 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    public ResponsePageData<T> selectByExampleWithRowbounds(T record, Example example, int page, int pageSize) {
+    @Override
+    public ResponsePageData<T> selectByExampleWithRowbounds(Class<T> t, Example example, int page, int pageSize) {
 
         //添加分页属性
         PageHelper.startPage(page, pageSize);
-        List<T> selectByExampleWithRowbounds = baseMapper.selectByExample(record, example);
+        List<T> selectByExampleWithRowbounds = baseMapper.selectByExample(t, example);
 
         //用PageInfo对结果进行包装
         PageInfo<T> pageInfo = new PageInfo<T>(selectByExampleWithRowbounds);
@@ -135,6 +142,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
+    @Override
     public ResponsePageData<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize) {
         //添加分页属性
         PageHelper.startPage(1, 10);
@@ -151,6 +159,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param record 修改后的对象
      * @return 修改的对象数量
      */
+    @Override
     public int updateByPrimaryKey(T record) {
         int updateByPrimaryKey = baseMapper.updateByPrimaryKey(record);
 
@@ -162,6 +171,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param record
      * @return 修改的对象数量
      */
+    @Override
     public int updateByPrimaryKeySelective(T record) {
         int updateByPrimaryKeySelective = baseMapper.updateByPrimaryKeySelective(record);
 
@@ -174,8 +184,9 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 更新的条件
      * @return 修改的对象数量
      */
-    public int updateByExample(T record, Example example) {
-        int updateByExample = baseMapper.updateByExample(record, example);
+    @Override
+    public int updateByExample(Class<T> t, Example example) {
+        int updateByExample = baseMapper.updateByExample(t, example);
 
         return updateByExample;
     }
@@ -186,8 +197,9 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 更新的条件
      * @return 修改的对象数量
      */
-    public int updateByExampleSelective(T record, Example example) {
-        int updateByExampleSelective = baseMapper.updateByExampleSelective(record, example);
+    @Override
+    public int updateByExampleSelective(Class<T> t, Example example) {
+        int updateByExampleSelective = baseMapper.updateByExampleSelective(t, example);
 
         return updateByExampleSelective;
     }
@@ -197,6 +209,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param id 对象的主键id
      * @return 删除的对象的个数
      */
+    @Override
     public int deleteByPrimaryKey(T record) {
         int deleteByPrimaryKey = baseMapper.deleteByPrimaryKey(record);
 
@@ -209,6 +222,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param id 对象的主键id
      * @return 删除的对象的个数
      */
+    @Override
     public int deleteByPrimaryKey(String tableName, Integer id) {
         int deleteByPrimaryKey = baseMapper.deleteByPrimaryKeyValue(tableName, id);
 
@@ -220,7 +234,8 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 删除的条件
      * @return 删除的对象的个数
      */
-    public int deleteByExample(T t, Example example) {
+    @Override
+    public int deleteByExample(Class<T> t, Example example) {
         int deleteByExample = baseMapper.deleteByExample(t, example);
 
         return deleteByExample;
@@ -231,6 +246,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 删除的条件
      * @return 删除的对象的个数
      */
+    @Override
     public int deleteByExample(String tableName, Example example) {
         int deleteByExample = baseMapper.deleteByValueExample(tableName, example);
 
@@ -243,6 +259,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
+    @Override
     public int selectCountByExample(String tableName, Example example) {
         int deleteByExample = baseMapper.selectCountByValueExample(tableName, example);
 
@@ -255,7 +272,8 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    public int selectCountByExample(T t, Example example) {
+    @Override
+    public int selectCountByExample(Class<T> t, Example example) {
         int deleteByExample = baseMapper.selectCountByExample(t, example);
 
         return deleteByExample;

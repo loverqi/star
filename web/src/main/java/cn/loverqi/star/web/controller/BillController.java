@@ -1,8 +1,6 @@
 package cn.loverqi.star.web.controller;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +17,6 @@ import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.example.Example;
-import cn.loverqi.star.core.poi.excel.ExcelBuilder;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Bill;
 import cn.loverqi.star.domain.NumberData;
@@ -160,7 +157,7 @@ public class BillController {
             exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
             param.setCreateUser(SecurityUtil.getUser().getId());
         }
-        List<UserInfo> users = userInfoService.selectByExample(new UserInfo(), exampleUser);
+        List<UserInfo> users = userInfoService.selectByExample(UserInfo.class, exampleUser);
         model.addAttribute("users", users);
 
         Example example = new Example();
@@ -196,8 +193,7 @@ public class BillController {
             param.setPageSize(10);
         }
 
-        Bill bill = new Bill();
-        ResponsePageData<Bill> datas = billService.selectByExampleWithRowbounds(bill, example, param.getPage(),
+        ResponsePageData<Bill> datas = billService.selectByExampleWithRowbounds(Bill.class, example, param.getPage(),
                 param.getPageSize());
         if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
             for (Bill billTemp : datas.getList()) {
@@ -206,16 +202,12 @@ public class BillController {
             }
         }
 
-        List<Bill> datasTemp = billService.selectByExample(bill, example);
+        List<Bill> datasTemp = billService.selectByExample(Bill.class, example);
         NumberData numberData = new NumberData();
         for (Bill billTemp : datasTemp) {
             numberData.addPeople(billTemp.getPeopleNumber());
             numberData.addMoney(billTemp.getMoneySum());
         }
-
-        List<Bill> datasTempx = billService.selectByExample(bill, example);
-        OutputStream os = new FileOutputStream("D://t.xls");
-        ExcelBuilder.exportExcel(os, new Bill(), datasTempx);
 
         model.addAttribute("numberData", numberData);
         model.addAttribute("param", param);

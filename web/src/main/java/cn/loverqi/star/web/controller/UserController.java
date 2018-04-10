@@ -72,7 +72,7 @@ public class UserController {
                     Example example = new Example();
                     example.createCriteria().andFieldEqualTo("username", user.getUsername()).andFieldNotEqualTo("id",
                             user.getId());
-                    List<UserInfo> userInfos = userInfoService.selectByExample(user, example);
+                    List<UserInfo> userInfos = userInfoService.selectByExample(UserInfo.class, example);
                     if (userInfos == null || userInfos.size() < 1) {
                         insert = userInfoService.updateByPrimaryKeySelective(user);
                     } else {
@@ -90,7 +90,7 @@ public class UserController {
         } else {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("username", user.getUsername());
-            List<UserInfo> userInfos = userInfoService.selectByExample(user, example);
+            List<UserInfo> userInfos = userInfoService.selectByExample(UserInfo.class, example);
             if (userInfos == null || userInfos.size() < 1) {
                 user.setCreateDate(new Date());
                 if (StringUtil.isNull(user.getRole())) {
@@ -124,8 +124,8 @@ public class UserController {
         } else {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("createUser", id);
-            int customerCount = customerService.selectCountByExample(new Customer(), example);
-            int billCount = billService.selectCountByExample(new Bill(), example);
+            int customerCount = customerService.selectCountByExample(Customer.class, example);
+            int billCount = billService.selectCountByExample(Bill.class, example);
 
             if (customerCount > 0) {
                 responseDate.setCode(ResponseDataCode.CUSTOMER_NOT_NULL_ERROR);
@@ -218,8 +218,7 @@ public class UserController {
             param.setPageSize(10);
         }
 
-        UserInfo userInfo = new UserInfo();
-        ResponsePageData<UserInfo> datas = userInfoService.selectByExampleWithRowbounds(userInfo, example,
+        ResponsePageData<UserInfo> datas = userInfoService.selectByExampleWithRowbounds(UserInfo.class, example,
                 param.getPage(), param.getPageSize());
 
         model.addAttribute("param", param);

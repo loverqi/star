@@ -24,9 +24,4 @@ public @interface ExcelColumn {
      * @return 字段的排序
      */
     public int order() default 0;
-
-    /**
-     * @return 是否是中文
-     */
-    public boolean isIfUtf() default false;
 }

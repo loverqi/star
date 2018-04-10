@@ -88,7 +88,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 所有符合条件的对象
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectCountByExample")
-    int selectCountByExample(T record, Example example);
+    int selectCountByExample(Class<T> t, Example example);
 
     /**
      * 根据条件查询页面数据个数的方法
@@ -106,7 +106,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 所有符合条件的对象
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByExample")
-    List<T> selectByExample(T record, Example example);
+    List<T> selectByExample(Class<T> t, Example example);
 
     /**
      * 根据主键id更新对象的方法
@@ -131,7 +131,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 修改的对象数量
      */
     @UpdateProvider(type = BaseTemplate.class, method = "updateByExample")
-    int updateByExample(T record, Example example);
+    int updateByExample(Class<T> t, Example example);
 
     /**
      * 根据条件更新对象的方法，仅更新对象非空的属性
@@ -140,7 +140,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 修改的对象数量
      */
     @UpdateProvider(type = BaseTemplate.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(T record, Example example);
+    int updateByExampleSelective(Class<T> t, Example example);
 
     /**
      * 根据主键值和表名删除对象的方法
@@ -166,7 +166,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 删除的对象的个数
      */
     @DeleteProvider(type = BaseTemplate.class, method = "deleteByExample")
-    int deleteByExample(T record, Example example);
+    int deleteByExample(Class<T> t, Example example);
 
     /**
      * 根据条件删除对象的方法

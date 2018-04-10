@@ -33,7 +33,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
     }
 
     @Override
-    public List<Customer> selectByExample(Customer t, Example example) {
+    public List<Customer> selectByExample(Class<Customer> t, Example example) {
         List<Customer> customers = super.selectByExample(t, example);
         for (Customer customer : customers) {
             setCreateBean(customer);
@@ -43,9 +43,9 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
     }
 
     @Override
-    public ResponsePageData<Customer> selectByExampleWithRowbounds(Customer record, Example example, int page,
+    public ResponsePageData<Customer> selectByExampleWithRowbounds(Class<Customer> t, Example example, int page,
             int pageSize) {
-        ResponsePageData<Customer> pageDatas = super.selectByExampleWithRowbounds(record, example, page, pageSize);
+        ResponsePageData<Customer> pageDatas = super.selectByExampleWithRowbounds(t, example, page, pageSize);
         List<Customer> list = pageDatas.getList();
         for (Customer customer : list) {
             setCreateBean(customer);

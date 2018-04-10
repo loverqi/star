@@ -38,7 +38,7 @@ public class Bill extends ExcelPojo {
     private Integer createUser;
 
     @FieldIgnore
-    @ExcelColumn(value = "创建人", order = 5, isIfUtf = true)
+    @ExcelColumn(value = "创建人", order = 5)
     private String createUserName;
 
     /** 创建人*/
@@ -51,7 +51,7 @@ public class Bill extends ExcelPojo {
 
     /** 客户来源*/
     @FieldIgnore
-    @ExcelColumn(value = "客户来源", order = 7, isIfUtf = true)
+    @ExcelColumn(value = "客户来源", order = 7)
     private String customerSourceString;
 
     private String customerSource;
@@ -60,7 +60,7 @@ public class Bill extends ExcelPojo {
     private String billingStatus;
 
     @FieldIgnore
-    @ExcelColumn(value = "账单状态", order = 8, isIfUtf = true)
+    @ExcelColumn(value = "账单状态", order = 8)
     private String billingStatusString;
 
     private boolean ifSee;
