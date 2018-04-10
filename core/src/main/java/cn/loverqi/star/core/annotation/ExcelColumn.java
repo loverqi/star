@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author LoverQi
  * @date 2018年4月8日
  */
-@Target({ ElementType.FIELD })
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ExcelColumn {
@@ -24,4 +24,9 @@ public @interface ExcelColumn {
      * @return 字段的排序
      */
     public int order() default 0;
+
+    /**
+     * @return 是否是中文
+     */
+    public boolean isIfUtf() default false;
 }

@@ -1,5 +1,8 @@
 package cn.loverqi.star.web.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +19,7 @@ import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.poi.excel.ExcelBuilder;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Bill;
 import cn.loverqi.star.domain.NumberData;
@@ -145,7 +149,7 @@ public class BillController {
     }
 
     @RequestMapping(value = "/view_bill.html", method = { RequestMethod.GET, RequestMethod.POST })
-    public String viewBill(@ModelAttribute BillParam param, Boolean ifSee, Model model) {
+    public String viewBill(@ModelAttribute BillParam param, Boolean ifSee, Model model) throws FileNotFoundException {
 
         if (param == null) {
             param = new BillParam();
@@ -208,6 +212,10 @@ public class BillController {
             numberData.addPeople(billTemp.getPeopleNumber());
             numberData.addMoney(billTemp.getMoneySum());
         }
+
+        List<Bill> datasTempx = billService.selectByExample(bill, example);
+        OutputStream os = new FileOutputStream("D://t.xls");
+        ExcelBuilder.exportExcel(os, new Bill(), datasTempx);
 
         model.addAttribute("numberData", numberData);
         model.addAttribute("param", param);

@@ -43,6 +43,16 @@ public class BillServiceImpl extends BaseServiceImpl<Bill> implements BillServic
         return pageDatas;
     }
 
+    @Override
+    public List<Bill> selectByExample(Bill t, Example example) {
+        List<Bill> bills = super.selectByExample(t, example);
+        for (Bill bill : bills) {
+            setCreateBean(bill);
+        }
+
+        return bills;
+    }
+
     private void setCreateBean(Bill bill) {
         if (bill != null && bill.getCreateUser() != null) {
             UserInfo userInfo = new UserInfo();

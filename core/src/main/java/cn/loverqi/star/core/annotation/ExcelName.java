@@ -11,13 +11,13 @@ import java.lang.annotation.Target;
  * @author LoverQi
  * @date 2018年4月8日
  */
-@Target({ ElementType.FIELD })
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ExcelName {
     /**
      * @return  文件的标题名
      */
-    public String value() default "";
+    public String value() default "sheet1";
 
 }

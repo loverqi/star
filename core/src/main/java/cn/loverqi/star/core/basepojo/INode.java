@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.treedata;
+package cn.loverqi.star.core.basepojo;
 
 import java.util.List;
 

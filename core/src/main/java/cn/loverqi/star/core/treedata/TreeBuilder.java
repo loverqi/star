@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import cn.loverqi.star.core.basepojo.INode;
+
 public class TreeBuilder<T extends INode<T>> {
 
     @Autowired

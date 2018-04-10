@@ -33,6 +33,16 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
     }
 
     @Override
+    public List<Customer> selectByExample(Customer t, Example example) {
+        List<Customer> customers = super.selectByExample(t, example);
+        for (Customer customer : customers) {
+            setCreateBean(customer);
+        }
+
+        return customers;
+    }
+
+    @Override
     public ResponsePageData<Customer> selectByExampleWithRowbounds(Customer record, Example example, int page,
             int pageSize) {
         ResponsePageData<Customer> pageDatas = super.selectByExampleWithRowbounds(record, example, page, pageSize);

@@ -8,11 +8,13 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import cn.loverqi.star.core.annotation.FieldIgnore;
-import cn.loverqi.star.core.annotation.Table;
 import cn.loverqi.star.core.annotation.TableId;
+import cn.loverqi.star.core.annotation.TableName;
 import cn.loverqi.star.core.mybaties.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
 import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
@@ -34,7 +36,7 @@ public abstract class BasePojo implements Serializable {
     @JsonIgnore
     public String getTablename() {
         String simpleName = null;
-        Table annotation = AnnotationUtil.getAnnotation(getClass(), Table.class);
+        TableName annotation = AnnotationUtil.getAnnotation(getClass(), TableName.class);
         if (annotation != null) {
             simpleName = NameFormatConversionUtil.humpToLine(annotation.value());
         } else {
@@ -178,6 +180,31 @@ public abstract class BasePojo implements Serializable {
         }
 
         return fieldValue != null && "".equals(fieldValue) ? null : fieldValue;
+    }
+
+    /**
+     * 根据字段名获取字段的值
+     * @return 字段的值
+     */
+    @JsonIgnore
+    public T getTableFieldValue(String fieldName, Class<T> clszz) {
+        T fieldValue = null;
+        try {
+            Class<? extends BasePojo> clazz = getClass();
+            Field fieldId = clazz.getDeclaredField(fieldName);
+            if (fieldId != null) {
+                PropertyDescriptor pd = new PropertyDescriptor(fieldId.getName(), clazz);
+                Method method = pd.getReadMethod();//获得读方法  
+
+                Object invoke = method.invoke(this);
+
+                fieldValue = (T) invoke;
+            }
+        } catch (Exception e) {
+            throw new PojoStructureException("字段不存在", e);
+        }
+
+        return fieldValue;
     }
 
     /**

@@ -18,15 +18,18 @@ public class ExcelColumnMapping implements Serializable, Comparable<ExcelColumnM
     /** 排序字段*/
     private int order;
 
+    private boolean ifUtf;
+
     public ExcelColumnMapping() {
         super();
     }
 
-    public ExcelColumnMapping(String name, String fieldName, int order) {
+    public ExcelColumnMapping(String name, String fieldName, int order, boolean ifUtf) {
         super();
         this.name = name;
         this.fieldName = fieldName;
         this.order = order;
+        this.ifUtf = ifUtf;
     }
 
     public String getName() {
@@ -53,9 +56,17 @@ public class ExcelColumnMapping implements Serializable, Comparable<ExcelColumnM
         this.order = order;
     }
 
+    public boolean isIfUtf() {
+        return ifUtf;
+    }
+
+    public void setIfUtf(boolean ifUtf) {
+        this.ifUtf = ifUtf;
+    }
+
     @Override
     public int compareTo(ExcelColumnMapping o) {
-        return o.getOrder() - this.getOrder();
+        return this.getOrder() - o.getOrder();
     }
 
 }
