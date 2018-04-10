@@ -7,7 +7,9 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -50,6 +52,22 @@ public abstract class ExcelPojo extends BasePojo {
         Collections.sort(list);
 
         return list;
+    }
+
+    @JsonIgnore
+    public Map<String, ExcelColumnMapping> getExcelFieldsMap() {
+        Map<String, ExcelColumnMapping> map = new HashMap<String, ExcelColumnMapping>();
+        Field[] declaredField = getClass().getDeclaredFields();
+        for (Field field : declaredField) {
+            ExcelColumn annotation = AnnotationUtil.getAnnotation(field, ExcelColumn.class);
+            //根据注解判断当前字段是否需要隐藏
+            if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
+                map.put(annotation.value(),
+                        new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order()));
+            }
+        }
+
+        return map;
     }
 
     /**

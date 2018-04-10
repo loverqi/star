@@ -15,7 +15,6 @@ import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.Message;
 import cn.loverqi.star.service.BillService;
 import cn.loverqi.star.service.CustomerService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -26,7 +25,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("msg")
 @PreAuthorize("hasRole('ADMIN')")
-@Api(value = "消息管理", tags = "msg")
 public class MessageController {
 
     @Autowired

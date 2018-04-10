@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.loverqi.star.domain.UserInfo;
-import io.swagger.annotations.Api;
 
 /**
  * 登陆
@@ -17,7 +16,6 @@ import io.swagger.annotations.Api;
  */
 @Controller
 @RequestMapping("/")
-@Api(value = "登陆", tags = "login")
 public class LoginController {
 
     @RequestMapping(value = { "/", "/index.html" }, method = RequestMethod.GET)

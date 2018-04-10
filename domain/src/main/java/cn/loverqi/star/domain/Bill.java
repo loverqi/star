@@ -212,7 +212,7 @@ public class Bill extends ExcelPojo {
 
     public void setBillingStatusString(String billingStatusString) {
         String bsStr = "-";
-        switch (customerSourceString.trim()) {
+        switch (billingStatusString.trim()) {
         case "未打款":
             bsStr = "wdk";
             break;

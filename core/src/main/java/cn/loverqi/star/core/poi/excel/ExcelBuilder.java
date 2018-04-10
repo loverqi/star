@@ -1,23 +1,32 @@
 package cn.loverqi.star.core.poi.excel;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.loverqi.star.core.basepojo.ExcelPojo;
 import cn.loverqi.star.core.bean.ExcelColumnMapping;
@@ -101,20 +110,20 @@ public class ExcelBuilder {
      * @return
      * @throws IOException
      */
-    //    public static <T> List<T> readExcel(MultipartFile file, Class<T> clazz) {
-    //        List<T> list = new ArrayList<>();
-    //        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
-    //                .toLowerCase();
-    //        if ("xls".equals(extension) || "xlsx".equals(extension)) {
-    //            try {
-    //                T t = clazz.newInstance();
-    //                list = readExcel(file.getInputStream(), t);
-    //            } catch (IOException e) {
-    //            }
-    //        }
-    //
-    //        return list;
-    //    }
+    public static <T extends ExcelPojo> List<T> readExcel(MultipartFile file, Class<T> clazz) {
+        List<T> list = new ArrayList<T>();
+        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
+                .toLowerCase();
+        if ("xls".equals(extension) || "xlsx".equals(extension)) {
+            try {
+                list = readExcel(file.getInputStream(), clazz);
+            } catch (IOException | EncryptedDocumentException | InvalidFormatException | InstantiationException
+                    | IllegalAccessException e) {
+            }
+        }
+
+        return list;
+    }
 
     /**
      * 获取excel数据 将之转换成bean
@@ -122,103 +131,96 @@ public class ExcelBuilder {
      * @param cls
      * @param <T>
      * @return
+     * @throws IOException 
+     * @throws InvalidFormatException 
+     * @throws EncryptedDocumentException 
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    //    private static <T> List<T> readExcel(InputStream inputStream, T t) {
-    //        Workbook workbook =  WorkbookFactory.create(inputStream);
-    //            
-    //            
-    //            int sheetsNumber = workbook.getNumberOfSheets();
-    //            
-    //            for (int n = 0; n < sheetsNumber; n++) {
-    //                Sheet sheet = workbook.getSheetAt(n);
-    //                
-    //                for (int j = sheet.getRow(0).getFirstCellNum(); j < sheet.getRow(0).getLastCellNum(); j++) { //首行提取注解
-    //                    Object cellValue = getCellValue(sheet.getRow(0).getCell(j));
-    //                }
-    //                
-    //                Row row = null;
-    //                Cell cell = null;
-    //                for (int i = sheet.getFirstRowNum() + 1; i < sheet.getPhysicalNumberOfRows(); i++) {
-    //                    row = sheet.getRow(i);
-    //                    T t = cls.newInstance();
-    //                    for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
-    //                        cell = row.getCell(j);
-    //                        System.out.println(cell.getCellTypeEnum());
-    //                        System.out.println(cell.getCellStyle().getDataFormatString());
-    //                        if (reflectionMap.containsKey(j)) {
-    //                            Object cellValue = getCellValue(cell);
-    //                            List<Field> fieldList = reflectionMap.get(j);
-    //                            for (Field field : fieldList) {
-    //                                try {
-    //                                    field.set(t, cellValue);
-    //                                } catch (Exception e) {
-    //                                    //logger.error()
-    //                                }
-    //                            }
-    //                        }
-    //                    }
-    //                    dataList.add(t);
-    //                }
-    //            }
-    //        }catch(
-    //
-    //    Exception e)
-    //    {
-    //        dataList = null;
-    //    }finally
-    //    {
-    //        IOUtils.closeQuietly(workbook);
-    //        IOUtils.closeQuietly(inputStream);
-    //    }return dataList;
-    //    }
-    //
-    //    /**
-    //     * 获取excel 单元格数据
-    //     * @param cell
-    //     * @return
-    //     */
-    //    private static Object getCellValue(Cell cell) {
-    //        Object value = null;
-    //        switch (cell.getCellTypeEnum()) {
-    //        case _NONE:
-    //            break;
-    //        case STRING:
-    //            value = cell.getStringCellValue();
-    //            break;
-    //        case NUMERIC:
-    //            if (DateUtil.isCellDateFormatted(cell)) { //日期
-    //                value = sdf.format(DateUtil.getJavaDate(cell.getNumericCellValue()));
-    //            } else if ("@".equals(cell.getCellStyle().getDataFormatString())
-    //                    || "General".equals(cell.getCellStyle().getDataFormatString())
-    //                    || "0_ ".equals(cell.getCellStyle().getDataFormatString())) {
-    //                //文本  or 常规 or 整型数值
-    //                value = df.format(cell.getNumericCellValue());
-    //            } else if (points_ptrn.matcher(cell.getCellStyle().getDataFormatString()).matches()) { //正则匹配小数类型 
-    //                value = cell.getNumericCellValue(); //直接显示
-    //            } else if ("0.00E+00".equals(cell.getCellStyle().getDataFormatString())) {//科学计数
-    //                value = cell.getNumericCellValue(); //待完善           
-    //                value = sc_number.format(value);
-    //            } else if ("0.00%".equals(cell.getCellStyle().getDataFormatString())) {//百分比                      
-    //                value = cell.getNumericCellValue(); //待完善
-    //                value = df_per.format(value);
-    //            } else if ("# ?/?".equals(cell.getCellStyle().getDataFormatString())) {//分数
-    //                value = cell.getNumericCellValue(); ////待完善
-    //            } else { //货币       
-    //                value = cell.getNumericCellValue();
-    //                value = DecimalFormat.getCurrencyInstance().format(value);
-    //            }
-    //            break;
-    //        case BOOLEAN:
-    //            value = cell.getBooleanCellValue();
-    //            break;
-    //        case BLANK:
-    //            //value = ",";
-    //            break;
-    //        default:
-    //            value = cell.toString();
-    //        }
-    //        return value;
-    //    }
+    private static <T extends ExcelPojo> List<T> readExcel(InputStream inputStream, Class<T> clazz)
+            throws EncryptedDocumentException, InvalidFormatException, IOException, InstantiationException,
+            IllegalAccessException {
+        List<T> list = new ArrayList<T>();
+        T t = clazz.newInstance();
+        Workbook workbook = WorkbookFactory.create(inputStream);
+        Map<String, ExcelColumnMapping> excelFieldsMap = t.getExcelFieldsMap();
+        Sheet sheet = workbook.getSheetAt(0);
+        Row row = sheet.getRow(1);
+        List<ExcelColumnMapping> excelList = new ArrayList<ExcelColumnMapping>();
+        for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) { //首行提取注解
+            String cellValue = getCellValue(row.getCell(i)).toString();
+
+            ExcelColumnMapping excelColumnMapping = excelFieldsMap.get(cellValue);
+            if (excelColumnMapping != null) {
+                excelColumnMapping.setOrder(i);
+                excelList.add(excelColumnMapping);
+            }
+        }
+        Collections.sort(excelList);
+
+        Cell cell = null;
+
+        for (int i = sheet.getFirstRowNum() + 2; i < sheet.getPhysicalNumberOfRows(); i++) {
+            row = sheet.getRow(i);
+            t = clazz.newInstance();
+            for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
+                cell = row.getCell(j);
+                t.setFieldValueByKey(excelList.get(j).getFieldName(), getCellValue(cell));
+                list.add(t);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * 获取excel 单元格数据
+     * @param cell
+     * @return
+     */
+    private static Object getCellValue(Cell cell) {
+        Object value = null;
+        switch (cell.getCellTypeEnum()) {
+        case _NONE:
+            break;
+        case STRING:
+            value = cell.getStringCellValue();
+            break;
+        case NUMERIC:
+            if (DateUtil.isCellDateFormatted(cell)) { //日期
+                value = sdf.format(DateUtil.getJavaDate(cell.getNumericCellValue()));
+            } else if ("@".equals(cell.getCellStyle().getDataFormatString())
+                    || "General".equals(cell.getCellStyle().getDataFormatString())
+                    || "0_ ".equals(cell.getCellStyle().getDataFormatString())) {
+                //文本  or 常规 or 整型数值
+                value = df.format(cell.getNumericCellValue());
+            } else if (points_ptrn.matcher(cell.getCellStyle().getDataFormatString()).matches()) { //正则匹配小数类型 
+                value = cell.getNumericCellValue(); //直接显示
+            } else if ("0.00E+00".equals(cell.getCellStyle().getDataFormatString())) {//科学计数
+                value = cell.getNumericCellValue(); //待完善           
+                value = sc_number.format(value);
+            } else if ("0.00%".equals(cell.getCellStyle().getDataFormatString())) {//百分比                      
+                value = cell.getNumericCellValue(); //待完善
+                value = df_per.format(value);
+            } else if ("# ?/?".equals(cell.getCellStyle().getDataFormatString())) {//分数
+                value = cell.getNumericCellValue(); ////待完善
+            } else { //货币       
+                value = cell.getNumericCellValue();
+                value = DecimalFormat.getCurrencyInstance().format(value);
+            }
+            break;
+        case BOOLEAN:
+            value = cell.getBooleanCellValue();
+            break;
+        case BLANK:
+            //value = ",";
+            break;
+        default:
+            value = cell.toString();
+        }
+
+        return value;
+    }
 
     private static CellStyle getTitleStyle(Workbook book) {
         //设置字体
