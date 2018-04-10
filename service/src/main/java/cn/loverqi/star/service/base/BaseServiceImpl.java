@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.bean.ResponsePageData;
+import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.mybaties.mapper.BaseMapper;
-import cn.loverqi.star.core.mybaties.pojo.Example;
-import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
 
 /**
  * 通用操作的
@@ -18,7 +18,7 @@ import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
  * @author loverqi
  * @date 2018年1月19日
  */
-public abstract class BaseServiceImpl<T extends MyBatisPojo> implements BaseService<T> {
+public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService<T> {
 
     @Autowired
     protected BaseMapper<T> baseMapper;
@@ -68,7 +68,7 @@ public abstract class BaseServiceImpl<T extends MyBatisPojo> implements BaseServ
 
         return insertSelectiveWithGeneratedKeys;
     }
-    
+
     /**
      * 根据主键获取对象的方法
      * @param 对象

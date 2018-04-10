@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
-import cn.loverqi.star.core.mybaties.pojo.Example;
-import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
+import cn.loverqi.star.core.basepojo.BasePojo;
+import cn.loverqi.star.core.mybaties.example.Example;
 
 /**
  * 数据库通用操作类
@@ -19,7 +19,7 @@ import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
  * @date 2018年1月9日
  */
 @Mapper
-public interface BaseMapper<T extends MyBatisPojo> {
+public interface BaseMapper<T extends BasePojo> {
 
     /**
      * 插入对象, 不会将自定义主键赋值

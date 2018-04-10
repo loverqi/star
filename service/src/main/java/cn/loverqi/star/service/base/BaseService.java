@@ -2,9 +2,9 @@ package cn.loverqi.star.service.base;
 
 import java.util.List;
 
+import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.bean.ResponsePageData;
-import cn.loverqi.star.core.mybaties.pojo.Example;
-import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
+import cn.loverqi.star.core.mybaties.example.Example;
 
 /**
  * 通用操作接口
@@ -12,15 +12,15 @@ import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
  * @author loverqi
  * @date 2018年1月19日
  */
-public interface BaseService<T extends MyBatisPojo> {
-    
+public interface BaseService<T extends BasePojo> {
+
     /**
      * 插入对象, 不会将自定义主键赋值
      * @param record 需要插入的对象
      * @return 插入成功的条数
      */
     int insert(T record);
-    
+
     /**
      * 插入对象，会将自定义主键赋值
      * @param record 需要插入的对象
@@ -34,7 +34,7 @@ public interface BaseService<T extends MyBatisPojo> {
      * @return 插入成功的条数
      */
     int insertSelective(T record);
-    
+
     /**
      *  插入对象，仅插入对象非空的属性, 会将自定义主键赋值
      * @param record 需要插入的对象

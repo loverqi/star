@@ -3,14 +3,14 @@ package cn.loverqi.star.domain;
 import java.util.Date;
 
 import cn.loverqi.star.core.annotation.FieldIgnore;
-import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
+import cn.loverqi.star.core.basepojo.BasePojo;
 
 /**
  * 客户类
  * @author LoverQi
  * @date 2018年4月3日
  */
-public class Customer extends MyBatisPojo {
+public class Customer extends BasePojo {
     private static final long serialVersionUID = 4087956886528178194L;
 
     private Integer id;

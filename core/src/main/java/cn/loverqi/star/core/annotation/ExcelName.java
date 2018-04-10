@@ -7,13 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 属性隐藏自定义注解
- * @author loverqi
- * @date 2018年1月16日
+ * 使用poi导出的时候，用于指定excel文件的标题名
+ * @author LoverQi
+ * @date 2018年4月8日
  */
-@Target(ElementType.FIELD)
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FieldIgnore {
+public @interface ExcelName {
+    /**
+     * @return  文件的标题名
+     */
+    public String value() default "";
 
 }

@@ -1,30 +1,33 @@
 package cn.loverqi.star.domain;
 
 import cn.loverqi.star.core.annotation.ExcelColumn;
+import cn.loverqi.star.core.basepojo.ExcelPojo;
 
 /**
- * 
+ * 测试的账户
  * @author LoverQi
  * @date 2018年4月8日
  */
-public class RefPartExcel {
+public class RefPartExcel extends ExcelPojo {
 
-    @ExcelColumn("原零件号")
+    private static final long serialVersionUID = -7269708280850428947L;
+
+    @ExcelColumn(value = "原零件号", order = 1)
     private String partNo;
 
-    @ExcelColumn("原零件名称")
+    @ExcelColumn(value = "原零件名称", order = 1)
     private String partName;
 
-    @ExcelColumn("参考零件号")
+    @ExcelColumn(value = "参考零件号", order = 1)
     private String refPartNo;
 
-    @ExcelColumn("参考零件名称")
+    @ExcelColumn(value = "参考零件名称", order = 1)
     private String refPartName;;
 
-    @ExcelColumn("长")
+    @ExcelColumn(value = "长", order = 1)
     private String length;
 
-    @ExcelColumn("宽")
+    @ExcelColumn(value = "宽", order = 1)
     private String width;
 
     public String getPartNo() {

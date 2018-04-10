@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.loverqi.star.core.bean.ResponseData;
-import cn.loverqi.star.core.mybaties.pojo.Example;
+import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.domain.Bill;
 import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.Message;

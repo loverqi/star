@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.jdbc.SQL;
 
-import cn.loverqi.star.core.mybaties.pojo.Example;
-import cn.loverqi.star.core.mybaties.pojo.Example.Criterion;
-import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
+import cn.loverqi.star.core.basepojo.BasePojo;
+import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.mybaties.example.Example.Criterion;
 import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
 import cn.loverqi.star.core.utils.StringUtil;
 
@@ -16,7 +16,7 @@ import cn.loverqi.star.core.utils.StringUtil;
  * @author loverqi
  * @date 2018年1月9日
  */
-public class BaseTemplate<T extends MyBatisPojo> {
+public class BaseTemplate<T extends BasePojo> {
 
     /**
      * 插入对象

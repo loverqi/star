@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.mybaties.pojo;
+package cn.loverqi.star.core.basepojo;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
@@ -22,7 +22,7 @@ import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
  * @author loverqi
  * @date 2018年1月9日
  */
-public abstract class MyBatisPojo implements Serializable {
+public abstract class BasePojo implements Serializable {
 
     private static final long serialVersionUID = 7017005956368469919L;
 
@@ -36,7 +36,7 @@ public abstract class MyBatisPojo implements Serializable {
         String simpleName = null;
         Table annotation = AnnotationUtil.getAnnotation(getClass(), Table.class);
         if (annotation != null) {
-            simpleName = NameFormatConversionUtil.humpToLine(annotation.tableName());
+            simpleName = NameFormatConversionUtil.humpToLine(annotation.value());
         } else {
             simpleName = getClass().getSimpleName();
         }
@@ -163,7 +163,7 @@ public abstract class MyBatisPojo implements Serializable {
 
         String fieldValue = null;
         try {
-            Class<? extends MyBatisPojo> clazz = getClass();
+            Class<? extends BasePojo> clazz = getClass();
             Field fieldId = clazz.getDeclaredField(fieldName);
             if (fieldId != null) {
                 PropertyDescriptor pd = new PropertyDescriptor(fieldId.getName(), clazz);
@@ -192,7 +192,7 @@ public abstract class MyBatisPojo implements Serializable {
         }
 
         try {
-            Class<? extends MyBatisPojo> clazz = getClass();
+            Class<? extends BasePojo> clazz = getClass();
 
             Field field = clazz.getDeclaredField(fieldName);
             if (field != null) {

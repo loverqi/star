@@ -13,14 +13,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import cn.loverqi.star.core.mybaties.pojo.MyBatisPojo;
+import cn.loverqi.star.core.basepojo.BasePojo;
 
 /**
  * 用户实体类
  * @author LoverQi
  * @date 2018年3月28日
  */
-public class UserInfo extends MyBatisPojo implements UserDetails {
+public class UserInfo extends BasePojo implements UserDetails {
 
     private static final long serialVersionUID = 1694602064261623685L;
 

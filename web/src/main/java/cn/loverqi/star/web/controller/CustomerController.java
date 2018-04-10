@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
-import cn.loverqi.star.core.mybaties.pojo.Example;
+import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.UserInfo;

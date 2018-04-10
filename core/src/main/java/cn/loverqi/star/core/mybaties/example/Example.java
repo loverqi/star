@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.mybaties.pojo;
+package cn.loverqi.star.core.mybaties.example;
 
 import java.util.ArrayList;
 import java.util.List;
