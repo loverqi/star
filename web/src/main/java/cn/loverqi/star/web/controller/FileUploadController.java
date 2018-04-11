@@ -55,7 +55,7 @@ public class FileUploadController {
         if ("xls".equals(extension) || "xlsx".equals(extension)) {
             List<Bill> bills = ExcelBuilder.readExcel(file, Bill.class);
             for (Bill bill : bills) {
-                System.err.println(bill.getCreateDate());
+                System.err.println(bill.toString());
             }
         }
 

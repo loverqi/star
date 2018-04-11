@@ -3,20 +3,17 @@ package cn.loverqi.star.core.poi.excel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -30,6 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cn.loverqi.star.core.basepojo.ExcelPojo;
 import cn.loverqi.star.core.bean.ExcelColumnMapping;
+import cn.loverqi.star.core.utils.ConstantUtil;
+import cn.loverqi.star.core.utils.DateUtil;
+import cn.loverqi.star.core.utils.StringUtil;
 
 /**
  * 对于excel的静态支持类
@@ -79,7 +79,7 @@ public class ExcelBuilder {
             for (int j = 0; j < exms.size(); j++) {
                 ExcelColumnMapping ecm = exms.get(j);
                 Cell createCell = row.createCell(j);
-                createCell.setCellValue(tTemp.getExcelFieldsList(ecm.getFieldName()));
+                createCell.setCellValue(tTemp.getExcelFieldValue(ecm.getFieldName()));
                 createCell.setCellStyle(getNoteStyle(book));
             }
         }
@@ -96,12 +96,6 @@ public class ExcelBuilder {
             IOUtils.closeQuietly(os);
         }
     }
-
-    private static final DecimalFormat df = new DecimalFormat("0");// 格式化 number为整
-    private static final DecimalFormat df_per = new DecimalFormat("##.00%");//格式化分比格式，后面不足2位的用0补齐
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化日期字符串
-    private static final DecimalFormat sc_number = new DecimalFormat("0.00E000"); //格式化科学计数器
-    private static final Pattern points_ptrn = Pattern.compile("0.0+_*[^/s]+");
 
     /**
      * 对外提供读取excel 的方法
@@ -148,7 +142,7 @@ public class ExcelBuilder {
         Row row = sheet.getRow(1);
         List<ExcelColumnMapping> excelList = new ArrayList<ExcelColumnMapping>();
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) { //首行提取注解
-            String cellValue = getCellValue(row.getCell(i)).toString();
+            String cellValue = getCellValue(row.getCell(i), String.class);
 
             ExcelColumnMapping excelColumnMapping = excelFieldsMap.get(cellValue);
             if (excelColumnMapping != null) {
@@ -165,7 +159,7 @@ public class ExcelBuilder {
             t = clazz.newInstance();
             for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
                 cell = row.getCell(j);
-                t.setFieldValueByKey(excelList.get(j).getFieldName(), getCellValue(cell));
+                t.setFieldValueByKey(excelList.get(j).getFieldName(), getCellValue(cell, excelList.get(j).getType()));
                 list.add(t);
             }
         }
@@ -177,49 +171,33 @@ public class ExcelBuilder {
      * 获取excel 单元格数据
      * @param cell
      * @return
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
      */
-    private static Object getCellValue(Cell cell) {
-        Object value = null;
-        switch (cell.getCellTypeEnum()) {
-        case _NONE:
-            break;
-        case STRING:
-            value = cell.getStringCellValue();
-            break;
-        case NUMERIC:
-            if (DateUtil.isCellDateFormatted(cell)) { //日期
-                value = sdf.format(DateUtil.getJavaDate(cell.getNumericCellValue()));
-            } else if ("@".equals(cell.getCellStyle().getDataFormatString())
-                    || "General".equals(cell.getCellStyle().getDataFormatString())
-                    || "0_ ".equals(cell.getCellStyle().getDataFormatString())) {
-                //文本  or 常规 or 整型数值
-                value = df.format(cell.getNumericCellValue());
-            } else if (points_ptrn.matcher(cell.getCellStyle().getDataFormatString()).matches()) { //正则匹配小数类型 
-                value = cell.getNumericCellValue(); //直接显示
-            } else if ("0.00E+00".equals(cell.getCellStyle().getDataFormatString())) {//科学计数
-                value = cell.getNumericCellValue(); //待完善           
-                value = sc_number.format(value);
-            } else if ("0.00%".equals(cell.getCellStyle().getDataFormatString())) {//百分比                      
-                value = cell.getNumericCellValue(); //待完善
-                value = df_per.format(value);
-            } else if ("# ?/?".equals(cell.getCellStyle().getDataFormatString())) {//分数
-                value = cell.getNumericCellValue(); ////待完善
-            } else { //货币       
-                value = cell.getNumericCellValue();
-                value = DecimalFormat.getCurrencyInstance().format(value);
+    @SuppressWarnings("unchecked")
+    private static <E> E getCellValue(Cell cell, Class<E> clazz) throws InstantiationException, IllegalAccessException {
+        E e = null;
+        String valueStr = cell.getStringCellValue();
+        if (StringUtil.isNotNull(valueStr) && clazz != null) {
+            if (String.class.equals(clazz)) {
+                e = (E) valueStr;
+            } else if (Double.class.equals(clazz)) {
+                Double dvalue = Double.valueOf(valueStr);
+                e = (E) dvalue;
+            } else if (Integer.class.equals(clazz)) {
+                Integer ivalue = Integer.valueOf(valueStr);
+                e = (E) ivalue;
+            } else if (Boolean.class.equals(clazz)) {
+                Boolean bvalue = Boolean.valueOf(valueStr);
+                e = (E) bvalue;
+            } else if (Date.class.equals(clazz)) {
+                Date dvalue = DateUtil.parse(valueStr, ConstantUtil.DATE_FMT_SECOND);
+                e = (E) dvalue;
             }
-            break;
-        case BOOLEAN:
-            value = cell.getBooleanCellValue();
-            break;
-        case BLANK:
-            //value = ",";
-            break;
-        default:
-            value = cell.toString();
         }
 
-        return value;
+        return e;
+
     }
 
     private static CellStyle getTitleStyle(Workbook book) {

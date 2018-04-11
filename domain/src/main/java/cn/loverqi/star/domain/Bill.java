@@ -224,4 +224,14 @@ public class Bill extends ExcelPojo {
         this.billingStatus = bsStr;
     }
 
+    @Override
+    public String toString() {
+        return "Bill [id=" + id + ", wechatNumber=" + wechatNumber + ", wechatName=" + wechatName + ", imgPath="
+                + imgPath + ", peopleNumber=" + peopleNumber + ", moneySum=" + moneySum + ", createUser=" + createUser
+                + ", createUserName=" + createUserName + ", createUserBean=" + createUserBean + ", createDate="
+                + createDate + ", customerSourceString=" + customerSourceString + ", customerSource=" + customerSource
+                + ", billingStatus=" + billingStatus + ", billingStatusString=" + billingStatusString + ", ifSee="
+                + ifSee + "]";
+    }
+
 }

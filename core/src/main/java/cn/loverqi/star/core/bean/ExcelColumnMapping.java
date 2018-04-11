@@ -17,18 +17,18 @@ public class ExcelColumnMapping implements Serializable, Comparable<ExcelColumnM
     private String fieldName;
     /** 排序字段*/
     private int order;
-
-    private int fieldLen;
+    private Class<?> type;
 
     public ExcelColumnMapping() {
         super();
     }
 
-    public ExcelColumnMapping(String name, String fieldName, int order) {
+    public ExcelColumnMapping(String name, String fieldName, int order, Class<?> type) {
         super();
         this.name = name;
         this.fieldName = fieldName;
         this.order = order;
+        this.type = type;
     }
 
     public String getName() {
@@ -55,12 +55,12 @@ public class ExcelColumnMapping implements Serializable, Comparable<ExcelColumnM
         this.order = order;
     }
 
-    public int getFieldLen() {
-        return fieldLen;
+    public Class<?> getType() {
+        return type;
     }
 
-    public void setFieldLen(int fieldLen) {
-        this.fieldLen = fieldLen;
+    public void setType(Class<?> type) {
+        this.type = type;
     }
 
     @Override

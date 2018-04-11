@@ -44,7 +44,8 @@ public abstract class ExcelPojo extends BasePojo {
             ExcelColumn annotation = AnnotationUtil.getAnnotation(field, ExcelColumn.class);
             //根据注解判断当前字段是否需要隐藏
             if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
-                list.add(new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order()));
+                list.add(new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order(),
+                        field.getType()));
             }
         }
 
@@ -62,8 +63,8 @@ public abstract class ExcelPojo extends BasePojo {
             ExcelColumn annotation = AnnotationUtil.getAnnotation(field, ExcelColumn.class);
             //根据注解判断当前字段是否需要隐藏
             if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
-                map.put(annotation.value(),
-                        new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order()));
+                map.put(annotation.value(), new ExcelColumnMapping(annotation.value(), field.getName(),
+                        annotation.order(), field.getType()));
             }
         }
 
@@ -91,7 +92,7 @@ public abstract class ExcelPojo extends BasePojo {
      * @return 字段的值
      */
     @JsonIgnore
-    public String getExcelFieldsList(String fieldName) {
+    public String getExcelFieldValue(String fieldName) {
         String fieldValue = null;
         try {
             Class<? extends BasePojo> clazz = getClass();
