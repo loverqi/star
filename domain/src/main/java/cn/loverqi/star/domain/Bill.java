@@ -6,13 +6,14 @@ import cn.loverqi.star.core.annotation.ExcelColumn;
 import cn.loverqi.star.core.annotation.ExcelName;
 import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.basepojo.ExcelPojo;
+import cn.loverqi.star.core.utils.StringUtil;
 
 /**
  * 账单类
  * @author LoverQi
  * @date 2018年4月3日
  */
-@ExcelName("账单")
+@ExcelName("林晟传媒账单详情")
 public class Bill extends ExcelPojo {
     private static final long serialVersionUID = -5020016840646173358L;
 
@@ -38,7 +39,7 @@ public class Bill extends ExcelPojo {
     private Integer createUser;
 
     @FieldIgnore
-    @ExcelColumn(value = "创建人", order = 5)
+    @ExcelColumn(value = "创建人", order = 5, width = 6)
     private String createUserName;
 
     /** 创建人*/
@@ -51,7 +52,7 @@ public class Bill extends ExcelPojo {
 
     /** 客户来源*/
     @FieldIgnore
-    @ExcelColumn(value = "客户来源", order = 7)
+    @ExcelColumn(value = "客户来源", order = 7, width = 5)
     private String customerSourceString;
 
     private String customerSource;
@@ -60,7 +61,7 @@ public class Bill extends ExcelPojo {
     private String billingStatus;
 
     @FieldIgnore
-    @ExcelColumn(value = "账单状态", order = 8)
+    @ExcelColumn(value = "账单状态", order = 8, width = 6)
     private String billingStatusString;
 
     private boolean ifSee;
@@ -171,13 +172,15 @@ public class Bill extends ExcelPojo {
 
     public String getCustomerSourceString() {
         String csStr = "-";
-        switch (customerSource) {
-        case "tg":
-            csStr = "推广";
-            break;
-        case "dd":
-            csStr = "单导";
-            break;
+        if (StringUtil.isNotNull(customerSource)) {
+            switch (customerSource) {
+            case "tg":
+                csStr = "推广";
+                break;
+            case "dd":
+                csStr = "单导";
+                break;
+            }
         }
         return csStr;
     }
@@ -198,13 +201,15 @@ public class Bill extends ExcelPojo {
 
     public String getBillingStatusString() {
         String bsStr = "-";
-        switch (billingStatus) {
-        case "wdk":
-            bsStr = "未打款";
-            break;
-        case "ydk":
-            bsStr = "已打款";
-            break;
+        if (StringUtil.isNotNull(billingStatus)) {
+            switch (billingStatus) {
+            case "wdk":
+                bsStr = "未打款";
+                break;
+            case "ydk":
+                bsStr = "已打款";
+                break;
+            }
         }
 
         return bsStr;
@@ -222,16 +227,6 @@ public class Bill extends ExcelPojo {
         }
         this.billingStatusString = billingStatusString.trim();
         this.billingStatus = bsStr;
-    }
-
-    @Override
-    public String toString() {
-        return "Bill [id=" + id + ", wechatNumber=" + wechatNumber + ", wechatName=" + wechatName + ", imgPath="
-                + imgPath + ", peopleNumber=" + peopleNumber + ", moneySum=" + moneySum + ", createUser=" + createUser
-                + ", createUserName=" + createUserName + ", createUserBean=" + createUserBean + ", createDate="
-                + createDate + ", customerSourceString=" + customerSourceString + ", customerSource=" + customerSource
-                + ", billingStatus=" + billingStatus + ", billingStatusString=" + billingStatusString + ", ifSee="
-                + ifSee + "]";
     }
 
 }

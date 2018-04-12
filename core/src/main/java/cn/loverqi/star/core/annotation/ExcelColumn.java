@@ -24,4 +24,9 @@ public @interface ExcelColumn {
      * @return 字段的排序
      */
     public int order() default 0;
+
+    /**
+     * @return 字段的宽度
+     */
+    public int width() default 0;
 }

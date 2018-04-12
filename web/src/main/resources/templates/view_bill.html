@@ -51,6 +51,13 @@
 					<a href="javascript:void(0)">查询账单</a>
 				</li>
 			</ul>
+			<div class="nav-search" id="nav-search" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}">
+				<button class="btn btn-xs center" title="导出" onclick="download()">
+					<i class="fa-download fa fa-trash-o"></i>
+				</button>
+			</div>
+
+
 			<!-- /.breadcrumb -->
 
 			<div class="page-content">
@@ -217,6 +224,12 @@
 		<script src="/assets/js/date-time/moment.min.js"></script>
 		<script src="/assets/js/date-time/daterangepicker.min.js"></script>
 		<script src="/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
+		<script src="/assets/js/downloadfile.min.js" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}"></script>
+		<script type="text/javascript" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}">
+			function download(){
+				$.download('/bill/downloadFile.do',$("#form1").serialize(),'post');
+			}
+		</script>
 		<script type="text/javascript">
 		function deleteBill(btn){
 			$.ajax({

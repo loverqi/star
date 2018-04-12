@@ -51,6 +51,15 @@
 					<a href="javascript:void(0)">查询客户</a>
 				</li>
 			</ul>
+			<input id="input_file" name="file" type="file" class="hidden" accept=".xls" onchange="changeFile(this)" />
+			<div class="nav-search" id="nav-search" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}">
+				<button class="btn btn-xs center" title="导入" onclick="$('#input_file').click();">
+					<i class="fa-upload fa fa-trash-o"></i>
+				</button>
+				<button class="btn btn-xs center" title="导出" onclick="download()">
+					<i class="fa-download fa fa-trash-o"></i>
+				</button>
+			</div>
 			<!-- /.breadcrumb -->
 
 			<div class="page-content">
@@ -215,6 +224,38 @@
 		<script src="/assets/js/date-time/moment.min.js"></script>
 		<script src="/assets/js/date-time/daterangepicker.min.js"></script>
 		<script src="/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
+		<script src="/assets/js/ajaxfileupload.min.js"
+			th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}"></script>
+		<script src="/assets/js/downloadfile.min.js" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}"></script>
+		<script type="text/javascript" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}">
+			function changeFile(input) {
+				var file = input.files[0];//上传的图片的所有信息
+				if (file.type!='application/vnd.ms-excel') {
+					alert('上传文件必须是xls格式');
+				} else {
+					$.ajaxFileUpload({
+						url : '/customer/uploadFile.do', //用于文件上传的服务器端请求地址
+						secureuri : false, //是否需要安全协议，一般设置为false
+						fileElementId : 'input_file', //文件上传域的ID
+						dataType : 'json', //返回值类型 一般设置为json
+						success : function(data) {
+							if (data.code == 0) {
+								alert(data.data);
+								$("#form1").submit();
+							} else{
+								alert("导入失败请重试");
+							}
+						},
+						error : function(data) {
+							alert("网络超时");
+						}
+					})
+				}
+			}
+			function download(){
+				$.download('/customer/downloadFile.do',$("#form1").serialize(),'post');
+			}
+		</script>
 		<script type="text/javascript">
 		function deleteCostomer(btn){
 			$.ajax({

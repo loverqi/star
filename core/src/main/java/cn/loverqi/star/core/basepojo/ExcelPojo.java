@@ -45,7 +45,7 @@ public abstract class ExcelPojo extends BasePojo {
             //根据注解判断当前字段是否需要隐藏
             if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
                 list.add(new ExcelColumnMapping(annotation.value(), field.getName(), annotation.order(),
-                        field.getType()));
+                        annotation.width(), field.getType()));
             }
         }
 
@@ -64,7 +64,7 @@ public abstract class ExcelPojo extends BasePojo {
             //根据注解判断当前字段是否需要隐藏
             if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
                 map.put(annotation.value(), new ExcelColumnMapping(annotation.value(), field.getName(),
-                        annotation.order(), field.getType()));
+                        annotation.order(), annotation.width(), field.getType()));
             }
         }
 

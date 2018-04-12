@@ -1,9 +1,13 @@
 package cn.loverqi.star.web.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +15,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.poi.excel.ExcelBuilder;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.UserInfo;
@@ -102,6 +108,92 @@ public class CustomerController {
         }
 
         return responseDate;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "上传用户", notes = "上传用户，code为0是成功")
+    @RequestMapping(value = "/uploadFile.do", method = RequestMethod.POST, headers = ("content-type=multipart/*"), consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", required = true, dataType = "file", paramType = "form"), })
+    public @ResponseBody ResponseData<String> uploadFile(MultipartFile file) {
+        ResponseData<String> responseDate = new ResponseData<String>();
+        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
+                .toLowerCase();
+        if ("xls".equals(extension) || "xlsx".equals(extension)) {
+            List<Customer> customers = ExcelBuilder.readExcel(file, Customer.class);
+            int insert = 0;
+            for (Customer customer : customers) {
+                customer.setCreateUser(SecurityUtil.getUser().getId());
+                if (StringUtil.isNotNull(customer.getQqName()) || StringUtil.isNotNull(customer.getWechatNumber())) {
+                    Example example1 = new Example();
+                    example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber());
+                    Example example2 = new Example();
+                    example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber());
+                    List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
+                    List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
+                    if ((customers1 == null || customers1.size() < 1)
+                            && (customers2 == null || customers2.size() < 1)) {
+                        customer.setCreateDate(new Date());
+                        customer.setCreateUser(SecurityUtil.getUser().getId());
+                        insert += customerService.insertSelective(customer);
+                    }
+                }
+            }
+
+            responseDate.setData("共插入[" + insert + "]条客户数据");
+        }
+
+        return responseDate;
+    }
+
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/downloadFile.do", method = { RequestMethod.POST })
+    public void downloadFile(@ModelAttribute CustomerParam param, HttpServletResponse response, Model model) {
+
+        Example example = new Example();
+        example.setDESCOrderByClause("createDate");
+        if (StringUtil.isNotNull(param.getQqNumber())) {
+            example.createCriteria().andFieldEqualTo("qqNumber", param.getQqNumber());
+        }
+        if (StringUtil.isNotNull(param.getQqName())) {
+            example.createCriteria().andFieldLike("qqName", "%" + param.getQqName() + "%");
+        }
+        if (StringUtil.isNotNull(param.getWechatNumber())) {
+            example.createCriteria().andFieldEqualTo("wechatNumber", param.getWechatNumber());
+        }
+        if (StringUtil.isNotNull(param.getWechatName())) {
+            example.createCriteria().andFieldLike("wechatName", "%" + param.getWechatName() + "%");
+        }
+        if (StringUtil.isNotNull(param.getCustomerSource())) {
+            example.createCriteria().andFieldEqualTo("customerSource", param.getCustomerSource());
+        }
+        if (StringUtil.isNotNull(param.getCustomerType())) {
+            example.createCriteria().andFieldEqualTo("customerType", param.getCustomerType());
+        }
+        if (StringUtil.isNotNull(param.getStartTime())) {
+            example.createCriteria().andFieldGreaterThanOrEqualTo("createDate", param.getStartTime());
+        }
+        if (StringUtil.isNotNull(param.getEndTime())) {
+            example.createCriteria().andFieldLessThan("createDate", param.getEndTime());
+        }
+        if (param.getCreateUser() != null) {
+            example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
+        }
+
+        List<Customer> datas = customerService.selectByExample(Customer.class, example);
+
+        try {
+            //设置响应头和客户端保存文件名
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/octet-stream; charset=utf-8");
+            response.setHeader("Content-Disposition",
+                    "attachment;fileName=" + new String("林晟传媒客户详情导出.xls".getBytes("utf-8"), "iso-8859-1"));
+
+            ExcelBuilder.exportExcel(response.getOutputStream(), Customer.class, datas);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/create_customer.html", method = { RequestMethod.GET, RequestMethod.POST })

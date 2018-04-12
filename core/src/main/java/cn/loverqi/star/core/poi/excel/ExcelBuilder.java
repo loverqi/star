@@ -45,10 +45,16 @@ public class ExcelBuilder {
      * @throws InstantiationException 
      * @throws IOException
      */
-    public static <T extends ExcelPojo> void exportExcel(OutputStream os, Class<T> clazz, List<T> list)
-            throws InstantiationException, IllegalAccessException {
+    public static <T extends ExcelPojo> void exportExcel(OutputStream os, Class<T> clazz, List<T> list) {
 
-        T t = clazz.newInstance();
+        T t = null;
+        try {
+            t = clazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet(t.getExcelName());
@@ -85,7 +91,12 @@ public class ExcelBuilder {
         }
 
         for (int i = 0; i < exms.size(); i++) {
-            sheet.autoSizeColumn(i, true);
+            ExcelColumnMapping ecm = exms.get(i);
+            if (ecm.getWidth() == 0) {
+                sheet.autoSizeColumn(i, true);
+            } else {
+                sheet.setColumnWidth(i, ecm.getWidth() * 2 * 256);
+            }
         }
 
         try {

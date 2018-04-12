@@ -1,8 +1,11 @@
 package cn.loverqi.star.web.controller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +20,7 @@ import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.poi.excel.ExcelBuilder;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Bill;
 import cn.loverqi.star.domain.NumberData;
@@ -63,6 +67,50 @@ public class BillController {
         }
 
         return responseDate;
+    }
+
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/downloadFile.do", method = { RequestMethod.POST })
+    public void downloadFile(@ModelAttribute BillParam param, HttpServletResponse response, Model model) {
+
+        Example example = new Example();
+        example.setDESCOrderByClause("createDate");
+        if (StringUtil.isNotNull(param.getWechatNumber())) {
+            example.createCriteria().andFieldEqualTo("wechatNumber", param.getWechatNumber());
+        }
+        if (StringUtil.isNotNull(param.getWechatName())) {
+            example.createCriteria().andFieldLike("wechatName", "%" + param.getWechatName() + "%");
+        }
+        if (StringUtil.isNotNull(param.getCustomerSource())) {
+            example.createCriteria().andFieldEqualTo("customerSource", param.getCustomerSource());
+        }
+        if (StringUtil.isNotNull(param.getBillingStatus())) {
+            example.createCriteria().andFieldEqualTo("billingStatus", param.getBillingStatus());
+        }
+        if (StringUtil.isNotNull(param.getStartTime())) {
+            example.createCriteria().andFieldGreaterThanOrEqualTo("createDate", param.getStartTime());
+        }
+        if (StringUtil.isNotNull(param.getEndTime())) {
+            example.createCriteria().andFieldLessThan("createDate", param.getEndTime());
+        }
+        if (param.getCreateUser() != null) {
+            example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
+        }
+
+        List<Bill> datas = billService.selectByExample(Bill.class, example);
+
+        try {
+            //设置响应头和客户端保存文件名
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/octet-stream; charset=utf-8");
+            response.setHeader("Content-Disposition",
+                    "attachment;fileName=" + new String("林晟传媒账单详情导出.xls".getBytes("utf-8"), "iso-8859-1"));
+
+            ExcelBuilder.exportExcel(response.getOutputStream(), Bill.class, datas);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/create_bill.html", method = { RequestMethod.GET, RequestMethod.POST })

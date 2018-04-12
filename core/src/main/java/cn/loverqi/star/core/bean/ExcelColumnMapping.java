@@ -17,17 +17,20 @@ public class ExcelColumnMapping implements Serializable, Comparable<ExcelColumnM
     private String fieldName;
     /** 排序字段*/
     private int order;
+    /** 字段宽度*/
+    private int width;
     private Class<?> type;
 
     public ExcelColumnMapping() {
         super();
     }
 
-    public ExcelColumnMapping(String name, String fieldName, int order, Class<?> type) {
+    public ExcelColumnMapping(String name, String fieldName, int order, int width, Class<?> type) {
         super();
         this.name = name;
         this.fieldName = fieldName;
         this.order = order;
+        this.width = width;
         this.type = type;
     }
 
@@ -61,6 +64,14 @@ public class ExcelColumnMapping implements Serializable, Comparable<ExcelColumnM
 
     public void setType(Class<?> type) {
         this.type = type;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     @Override
