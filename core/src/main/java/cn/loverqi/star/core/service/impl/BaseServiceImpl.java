@@ -1,4 +1,4 @@
-package cn.loverqi.star.service.base;
+package cn.loverqi.star.core.service.impl;
 
 import java.util.List;
 
@@ -9,8 +9,9 @@ import com.github.pagehelper.PageInfo;
 
 import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.bean.ResponsePageData;
+import cn.loverqi.star.core.mapper.BaseMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
-import cn.loverqi.star.core.mybaties.mapper.BaseMapper;
+import cn.loverqi.star.core.service.BaseService;
 
 /**
  * 通用操作的

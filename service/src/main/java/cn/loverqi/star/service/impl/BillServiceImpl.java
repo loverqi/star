@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.service.impl.BaseServiceImpl;
 import cn.loverqi.star.domain.Bill;
 import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.mapper.UserInfoMapper;
 import cn.loverqi.star.service.BillService;
-import cn.loverqi.star.service.base.BaseServiceImpl;
 
 /**
  * 账单

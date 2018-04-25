@@ -1,6 +1,6 @@
 package cn.loverqi.star.mapper;
 
-import cn.loverqi.star.core.mybaties.mapper.BaseMapper;
+import cn.loverqi.star.core.mapper.BaseMapper;
 import cn.loverqi.star.domain.Bill;
 
 /** 账单管理类

@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.mybaties.mapper;
+package cn.loverqi.star.core.mapper;
 
 import java.util.List;
 

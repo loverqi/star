@@ -1,4 +1,4 @@
-package cn.loverqi.star.service.base;
+package cn.loverqi.star.core.service;
 
 import java.util.List;
 

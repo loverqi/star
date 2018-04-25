@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.service.impl.BaseServiceImpl;
 import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.UserInfoService;
-import cn.loverqi.star.service.base.BaseServiceImpl;
 
 /**
  * 用户

@@ -1,7 +1,7 @@
 package cn.loverqi.star.service;
 
+import cn.loverqi.star.core.service.BaseService;
 import cn.loverqi.star.domain.Bill;
-import cn.loverqi.star.service.base.BaseService;
 
 /**
  * 账单

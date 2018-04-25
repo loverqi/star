@@ -29,21 +29,24 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 
     //后置拦截
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
-             super.preHandle(request, response, handler);
-             return;
+            super.preHandle(request, response, handler);
+            return;
         }
-        HandlerMethod method = (HandlerMethod)handler;
-        MainAnnotation mainlog = method.getMethodAnnotation(MainAnnotation.class);
-        if(mainlog != null) {
-            String desc = mainlog.desc();
-            int maintype = mainlog.maintype();
-            String type = mainlog.type();
-            String tables = mainlog.tables();
-            String username = (String) request.getSession().getAttribute("username");
-            long costtime = (int) (System.currentTimeMillis()-get());
-            LogUtil.writeMainLog(new MainLogEntity(maintype, username, tables, desc, costtime),list);//异步插入数据库日志记录
-
-        }
+        HandlerMethod method = (HandlerMethod) handler;
+        //写入日志
+        //        MainAnnotation mainlog = method.getMethodAnnotation(MainAnnotation.class);
+        //        if(mainlog != null) {
+        //            String desc = mainlog.desc();
+        //            int maintype = mainlog.maintype();
+        //            String type = mainlog.type();
+        //            String tables = mainlog.tables();
+        //            String username = (String) request.getSession().getAttribute("username");
+        //            long costtime = (int) (System.currentTimeMillis()-get());
+        //            LogUtil.writeMainLog(new MainLogEntity(maintype, username, tables, desc, costtime),list);//异步插入数据库日志记录
+        //
+        //        }
     }
+}

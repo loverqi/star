@@ -1,7 +1,7 @@
 package cn.loverqi.star.service;
 
+import cn.loverqi.star.core.service.BaseService;
 import cn.loverqi.star.domain.UserInfo;
-import cn.loverqi.star.service.base.BaseService;
 
 /**
  * 用户
