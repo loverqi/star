@@ -1,6 +1,6 @@
 spring:
   profiles:
-      active: production
+      active: star
   aop:
     proxy-target-class: true
 
