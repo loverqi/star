@@ -331,6 +331,8 @@ public class CustomerController {
         ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(Customer.class, example,
                 param.getPage(), param.getPageSize());
 
+        int customerCount = customerService.selectCountByExample(Customer.class, example);
+
         if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
             for (Customer customerTemp : datas.getList()) {
                 customerTemp.setIfSee(true);
@@ -338,6 +340,7 @@ public class CustomerController {
             }
         }
 
+        model.addAttribute("customerCount", customerCount);
         model.addAttribute("param", param);
         model.addAttribute("datas", datas);
 
