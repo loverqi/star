@@ -68,14 +68,14 @@ public interface BaseService<T extends BasePojo> {
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    List<T> selectByExample(Class<T> t, Example example);
+    List<T> selectByExample(Example example);
 
     /**
      * 根据条件查询对象的方法, 支持分页
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    ResponsePageData<T> selectByExampleWithRowbounds(Class<T> t, Example example, int page, int pageSize);
+    ResponsePageData<T> selectByExampleWithRowbounds(Example example, int page, int pageSize);
 
     /**
      * 根据条件查询对象的方法, 支持分页
@@ -104,7 +104,7 @@ public interface BaseService<T extends BasePojo> {
      * @param example 更新的条件
      * @return 修改的对象数量
      */
-    int updateByExample(Class<T> t, Example example);
+    int updateByExample(Example example);
 
     /**
      * 根据条件更新对象的方法，仅更新对象非空的属性
@@ -112,7 +112,7 @@ public interface BaseService<T extends BasePojo> {
      * @param example 更新的条件
      * @return 修改的对象数量
      */
-    int updateByExampleSelective(Class<T> t, Example example);
+    int updateByExampleSelective(Example example);
 
     /**
      * 根据主键删除对象的方法
@@ -134,7 +134,7 @@ public interface BaseService<T extends BasePojo> {
      * @param example 删除的条件
      * @return 删除的对象的个数
      */
-    int deleteByExample(Class<T> t, Example example);
+    int deleteByExample(Example example);
 
     /**
      * 根据条件删除对象的方法
@@ -157,6 +157,6 @@ public interface BaseService<T extends BasePojo> {
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    int selectCountByExample(Class<T> t, Example example);
+    int selectCountByExample(Example example);
 
 }

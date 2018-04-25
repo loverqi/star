@@ -42,13 +42,13 @@ public class MessageController {
         Example example = new Example();
         example.createCriteria().andFieldEqualTo("ifSee", false);
 
-        List<Customer> customers = customerService.selectByExample(Customer.class, example);
+        List<Customer> customers = customerService.selectByExample(example);
         if (customers != null && customers.size() > 0) {
             message.setCuntomerMsgCount(customers.size());
             message.setCuntomerMsgDate(customers.get(customers.size() - 1).getCreateDate());
         }
 
-        List<Bill> bills = billService.selectByExample(Bill.class, example);
+        List<Bill> bills = billService.selectByExample(example);
         if (bills != null && bills.size() > 0) {
             message.setBillMsgCount(bills.size());
             message.setBillMsgDate(bills.get(bills.size() - 1).getCreateDate());

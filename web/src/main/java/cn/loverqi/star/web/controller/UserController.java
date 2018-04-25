@@ -20,8 +20,6 @@ import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.utils.StringUtil;
-import cn.loverqi.star.domain.Bill;
-import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.BillService;
 import cn.loverqi.star.service.CustomerService;
@@ -70,7 +68,7 @@ public class UserController {
                     Example example = new Example();
                     example.createCriteria().andFieldEqualTo("username", user.getUsername()).andFieldNotEqualTo("id",
                             user.getId());
-                    List<UserInfo> userInfos = userInfoService.selectByExample(UserInfo.class, example);
+                    List<UserInfo> userInfos = userInfoService.selectByExample(example);
                     if (userInfos == null || userInfos.size() < 1) {
                         insert = userInfoService.updateByPrimaryKeySelective(user);
                     } else {
@@ -88,7 +86,7 @@ public class UserController {
         } else {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("username", user.getUsername());
-            List<UserInfo> userInfos = userInfoService.selectByExample(UserInfo.class, example);
+            List<UserInfo> userInfos = userInfoService.selectByExample(example);
             if (userInfos == null || userInfos.size() < 1) {
                 user.setCreateDate(new Date());
                 if (StringUtil.isNull(user.getRole())) {
@@ -122,8 +120,8 @@ public class UserController {
         } else {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("createUser", id);
-            int customerCount = customerService.selectCountByExample(Customer.class, example);
-            int billCount = billService.selectCountByExample(Bill.class, example);
+            int customerCount = customerService.selectCountByExample(example);
+            int billCount = billService.selectCountByExample(example);
 
             if (customerCount > 0) {
                 responseDate.setCode(ResponseDataCode.CUSTOMER_NOT_NULL_ERROR);
@@ -216,8 +214,8 @@ public class UserController {
             param.setPageSize(10);
         }
 
-        ResponsePageData<UserInfo> datas = userInfoService.selectByExampleWithRowbounds(UserInfo.class, example,
-                param.getPage(), param.getPageSize());
+        ResponsePageData<UserInfo> datas = userInfoService.selectByExampleWithRowbounds(example, param.getPage(),
+                param.getPageSize());
 
         model.addAttribute("param", param);
         model.addAttribute("datas", datas);

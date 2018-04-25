@@ -1,5 +1,7 @@
 package cn.loverqi.star.core.service.impl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,20 @@ import cn.loverqi.star.core.service.BaseService;
  */
 public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService<T> {
 
+    protected Class<T> t;
+
     @Autowired
     protected BaseMapper<T> baseMapper;
+
+    @SuppressWarnings("unchecked")
+    public BaseServiceImpl() {
+        //在运行时动态的指定泛型的类型
+        Type type = this.getClass().getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] types = ((ParameterizedType) type).getActualTypeArguments();
+            t = (Class<T>) types[0];
+        }
+    }
 
     /**
      * 插入对象, 不会将自定义主键赋值
@@ -114,7 +128,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 所有符合条件的对象
      */
     @Override
-    public List<T> selectByExample(Class<T> t, Example example) {
+    public List<T> selectByExample(Example example) {
         List<T> selectByExample = baseMapper.selectByExample(t, example);
 
         return selectByExample;
@@ -126,7 +140,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 所有符合条件的对象
      */
     @Override
-    public ResponsePageData<T> selectByExampleWithRowbounds(Class<T> t, Example example, int page, int pageSize) {
+    public ResponsePageData<T> selectByExampleWithRowbounds(Example example, int page, int pageSize) {
 
         //添加分页属性
         PageHelper.startPage(page, pageSize);
@@ -186,7 +200,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 修改的对象数量
      */
     @Override
-    public int updateByExample(Class<T> t, Example example) {
+    public int updateByExample(Example example) {
         int updateByExample = baseMapper.updateByExample(t, example);
 
         return updateByExample;
@@ -199,7 +213,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 修改的对象数量
      */
     @Override
-    public int updateByExampleSelective(Class<T> t, Example example) {
+    public int updateByExampleSelective(Example example) {
         int updateByExampleSelective = baseMapper.updateByExampleSelective(t, example);
 
         return updateByExampleSelective;
@@ -236,7 +250,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 删除的对象的个数
      */
     @Override
-    public int deleteByExample(Class<T> t, Example example) {
+    public int deleteByExample(Example example) {
         int deleteByExample = baseMapper.deleteByExample(t, example);
 
         return deleteByExample;
@@ -274,7 +288,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 所有符合条件的对象
      */
     @Override
-    public int selectCountByExample(Class<T> t, Example example) {
+    public int selectCountByExample(Example example) {
         int deleteByExample = baseMapper.selectCountByExample(t, example);
 
         return deleteByExample;

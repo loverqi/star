@@ -63,14 +63,14 @@ public class CustomerController {
                     example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber())
                             .andFieldNotEqualTo("id", customer.getId());
                 }
-                List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
+                List<Customer> customers1 = customerService.selectByExample(example1);
 
                 Example example2 = new Example();
                 if (StringUtil.isNotNull(customer.getWechatNumber())) {
                     example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber())
                             .andFieldNotEqualTo("id", customer.getId());
                 }
-                List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
+                List<Customer> customers2 = customerService.selectByExample(example2);
 
                 if (customers1 != null && customers1.size() > 0) {
                     responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
@@ -91,8 +91,8 @@ public class CustomerController {
             example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber());
             Example example2 = new Example();
             example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber());
-            List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
-            List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
+            List<Customer> customers1 = customerService.selectByExample(example1);
+            List<Customer> customers2 = customerService.selectByExample(example2);
             if (customers1 != null && customers1.size() > 0) {
                 responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
                 responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_QQ_MESSAGE);
@@ -129,8 +129,8 @@ public class CustomerController {
                     example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber());
                     Example example2 = new Example();
                     example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber());
-                    List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
-                    List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
+                    List<Customer> customers1 = customerService.selectByExample(example1);
+                    List<Customer> customers2 = customerService.selectByExample(example2);
                     if ((customers1 == null || customers1.size() < 1)
                             && (customers2 == null || customers2.size() < 1)) {
                         customer.setCreateDate(new Date());
@@ -181,7 +181,7 @@ public class CustomerController {
             example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
         }
 
-        List<Customer> datas = customerService.selectByExample(Customer.class, example);
+        List<Customer> datas = customerService.selectByExample(example);
 
         try {
             //设置响应头和客户端保存文件名
@@ -286,7 +286,7 @@ public class CustomerController {
             exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
             param.setCreateUser(SecurityUtil.getUser().getId());
         }
-        List<UserInfo> users = userInfoService.selectByExample(UserInfo.class, exampleUser);
+        List<UserInfo> users = userInfoService.selectByExample(exampleUser);
         model.addAttribute("users", users);
 
         Example example = new Example();
@@ -328,8 +328,8 @@ public class CustomerController {
             param.setPageSize(10);
         }
 
-        ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(Customer.class, example,
-                param.getPage(), param.getPageSize());
+        ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(example, param.getPage(),
+                param.getPageSize());
 
         if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
             for (Customer customerTemp : datas.getList()) {

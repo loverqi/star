@@ -98,7 +98,7 @@ public class BillController {
             example.createCriteria().andFieldEqualTo("createUser", param.getCreateUser());
         }
 
-        List<Bill> datas = billService.selectByExample(Bill.class, example);
+        List<Bill> datas = billService.selectByExample(example);
 
         try {
             //设置响应头和客户端保存文件名
@@ -203,7 +203,7 @@ public class BillController {
             exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
             param.setCreateUser(SecurityUtil.getUser().getId());
         }
-        List<UserInfo> users = userInfoService.selectByExample(UserInfo.class, exampleUser);
+        List<UserInfo> users = userInfoService.selectByExample(exampleUser);
         model.addAttribute("users", users);
 
         Example example = new Example();
@@ -239,7 +239,7 @@ public class BillController {
             param.setPageSize(10);
         }
 
-        ResponsePageData<Bill> datas = billService.selectByExampleWithRowbounds(Bill.class, example, param.getPage(),
+        ResponsePageData<Bill> datas = billService.selectByExampleWithRowbounds(example, param.getPage(),
                 param.getPageSize());
         if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
             for (Bill billTemp : datas.getList()) {
@@ -248,7 +248,7 @@ public class BillController {
             }
         }
 
-        List<Bill> datasTemp = billService.selectByExample(Bill.class, example);
+        List<Bill> datasTemp = billService.selectByExample(example);
         NumberData numberData = new NumberData();
         for (Bill billTemp : datasTemp) {
             numberData.addPeople(billTemp.getPeopleNumber());
