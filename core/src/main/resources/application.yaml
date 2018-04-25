@@ -63,11 +63,3 @@ mybatis:
 #    org:
 #      springframework: DEBUG
 
----
-spring:
-  profiles: production
-
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/star?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: root
