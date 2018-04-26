@@ -390,11 +390,14 @@ public class Example {
          */
         private String getStandardString(Object standard) {
             String valueStr = null;
-            if (standard.getClass().getName().equals("java.lang.String")) {
-                valueStr = "'" + standard.toString().replaceAll("'", "").trim() + "'";
-            } else {
-                valueStr = standard.toString();
+            if (standard != null) {
+                if (standard.getClass().getName().equals("java.lang.String")) {
+                    valueStr = "'" + standard.toString().replaceAll("'", "").trim() + "'";
+                } else {
+                    valueStr = standard.toString();
+                }
             }
+            
             return valueStr;
         }
     }

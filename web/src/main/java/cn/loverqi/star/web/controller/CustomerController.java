@@ -126,9 +126,9 @@ public class CustomerController {
                 customer.setCreateUser(SecurityUtil.getUser().getId());
                 if (StringUtil.isNotNull(customer.getQqName()) || StringUtil.isNotNull(customer.getWechatNumber())) {
                     Example example1 = new Example();
-                    example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber());
+                    example1.createCriteria().andFieldIsNotNull("qqNumber").andFieldEqualTo("qqNumber", customer.getQqNumber());
                     Example example2 = new Example();
-                    example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber());
+                    example2.createCriteria().andFieldIsNotNull("wechatNumber").andFieldEqualTo("wechatNumber", customer.getWechatNumber());
                     List<Customer> customers1 = customerService.selectByExample(Customer.class, example1);
                     List<Customer> customers2 = customerService.selectByExample(Customer.class, example2);
                     if ((customers1 == null || customers1.size() < 1)

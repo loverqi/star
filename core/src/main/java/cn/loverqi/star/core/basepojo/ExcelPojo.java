@@ -103,7 +103,9 @@ public abstract class ExcelPojo extends BasePojo {
 
                 Object invoke = method.invoke(this);
 
-                if (fieldId.getType().equals(Date.class)) {
+                if (invoke == null) {
+                    fieldValue = "";
+                } else if (fieldId.getType().equals(Date.class)) {
                     fieldValue = DateUtil.format((Date) invoke, ConstantUtil.DATE_FMT_SECOND);
                 } else if (fieldId.getType().equals(Double.class)) {
                     fieldValue = String.format("%.2f", invoke);
