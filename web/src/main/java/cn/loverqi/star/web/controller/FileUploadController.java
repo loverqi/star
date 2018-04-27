@@ -15,16 +15,18 @@ import cn.loverqi.star.core.poi.excel.ExcelBuilder;
 import cn.loverqi.star.core.utils.FileUtil;
 import cn.loverqi.star.domain.Bill;
 import cn.loverqi.star.web.security.util.SecurityUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 文件上传的测试类
+ * 文件上传
  * @author LoverQi
  * @date 2018年3月28日
  */
 @RestController
+@Api(tags="文件上传")
 @RequestMapping("file")
 @PreAuthorize("hasRole('USER')")
 public class FileUploadController {

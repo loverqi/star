@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.loverqi.star.domain.UserInfo;
+import io.swagger.annotations.Api;
 
 /**
  * 登陆
@@ -15,6 +16,7 @@ import cn.loverqi.star.domain.UserInfo;
  * @date 2018年3月28日
  */
 @Controller
+@Api(tags="登陆")
 @RequestMapping("/")
 public class LoginController {
 

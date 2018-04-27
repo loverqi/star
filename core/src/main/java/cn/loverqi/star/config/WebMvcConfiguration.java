@@ -2,10 +2,12 @@ package cn.loverqi.star.config;
 
 import javax.servlet.MultipartConfigElement;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -17,7 +19,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
-    static final String ORIGINS[] = new String[] { "GET", "POST", "PUT", "DELETE" };
+    @Value("${file.maxFileSize:10MB}")
+    private String maxFileSize;
+
+    @Value("${file.maxRequestSize:100MB}")
+    private String maxRequestSize;
+
+    @Value("${web.crossDomain.origin:}")
+    private String[] origins;
+
+    @Value("${web.crossDomain.maxAge:3600}")
+    private long maxAge;
+
+    @Value("${web.resources:classpath:/static/}")
+    private String[] resources;
+
+    @Value("${swagger.show:false}")
+    private boolean swaggerShow;
 
     /* 
      * 配置跨域访问
@@ -25,8 +43,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowCredentials(false).maxAge(3600);
+        if (origins != null && origins.length > 0) {
+            registry.addMapping("/**").allowedOrigins("*").allowedMethods(origins).allowCredentials(false)
+                    .maxAge(maxAge);
+        }
     }
 
     /*
@@ -35,9 +55,17 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        if (swaggerShow) {
+            registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        }
+
+        //设置静态资源路径
+        ResourceHandlerRegistration addResourceHandler = registry.addResourceHandler("/**");
+        for (String resource : resources) {
+            addResourceHandler.addResourceLocations(resource);
+        }
+        
         super.addResourceHandlers(registry);
     }
 
@@ -47,10 +75,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        //文件最大  
-        factory.setMaxFileSize("5MB"); //KB,MB  
+        //文件最大 KB,MB  
+        factory.setMaxFileSize(maxFileSize);
         /// 设置总上传数据总大小  
-        factory.setMaxRequestSize("100MB");
+        factory.setMaxRequestSize(maxRequestSize);
         return factory.createMultipartConfig();
     }
 }

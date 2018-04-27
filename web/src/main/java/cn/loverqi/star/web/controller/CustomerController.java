@@ -29,6 +29,7 @@ import cn.loverqi.star.service.CustomerService;
 import cn.loverqi.star.service.UserInfoService;
 import cn.loverqi.star.web.controller.param.CustomerParam;
 import cn.loverqi.star.web.security.util.SecurityUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,7 @@ import io.swagger.annotations.ApiOperation;
  * @date 2018年3月5日
  */
 @Controller
+@Api(tags="客户管理")
 @RequestMapping("customer")
 @PreAuthorize("hasRole('USER')")
 public class CustomerController {

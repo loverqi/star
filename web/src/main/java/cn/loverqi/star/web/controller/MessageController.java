@@ -15,14 +15,16 @@ import cn.loverqi.star.domain.Customer;
 import cn.loverqi.star.domain.Message;
 import cn.loverqi.star.service.BillService;
 import cn.loverqi.star.service.CustomerService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 客户管理
+ * 消息队列
  * @author LoverQi
  * @date 2018年3月5日
  */
 @RestController
+@Api(tags="消息队列")
 @RequestMapping("msg")
 @PreAuthorize("hasRole('ADMIN')")
 public class MessageController {

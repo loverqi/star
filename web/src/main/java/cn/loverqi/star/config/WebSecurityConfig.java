@@ -58,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //登录用户名为username，密码为password
                 .usernameParameter("username").passwordParameter("password")
                 //设置默认登录成功跳转页面
-                .defaultSuccessUrl("/index.html").failureUrl("/login.html?err=1").permitAll().and()
+                .defaultSuccessUrl("/index.html")
+                //设置默认登录失败跳转页面
+                .failureUrl("/login.html?err=1").permitAll().and()
                 //开启cookie保存用户数据
                 .rememberMe().rememberMeParameter("remember-me")
                 //设置cookie有效期
@@ -79,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/static/**", "/druid/**", "/swagger-resources/**", "/v2/api-docs/**", "/webjars/**",
                 "/swagger-ui.html", "/**/*.jpg", "/**/*.gif", "/**/*.png", "/**/*.css", "/**/*.ttf", "/**/*.woff",
                 "/**/*.js");
-        //        web.ignoring().anyRequest();
+        //web.ignoring().anyRequest();
 
     }
 
