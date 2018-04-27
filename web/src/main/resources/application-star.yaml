@@ -35,9 +35,10 @@ web:
 swagger:
   show: true
   basePackage: cn.loverqi.star.web.controller
-  title: star快速开发平台前后端接口文档
-  description: 前后端接口主要使用给安卓、ios、微信公众平台、微信小程序和支付小程序及前后端分离模式的开发。
-  termsOfServiceUrl: http://localhost:8080/
+  title: star快速开发平台对外开放接口API文档
+  description: 对外开放接口API文档主要使用于安卓、ios、微信公众平台、微信小程序和支付小程序及前后端分离模式的开发。
+  license: loverqi.cn
+  licenseUrl: https://github.com/loverqi/star
   version: 1.0
   
     

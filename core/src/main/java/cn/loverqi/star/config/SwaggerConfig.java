@@ -27,10 +27,10 @@ public class SwaggerConfig {
     @Value("${swagger.basePackage:cn.loverqi.star.web.controller}")
     private String basePackage;
 
-    @Value("${swagger.title:star快速开发平台前后端接口文档}")
+    @Value("${swagger.title:star快速开发平台对外开放接口API文档}")
     private String title;
 
-    @Value("${swagger.description:前后端接口主要使用给安卓、ios、微信公众平台、微信小程序和支付小程序及前后端分离模式的开发。}")
+    @Value("${swagger.description:对外开放接口API文档主要使用于安卓、ios、微信公众平台、微信小程序和支付小程序及前后端分离模式的开发。}")
     private String description;
 
     @Value("${swagger.termsOfServiceUrl:http://localhost:8080/}")
@@ -38,6 +38,12 @@ public class SwaggerConfig {
 
     @Value("${swagger.version:1.0}")
     private String version;
+
+    @Value("${swagger.license:loverqi.cn}")
+    private String license;
+
+    @Value("${swagger.licenseUrl:https://github.com/loverqi/star}")
+    private String licenseUrl;
 
     @Bean
     public Docket createRestApi() {
@@ -47,7 +53,8 @@ public class SwaggerConfig {
 
     //构建 api文档的详细信息函数
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title(title).description(description).termsOfServiceUrl(termsOfServiceUrl)
-                .version(version).build();
+        return new ApiInfoBuilder().title(title).description(description).version(version).license(license)
+                .licenseUrl(licenseUrl).build();
+
     }
 }
