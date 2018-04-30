@@ -1,4 +1,4 @@
-package cn.loverqi.star.domain;
+package cn.loverqi.star.core.domain;
 
 import cn.loverqi.star.core.basepojo.BasePojo;
 

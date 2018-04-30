@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.loverqi.star.core.bean.ResponsePageData;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
+import cn.loverqi.star.core.mapper.StarSysUserInfoMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
-import cn.loverqi.star.core.service.impl.BaseServiceImpl;
+import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
 import cn.loverqi.star.domain.Customer;
-import cn.loverqi.star.domain.UserInfo;
-import cn.loverqi.star.mapper.UserInfoMapper;
 import cn.loverqi.star.service.CustomerService;
 
 /**
@@ -22,7 +22,7 @@ import cn.loverqi.star.service.CustomerService;
 public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements CustomerService {
 
     @Autowired
-    private UserInfoMapper userInfoMapper;
+    private StarSysUserInfoMapper userInfoMapper;
 
     @Override
     public Customer selectByPrimaryKey(Customer record) {
@@ -55,7 +55,7 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
 
     private void setCreateBean(Customer customer) {
         if (customer != null && customer.getCreateUser() != null) {
-            UserInfo userInfo = new UserInfo();
+            StarSysUserInfo userInfo = new StarSysUserInfo();
             userInfo.setId(customer.getCreateUser());
             userInfo = userInfoMapper.selectByPrimaryKey(userInfo);
             customer.setCreateUserBean(userInfo);

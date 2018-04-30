@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.loverqi.star.domain.UserInfo;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 import io.swagger.annotations.Api;
 
 /**
@@ -16,13 +16,18 @@ import io.swagger.annotations.Api;
  * @date 2018年3月28日
  */
 @Controller
-@Api(tags="登陆")
+@Api(tags = "登陆")
 @RequestMapping("/")
 public class LoginController {
 
     @RequestMapping(value = { "/", "/index.html" }, method = RequestMethod.GET)
     public String index(HttpSession session) {
         return "index";
+    }
+
+    @RequestMapping(value = "/index2.html", method = RequestMethod.GET)
+    public String index2(HttpSession session) {
+        return "22";
     }
 
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
@@ -41,7 +46,7 @@ public class LoginController {
             }
         }
 
-        model.addAttribute("user", new UserInfo());
+        model.addAttribute("user", new StarSysUserInfo());
         model.addAttribute("massage", massage);
         return "login";
     }

@@ -1,4 +1,4 @@
-package cn.loverqi.star.domain;
+package cn.loverqi.star.core.domain;
 
 import java.util.Date;
 

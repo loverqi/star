@@ -6,6 +6,7 @@ import cn.loverqi.star.core.annotation.ExcelColumn;
 import cn.loverqi.star.core.annotation.ExcelName;
 import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.basepojo.ExcelPojo;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 import cn.loverqi.star.core.utils.StringUtil;
 
 /**
@@ -40,7 +41,7 @@ public class Customer extends ExcelPojo {
 
     /** 创建人*/
     @FieldIgnore
-    private UserInfo createUserBean;
+    private StarSysUserInfo createUserBean;
 
     @FieldIgnore
     @ExcelColumn(value = "创建人", order = 5, width = 6)
@@ -139,11 +140,11 @@ public class Customer extends ExcelPojo {
         this.customerType = customerType == null ? null : customerType.trim();
     }
 
-    public void setCreateUserBean(UserInfo createUserBean) {
+    public void setCreateUserBean(StarSysUserInfo createUserBean) {
         this.createUserBean = createUserBean;
     }
 
-    public UserInfo getCreateUserBean() {
+    public StarSysUserInfo getCreateUserBean() {
         return createUserBean;
     }
 

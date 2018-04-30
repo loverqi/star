@@ -21,8 +21,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value("${swagger.show:false}")
-    private boolean swaggerShow;
+    @Value("${swagger.enable:false}")
+    private boolean enable;
 
     @Value("${swagger.basePackage:cn.loverqi.star.web.controller}")
     private String basePackage;
@@ -47,7 +47,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2).enable(swaggerShow).apiInfo(apiInfo()).select()
+        return new Docket(DocumentationType.SWAGGER_2).enable(enable).apiInfo(apiInfo()).select()
                 .apis(RequestHandlerSelectors.basePackage(basePackage)).paths(PathSelectors.any()).build();
     }
 

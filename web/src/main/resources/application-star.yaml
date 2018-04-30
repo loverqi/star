@@ -19,21 +19,49 @@ druid:
 #  allow: 127.0.0.1
 #  deny: 127.0.0.1
 
+# 关于系统web的一些基本设置
+web:
+  resources: classpath:/static/
+  crossDomain:
+    origin: GET,HEAD,POST,PUT,DELETE,OPTIONS
+    maxAge: 3600
+  
+# 关于权限框架的配置 
+security:
+  enable: true
+  csrf: false
+  iframe: true
+  formLogin:
+    enable: true
+    loginPage: /login.html
+    loginProcessingUrl: /login.do
+    defaultSuccessUrl: /index.html
+    failureUrl: /login.html?err=1
+    usernameParameter: username
+    passwordParameter: password
+    rememberMe:
+      enable: true
+      key: loverqi#star
+      rememberMeParameter: remember-me
+      tokenValiditySeconds: 604800
+  logout:
+    enable: true
+    logoutUrl: /unlogin.do
+    logoutSuccessUrl: /login.html?msg=1
+  sessionManagement:
+    enable: true
+    maximumSessions: 1
+    expiredUrl: /login.html?msg=2
+  
+
 # 设置文件上传限制
 file:
   maxFileSize: 10MB
   maxRequestSize: 100MB
-
-# 关于系统web的一些基本设置
-web:
-  crossDomain:
-    origin: GET,HEAD,POST,PUT,DELETE,OPTIONS
-    maxAge: 3600
-  resources: classpath:/static/
-
+  
 # 设置Swagger相关属性
 swagger:
-  show: true
+  enable: false
   basePackage: cn.loverqi.star.web.controller
   title: star快速开发平台对外开放接口API文档
   description: 对外开放接口API文档主要使用于安卓、ios、微信公众平台、微信小程序和支付小程序及前后端分离模式的开发。

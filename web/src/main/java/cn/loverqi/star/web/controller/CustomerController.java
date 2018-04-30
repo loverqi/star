@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,15 +19,15 @@ import org.springframework.web.multipart.MultipartFile;
 import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponseDataCode;
 import cn.loverqi.star.core.bean.ResponsePageData;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.poi.excel.ExcelBuilder;
+import cn.loverqi.star.core.security.util.SecurityUtil;
+import cn.loverqi.star.core.service.StarSysUserInfoService;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Customer;
-import cn.loverqi.star.domain.UserInfo;
 import cn.loverqi.star.service.CustomerService;
-import cn.loverqi.star.service.UserInfoService;
 import cn.loverqi.star.web.controller.param.CustomerParam;
-import cn.loverqi.star.web.security.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -40,16 +39,15 @@ import io.swagger.annotations.ApiOperation;
  * @date 2018年3月5日
  */
 @Controller
-@Api(tags="客户管理")
+@Api(tags = "客户管理")
 @RequestMapping("customer")
-@PreAuthorize("hasRole('USER')")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
     @Autowired
-    private UserInfoService userInfoService;
+    private StarSysUserInfoService userInfoService;
 
     @ApiOperation(value = "新建或者修改客户", notes = "新建或者修改客户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyCustomer.do", method = { RequestMethod.POST })
@@ -112,7 +110,6 @@ public class CustomerController {
         return responseDate;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "上传用户", notes = "上传用户，code为0是成功")
     @RequestMapping(value = "/uploadFile.do", method = RequestMethod.POST, headers = ("content-type=multipart/*"), consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiImplicitParams({
@@ -149,7 +146,6 @@ public class CustomerController {
     }
 
     @ResponseBody
-    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/downloadFile.do", method = { RequestMethod.POST })
     public void downloadFile(@ModelAttribute CustomerParam param, HttpServletResponse response, Model model) {
 
@@ -215,7 +211,7 @@ public class CustomerController {
         customer.setId(id);
         customer = customerService.selectByPrimaryKey(customer);
         if (customer != null) {
-            UserInfo user = SecurityUtil.getUser();
+            StarSysUserInfo user = (StarSysUserInfo) SecurityUtil.getUser();
             if (customer.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
                 return "error";
             }
@@ -233,13 +229,6 @@ public class CustomerController {
         Customer customer = new Customer();
         customer.setId(id);
         customer = customerService.selectByPrimaryKey(customer);
-        if (customer != null) {
-            UserInfo user = SecurityUtil.getUser();
-            if (customer.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
-                return "error";
-            }
-
-        }
 
         model.addAttribute("customer", customer);
         model.addAttribute("type", "view");
@@ -261,13 +250,7 @@ public class CustomerController {
             customer = customerService.selectByPrimaryKey(customer);
             int deleteByPrimaryKey = 0;
             if (customer != null) {
-                UserInfo user = SecurityUtil.getUser();
-                if (customer.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
-                    responseDate.setCode(ResponseDataCode.LACK_AUTHORITY);
-                    responseDate.setMessage(ResponseDataCode.LACK_AUTHORITY_MESSAGE);
-                } else {
-                    deleteByPrimaryKey = customerService.deleteByPrimaryKey(customer);
-                }
+                deleteByPrimaryKey = customerService.deleteByPrimaryKey(customer);
             }
 
             responseDate.setData(deleteByPrimaryKey > 0);
@@ -288,7 +271,7 @@ public class CustomerController {
             exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
             param.setCreateUser(SecurityUtil.getUser().getId());
         }
-        List<UserInfo> users = userInfoService.selectByExample(exampleUser);
+        List<StarSysUserInfo> users = userInfoService.selectByExample(exampleUser);
         model.addAttribute("users", users);
 
         Example example = new Example();

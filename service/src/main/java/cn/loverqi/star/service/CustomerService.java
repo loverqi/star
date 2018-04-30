@@ -1,6 +1,6 @@
 package cn.loverqi.star.service;
 
-import cn.loverqi.star.core.service.BaseService;
+import cn.loverqi.star.core.service.base.BaseService;
 import cn.loverqi.star.domain.Customer;
 
 /**

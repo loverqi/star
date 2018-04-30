@@ -34,8 +34,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     @Value("${web.resources:classpath:/static/}")
     private String[] resources;
 
-    @Value("${swagger.show:false}")
-    private boolean swaggerShow;
+    @Value("${swagger.enable:false}")
+    private boolean swaggerEnable;
 
     /* 
      * 配置跨域访问
@@ -55,7 +55,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if (swaggerShow) {
+        if (swaggerEnable) {
             registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
             registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         }

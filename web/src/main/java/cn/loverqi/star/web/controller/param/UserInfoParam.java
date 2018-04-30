@@ -1,13 +1,13 @@
 package cn.loverqi.star.web.controller.param;
 
-import cn.loverqi.star.domain.UserInfo;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 
 /**
  * UserInfo的查询类
  * @author LoverQi
  * @date 2018年4月3日
  */
-public class UserInfoParam extends UserInfo {
+public class UserInfoParam extends StarSysUserInfo {
 
     private static final long serialVersionUID = -5211766008524372865L;
 

@@ -1,4 +1,4 @@
-package cn.loverqi.star.service.impl;
+package cn.loverqi.star.core.service.impl;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 import cn.loverqi.star.core.mybaties.example.Example;
-import cn.loverqi.star.core.service.impl.BaseServiceImpl;
-import cn.loverqi.star.domain.UserInfo;
-import cn.loverqi.star.service.UserInfoService;
+import cn.loverqi.star.core.service.StarSysUserInfoService;
+import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
 
 /**
  * 用户
@@ -18,7 +18,7 @@ import cn.loverqi.star.service.UserInfoService;
  * @date 2018年3月5日
  */
 @Service
-public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements UserInfoService, UserDetailsService {
+public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo> implements StarSysUserInfoService, UserDetailsService {
 
     /*
      * 根据用户名加载用户的方法
@@ -29,7 +29,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements Us
         Example example = new Example();
 
         example.createCriteria().andFieldEqualTo("username", username);
-        List<UserInfo> userInfos = baseMapper.selectByExample(UserInfo.class, example);
+        List<StarSysUserInfo> userInfos = baseMapper.selectByExample(StarSysUserInfo.class, example);
         if (userInfos == null || userInfos.size() == 0) {
             throw new UsernameNotFoundException("用户不存在");
         }

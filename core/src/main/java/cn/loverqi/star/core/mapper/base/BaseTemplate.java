@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.mapper;
+package cn.loverqi.star.core.mapper.base;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package cn.loverqi.star.web.security.util;
+package cn.loverqi.star.core.security.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import cn.loverqi.star.domain.UserInfo;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 
 /**
  * 与登录、权限相关的工具类
@@ -21,8 +21,8 @@ public class SecurityUtil {
      * 获取已经登录用户的用户名
      * @return 不为空时为当前用户的用户名，否则当前用户未登录
      */
-    public static UserInfo getUser() {
-        return (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static StarSysUserInfo getUser() {
+        return (StarSysUserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     /**

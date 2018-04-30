@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @ServletComponentScan
 @SpringBootApplication
-@MapperScan("cn.loverqi.star.mapper")
+@MapperScan({ "cn.loverqi.star.core.mapper", "cn.loverqi.star.mapper" })
 public class StarApplication extends SpringBootServletInitializer {
 
     @Override

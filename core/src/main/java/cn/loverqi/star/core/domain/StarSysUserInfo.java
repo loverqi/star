@@ -1,4 +1,4 @@
-package cn.loverqi.star.domain;
+package cn.loverqi.star.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,7 +20,7 @@ import cn.loverqi.star.core.basepojo.BasePojo;
  * @author LoverQi
  * @date 2018年3月28日
  */
-public class UserInfo extends BasePojo implements UserDetails {
+public class StarSysUserInfo extends BasePojo implements UserDetails {
 
     private static final long serialVersionUID = 1694602064261623685L;
 

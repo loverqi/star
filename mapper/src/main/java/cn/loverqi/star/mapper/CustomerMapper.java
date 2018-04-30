@@ -1,6 +1,6 @@
 package cn.loverqi.star.mapper;
 
-import cn.loverqi.star.core.mapper.BaseMapper;
+import cn.loverqi.star.core.mapper.base.BaseMapper;
 import cn.loverqi.star.domain.Customer;
 
 /** 客户管理类
