@@ -2,6 +2,7 @@ package cn.loverqi.star.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +10,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
+import cn.loverqi.star.core.security.lnterceptor.DynamicFilterSecurityInterceptor;
 
 /**
  * Spring Security配置
@@ -32,6 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${security.formLogin.enable:false}")
     private boolean formLoginEnable;
+    @Value("${security.formLogin.skipModel:redirect}")
+    private String skipModel;
     @Value("${security.formLogin.loginPage:/login.html}")
     private String loginPage;
     @Value("${security.formLogin.loginProcessingUrl:/login.do}")
@@ -75,6 +82,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /** 注入默认错误处理类返回类*/
+    @Autowired
+    private LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint;
+
+    /** 注入自定义拦截去从数据库读取配置文件*/
+    @Autowired
+    private DynamicFilterSecurityInterceptor dynamicFilterSecurityInterceptor;
+
+    /**
+     * 设置页面跳转方式为转发
+     */
+    @Bean
+    public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+
+        LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint = new LoginUrlAuthenticationEntryPoint(
+                loginPage);
+        loginUrlAuthenticationEntryPoint.setUseForward(true);
+        return loginUrlAuthenticationEntryPoint;
+    }
+
     /**
      * 配置认证方式
      */
@@ -89,12 +116,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (enable) {
-            //登陆页有关的设置
-            http.authorizeRequests().anyRequest().authenticated();
+            http.authorizeRequests() //开启认证规则配置
+                    .anyRequest().authenticated(); //其他所有路径都是需要认证/登录后才能访问
+
+            //自定义拦截去从数据库读取配置文件
+            http.addFilterBefore(dynamicFilterSecurityInterceptor, FilterSecurityInterceptor.class);
 
             if (formLoginEnable) {
+                if ("forward".equals(skipModel)) {
+                    //将默认的重定向方式修改为转发的形式
+                    http.exceptionHandling().authenticationEntryPoint(loginUrlAuthenticationEntryPoint);
+                } else {
+                    //默认的重定向方式      
+                    http.formLogin().loginPage(loginPage);
+                }
+
                 //登录处理路径       
-                http.formLogin().loginPage(loginPage).loginProcessingUrl(loginProcessingUrl)
+                http.formLogin().loginProcessingUrl(loginProcessingUrl)
                         //登录用户名为username，密码为password
                         .usernameParameter(usernameParameter).passwordParameter(passwordParameter)
                         //设置默认登录成功跳转页面

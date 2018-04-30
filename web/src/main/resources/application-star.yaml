@@ -33,6 +33,7 @@ security:
   iframe: true
   formLogin:
     enable: true
+    skipModel: redirect
     loginPage: /login.html
     loginProcessingUrl: /login.do
     defaultSuccessUrl: /index.html
