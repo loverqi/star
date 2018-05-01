@@ -67,7 +67,7 @@ public class StarSysMenuSqlProvider {
                 ORDER_BY("id");
             }
         }.toString();
-
+System.err.println(sql);
         return sql;
     }
 }
