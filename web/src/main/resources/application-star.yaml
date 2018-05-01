@@ -37,7 +37,7 @@ security:
     loginPage: /login.html
     loginProcessingUrl: /login.do
     defaultSuccessUrl: /index.html
-    failureUrl: /login.html?err=1
+    failureUrl: /login.html?error=true
     usernameParameter: username
     passwordParameter: password
     rememberMe:
@@ -62,7 +62,7 @@ file:
   
 # 设置Swagger相关属性
 swagger:
-  enable: false
+  enable: true
   basePackage: cn.loverqi.star.web.controller
   title: star快速开发平台对外开放接口API文档
   description: 对外开放接口API文档主要使用于安卓、ios、微信公众平台、微信小程序和支付小程序及前后端分离模式的开发。

@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String loginProcessingUrl;
     @Value("${security.formLogin.defaultSuccessUrl:/index.html}")
     private String defaultSuccessUrl;
-    @Value("${security.formLogin.failureUrl:/login.html}")
+    @Value("${security.formLogin.failureUrl:/login.html?error=true}")
     private String failureUrl;
     @Value("${security.formLogin.usernameParameter:username}")
     private String usernameParameter;

@@ -210,13 +210,6 @@ public class CustomerController {
         Customer customer = new Customer();
         customer.setId(id);
         customer = customerService.selectByPrimaryKey(customer);
-        if (customer != null) {
-            StarSysUserInfo user = (StarSysUserInfo) SecurityUtil.getUser();
-            if (customer.getCreateUser() != user.getId() && !"ADMIN".equals(user.getRole())) {
-                return "error";
-            }
-
-        }
 
         model.addAttribute("customer", customer);
         model.addAttribute("type", "edit");
@@ -266,11 +259,6 @@ public class CustomerController {
             param = new CustomerParam();
         }
         Example exampleUser = null;
-        if ("USER".equals(SecurityUtil.getUser().getRole())) {
-            exampleUser = new Example();
-            exampleUser.createCriteria().andFieldEqualTo("id", SecurityUtil.getUser().getId());
-            param.setCreateUser(SecurityUtil.getUser().getId());
-        }
         List<StarSysUserInfo> users = userInfoService.selectByExample(exampleUser);
         model.addAttribute("users", users);
 
@@ -315,13 +303,6 @@ public class CustomerController {
 
         ResponsePageData<Customer> datas = customerService.selectByExampleWithRowbounds(example, param.getPage(),
                 param.getPageSize());
-
-        if (ifSee != null && "ADMIN".equals(SecurityUtil.getUser().getRole())) {
-            for (Customer customerTemp : datas.getList()) {
-                customerTemp.setIfSee(true);
-                customerService.updateByPrimaryKey(customerTemp);
-            }
-        }
 
         model.addAttribute("param", param);
         model.addAttribute("datas", datas);

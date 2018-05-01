@@ -133,9 +133,22 @@ public final class DateUtil {
         return getOffsetDay(now, n, ConstantUtil.SYMBOL_DATE_DAY);
     }
 
-    public static void main(String[] args) {
-        Date date = getOffsetDay(new Date(), 1, ConstantUtil.SYMBOL_DATE_MONTH);
-        LOG.info("date:{}", format(getStartOfDay(date), ConstantUtil.DATE_FMT_MSEC));
+    /**
+     * 通过时间秒毫秒数判断两个时间的间隔
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static int differentDaysByMillisecond(Date date1, Date date2) {
+        int days = (int) ((date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+
+        return days;
+    }
+
+    public static int differentDaysByMillisecond(Long date1, Long date2) {
+        int days = (int) ((date2 - date1) / (1000 * 3600 * 24));
+
+        return days;
     }
 
 }

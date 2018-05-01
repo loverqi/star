@@ -13,7 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import cn.loverqi.star.core.SystemConfiguration;
+import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.basepojo.BasePojo;
+import cn.loverqi.star.core.utils.DateUtil;
 
 /**
  * 用户实体类
@@ -30,7 +33,7 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     /** 用户名*/
     private String username;
 
-    /** 真是姓名*/
+    /** 真实姓名*/
     private String name;
 
     /** 密码*/
@@ -38,10 +41,26 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     private String password;
 
     /** 用户角色*/
-    private String role;
+    private Integer roleId;
+
+    /** 联系方式*/
+    private String contact;
 
     /** 创建时间*/
     private Date createDate;
+
+    /** 修改密码时间*/
+    private Date updatePwdTime;
+
+    /** 账号是否未锁定*/
+    private Boolean isUnlock;
+
+    /** 是否启用*/
+    private Boolean enable;
+
+    /** 用户所拥有的权限*/
+    @FieldIgnore
+    private List<GrantedAuthority> authorities;
 
     public Integer getId() {
         return id;
@@ -59,12 +78,36 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getRole() {
-        return role;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public Boolean getIsUnlock() {
+        return isUnlock;
+    }
+
+    public void setIsUnlock(Boolean isUnlock) {
+        this.isUnlock = isUnlock;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public String getName() {
@@ -81,6 +124,14 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getUpdatePwdTime() {
+        return updatePwdTime;
+    }
+
+    public void setUpdatePwdTime(Date updatePwdTime) {
+        this.updatePwdTime = updatePwdTime;
     }
 
     /**
@@ -100,17 +151,47 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     }
 
     /**
+     * 设置权限组
+     */
+    public void addAuthoritiesGlSysPrivs(List<String> glSysPrivs) {
+        for (String string : glSysPrivs) {
+            addAuthoritiesGlSysPriv(string);
+        }
+    }
+
+    /**
+     * 设置单个权限
+     */
+    public void addAuthoritiesGlSysPriv(String authoritieName) {
+        addAuthoritiesGlSysPriv(new SimpleGrantedAuthority("ROLE_" + authoritieName));
+    }
+
+    /**
+     * 设置单个权限
+     */
+    private void addAuthoritiesGlSysPriv(GrantedAuthority authoritie) {
+        if (authorities == null) {
+            synchronized (StarSysUserInfo.class) {
+                if (authorities == null) {
+                    authorities = new ArrayList<GrantedAuthority>();
+                }
+            }
+        }
+
+        authorities.add(authoritie);
+    }
+
+    public void setAuthorities(List<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    /**
      * 用户拥有的权限
      */
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-        roles.add(new SimpleGrantedAuthority("ROLE_" + role));
-        if ("ADMIN".equals(role)) {
-            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-        }
-        return roles;
+        return authorities == null ? new ArrayList<GrantedAuthority>() : authorities;
     }
 
     /**
@@ -119,7 +200,12 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        boolean isAccountNon = false;
+        if (updatePwdTime != null) {
+            int millisecond = DateUtil.differentDaysByMillisecond(System.currentTimeMillis(), updatePwdTime.getTime());
+            isAccountNon = millisecond < SystemConfiguration.getPasswordUpdateDays();
+        }
+        return isAccountNon;
     }
 
     /**
@@ -128,7 +214,7 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isUnlock == null ? false : isUnlock;
     }
 
     /**
@@ -137,7 +223,7 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isAccountNonExpired();
     }
 
     /**
@@ -146,7 +232,6 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return true;
+        return enable == null ? false : enable;
     }
-
 }

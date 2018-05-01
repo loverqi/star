@@ -40,7 +40,7 @@ public class StarSysMenu extends BasePojo implements INode<StarSysMenu> {
     private Boolean enable;
 
     /** 权限英文名*/
-    private String menuName;
+    private String funcName;
 
     /** 是否是末级菜单*/
     private Boolean isLeaf;
@@ -115,12 +115,12 @@ public class StarSysMenu extends BasePojo implements INode<StarSysMenu> {
     }
 
     @JsonIgnore
-    public String getMenuName() {
-        return menuName;
+    public String getFuncName() {
+        return funcName;
     }
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName == null ? null : menuName.trim();
+    public void setFuncName(String funcName) {
+        this.funcName = funcName;
     }
 
     public Boolean getIsJuris() {

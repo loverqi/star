@@ -44,14 +44,14 @@ public class DynamicInvocationSecurityMetadataSource implements FilterInvocation
         Example example = new Example();
         //只查询启用的权限
         example.createCriteria().andFieldEqualTo("enable", true).andFieldEqualTo("isJuris", true)
-                .andFieldEqualTo("isLeaf", true).andFieldIsNotNull("menuName");
+                .andFieldIsNotNull("funcName");
         List<StarSysMenu> starSysMenus = starSysMenuService.selectByExample(example);
 
         Collection<ConfigAttribute> array = null;
         for (StarSysMenu starSysMenu : starSysMenus) {
-            if (StringUtil.isNotNull(starSysMenu.getMenuName()) && StringUtil.isNotNull(starSysMenu.getPath())) {
+            if (StringUtil.isNotNull(starSysMenu.getFuncName()) && StringUtil.isNotNull(starSysMenu.getPath())) {
                 array = new ArrayList<ConfigAttribute>();
-                cfg = new SecurityConfig("ROLE_" + starSysMenu.getMenuName());
+                cfg = new SecurityConfig("ROLE_" + starSysMenu.getFuncName());
                 //此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数。
                 array.add(cfg);
                 //用权限的path 作为map的key，用ConfigAttribute的集合作为 value，
