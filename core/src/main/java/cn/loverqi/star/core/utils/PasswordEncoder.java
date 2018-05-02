@@ -37,4 +37,8 @@ public class PasswordEncoder {
         return encode(rawPassword).equals(encodedPassword);
     }
 
+    private PasswordEncoder() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
+    }
+
 }

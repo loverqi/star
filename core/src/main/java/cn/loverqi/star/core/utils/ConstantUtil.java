@@ -1,7 +1,9 @@
 package cn.loverqi.star.core.utils;
 
 /**
- * 常量
+ * 常量工具类
+ * @author LoverQi
+ * @date 2018年5月3日
  */
 public class ConstantUtil {
     /**
@@ -129,5 +131,7 @@ public class ConstantUtil {
      */
     public static final String CHAR_ENCODE_UTF_8 = "UTF-8";
 
-
+    private ConstantUtil() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
+    }
 }

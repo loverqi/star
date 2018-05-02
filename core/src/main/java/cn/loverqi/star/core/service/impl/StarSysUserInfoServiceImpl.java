@@ -15,16 +15,17 @@ import cn.loverqi.star.core.service.StarSysUserInfoService;
 import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
 
 /**
- * 用户
+ * 用户管理实现类
  * @author LoverQi
  * @date 2018年3月5日
  */
 @Service
 public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
         implements StarSysUserInfoService, UserDetailsService {
-    
+
     @Autowired
     private StarSysPrivMapper starSysPrivMapper;
+
     /*
      * 根据用户名加载用户的方法
      */

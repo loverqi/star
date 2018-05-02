@@ -151,4 +151,8 @@ public final class DateUtil {
         return days;
     }
 
+    private DateUtil() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
+    }
+
 }

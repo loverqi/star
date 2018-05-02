@@ -33,18 +33,8 @@ import io.swagger.annotations.Api;
 @RequestMapping("/")
 public class IndexController {
 
-    @Autowired
-    private StarSysMenuService starSysMenuService;
-
     @RequestMapping(value = { "/", "/index.html" }, method = RequestMethod.GET)
     public String index(HttpSession session) {
-
-//        if (session.getAttribute("menus") == null) {
-            List<StarSysMenu> starSysMenus = starSysMenuService
-                    .selectStarSysMenuByPriv(SecurityUtil.getUserAuthorities());
-            session.setAttribute("menus", starSysMenus);
-//        }
-
         return "index";
     }
 

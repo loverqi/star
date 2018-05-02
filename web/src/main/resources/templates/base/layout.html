@@ -154,6 +154,7 @@
 						<li th:each="cmenu : ${menu.children}">
 							<a href="#" th:href="${cmenu.path}" th:class="${cmenu.children!=null}?'dropdown-toggle':''">
 								<i class="menu-icon fa fa-caret-right"></i>
+								<i th:class="'menu-icon fa ' + ${cmenu.icon}"></i>
 								<span th:text="${cmenu.text}">-</span>
 								<b class="arrow fa fa-angle-down" th:if="${cmenu.children!=null}"></b>
 							</a>

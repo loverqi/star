@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import cn.loverqi.star.core.SystemConfiguration;
 import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.utils.DateUtil;
+import cn.loverqi.star.core.utils.SystemConfiguration;
 
 /**
  * 用户实体类
@@ -54,6 +54,9 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
 
     /** 账号是否未锁定*/
     private Boolean isUnlock;
+
+    /** 错误密码尝试次数*/
+    public Integer errorCount;
 
     /** 是否启用*/
     private Boolean enable;
@@ -134,6 +137,14 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
         this.updatePwdTime = updatePwdTime;
     }
 
+    public Integer getErrorCount() {
+        return errorCount;
+    }
+
+    public void setErrorCount(Integer errorCount) {
+        this.errorCount = errorCount;
+    }
+
     /**
      * 获取用户名
      */
@@ -201,8 +212,9 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         boolean isAccountNon = false;
-        if (updatePwdTime != null) {
-            int millisecond = DateUtil.differentDaysByMillisecond(System.currentTimeMillis(), updatePwdTime.getTime());
+        long currentTimeMillis = System.currentTimeMillis();
+        if (updatePwdTime != null && currentTimeMillis != 0) {
+            int millisecond = DateUtil.differentDaysByMillisecond(currentTimeMillis, updatePwdTime.getTime());
             isAccountNon = millisecond < SystemConfiguration.getPasswordUpdateDays();
         }
         return isAccountNon;

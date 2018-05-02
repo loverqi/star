@@ -39,7 +39,7 @@ public class SecurityUtil {
         return authoritieStrings;
     }
 
-    private static Authentication getAuthentication() {
+    public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 

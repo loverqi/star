@@ -7,9 +7,12 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import cn.loverqi.star.core.interceptor.MenuInterceptor;
 
 /**
  * 关于mvc的配置
@@ -65,8 +68,18 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         for (String resource : resources) {
             addResourceHandler.addResourceLocations(resource);
         }
-        
+
         super.addResourceHandlers(registry);
+    }
+
+    /*
+     * 添加系统的拦截器
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //添加系统的菜单拦截器
+        registry.addInterceptor(new MenuInterceptor());
     }
 
     /**  

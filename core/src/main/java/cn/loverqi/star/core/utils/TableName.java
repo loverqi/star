@@ -16,4 +16,8 @@ public class TableName {
     public static final String SYS_PRIV = "star_sys_priv";
     //角色表
     public static final String SYS_ROLE = "star_sys_role";
+    
+    private TableName() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
+    }
 }

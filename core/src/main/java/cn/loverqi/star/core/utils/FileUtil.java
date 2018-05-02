@@ -105,4 +105,8 @@ public class FileUtil {
         file.delete();
     }
 
+    private FileUtil() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
+    }
+
 }

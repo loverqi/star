@@ -223,4 +223,8 @@ public class URLUtil {
         return strAllParam;
     }
 
+    private URLUtil() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
+    }
+
 }

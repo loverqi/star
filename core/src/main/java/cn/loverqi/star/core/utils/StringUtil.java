@@ -42,7 +42,7 @@ public class StringUtil {
                 return matcher.group().trim();
             }
         }
-        
+
         return null;
     }
 
@@ -90,6 +90,10 @@ public class StringUtil {
         Float valueOf = Float.valueOf(stringDigits);
 
         return valueOf;
+    }
+
+    private StringUtil() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
     }
 
 }
