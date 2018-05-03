@@ -1,10 +1,7 @@
 package cn.loverqi.star.core.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -17,10 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.loverqi.star.core.domain.StarSysMenu;
 import cn.loverqi.star.core.domain.StarSysUserInfo;
-import cn.loverqi.star.core.security.util.SecurityUtil;
-import cn.loverqi.star.core.service.StarSysMenuService;
 import io.swagger.annotations.Api;
 
 /**
@@ -63,6 +57,8 @@ public class IndexController {
                 massage = "账户不可用";
             } catch (CredentialsExpiredException exception) {
                 massage = "密码已过期";
+            } catch (Exception exception) {
+                massage = "系统异常";
             }
         }
 

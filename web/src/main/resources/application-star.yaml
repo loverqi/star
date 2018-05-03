@@ -31,6 +31,7 @@ security:
   enable: true
   csrf: false
   iframe: true
+  hideNotFoundException: false
   formLogin:
     enable: true
     skipModel: redirect
@@ -53,7 +54,6 @@ security:
     enable: true
     maximumSessions: 1
     expiredUrl: /login.html?msg=2
-  
 
 # 设置文件上传限制
 file:

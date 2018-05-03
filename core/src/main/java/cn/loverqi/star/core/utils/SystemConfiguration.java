@@ -20,7 +20,7 @@ public class SystemConfiguration {
     static {
         passwordUpdateDays = 30;
         systemName = "Star 快速开发平台";
-        pwdFailsCount = 5;
+        pwdFailsCount = 3;
     }
 
     public static int getPasswordUpdateDays() {
