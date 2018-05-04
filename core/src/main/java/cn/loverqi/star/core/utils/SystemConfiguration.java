@@ -1,6 +1,10 @@
 package cn.loverqi.star.core.utils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.loverqi.star.core.domain.StarSysConfig;
 
@@ -14,6 +18,9 @@ public class SystemConfiguration {
 
     // 系统名称
     public static String SYSTEM_NAME;
+
+    // 系统导航栏logo，路径
+    public static String SYSTEM_LOGO_BAR;
 
     // 密码定期更新天数, 0为不限制
     public static int PASSWORD_UPDATE_DAYS;
@@ -53,6 +60,8 @@ public class SystemConfiguration {
         if (config.getEnable()) {
             if ("SYSTEM_NAME".equals(config.getName().trim())) {
                 SYSTEM_NAME = config.getValue();
+            } else if ("SYSTEM_LOGO_BAR".equals(config.getName().trim())) {
+                SYSTEM_LOGO_BAR = config.getValue();
             } else if ("PASSWORD_UPDATE_DAYS".equals(config.getName().trim())) {
                 PASSWORD_UPDATE_DAYS = Integer.parseInt(config.getValue());
             } else if ("PASSWORD_LENGTH_MIN".equals(config.getName().trim())) {
@@ -100,8 +109,25 @@ public class SystemConfiguration {
         return passwordComplexityValue;
     }
 
-    public static void setPASSWORD_COMPLEXITY(int pASSWORD_COMPLEXITY) {
-        PASSWORD_COMPLEXITY = pASSWORD_COMPLEXITY;
+    /**
+     * 以map形式回去所有的配置文件字段
+     * @return
+     */
+    public static Map<String, Object> getConfigs() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Field[] fields = SystemConfiguration.class.getDeclaredFields();
+        for (Field field : fields) {
+            if (Modifier.isStatic(field.getModifiers())) {
+                Object object = null;
+                try {
+                    object = field.get(null);
+                } catch (Exception e) {
+                }
+                map.put(field.getName(), object);
+            }
+        }
+
+        return map;
     }
 
     private SystemConfiguration() throws ClassNotFoundException {

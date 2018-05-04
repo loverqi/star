@@ -2,6 +2,7 @@ package cn.loverqi.star.config;
 
 import javax.servlet.MultipartConfigElement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import cn.loverqi.star.core.interceptor.MenuInterceptor;
+import cn.loverqi.star.core.interceptor.SystemConfigInterceptor;
 
 /**
  * 关于mvc的配置
@@ -21,6 +23,11 @@ import cn.loverqi.star.core.interceptor.MenuInterceptor;
  */
 @Configuration
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
+
+    @Autowired
+    private SystemConfigInterceptor systemConfigInterceptor;
+    @Autowired
+    private MenuInterceptor menuInterceptor;
 
     @Value("${file.maxFileSize:10MB}")
     private String maxFileSize;
@@ -78,8 +85,10 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //添加系统参数的   拦截器
+        registry.addInterceptor(systemConfigInterceptor);
         //添加系统的菜单拦截器
-        registry.addInterceptor(new MenuInterceptor());
+        registry.addInterceptor(menuInterceptor);
     }
 
     /**  

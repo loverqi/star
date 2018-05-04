@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="base/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="base/layout">
 <head>
 <meta charset="utf-8" />
 <title>错误页</title>
@@ -7,87 +8,71 @@
 
 <body>
 	<div layout:fragment="content">
-		<!-- #section:basics/content.breadcrumbs -->
-		<div class="breadcrumbs" id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li>
-					<i class="ace-icon fa fa-lightbulb-o home-icon"></i>
-					<a href="javascript:void(0)">错误页</a>
-				</li>
-			</ul>
-			<!-- /.breadcrumb -->
-		</div>
 
+		<!-- /section:settings.box -->
+		<div class="page-content-area">
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- PAGE CONTENT BEGINS -->
 
-		<!-- /section:basics/content.breadcrumbs -->
-		<div class="page-content">
+					<!-- #section:pages/error -->
+					<div class="error-container">
+						<div class="well">
+							<h1 class="grey lighter smaller">
+								<span class="blue bigger-125">
+									<i class="ace-icon fa fa-sitemap"></i>
+									ERROR
+								</span>
+								页面找不到
+							</h1>
 
-			<!-- /section:settings.box -->
-			<div class="page-content-area">
-				<div class="row">
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
+							<hr />
+							<h3 class="lighter smaller">我们其实也很想帮您找到页面，但是我们也是无能为力了!</h3>
 
-						<!-- #section:pages/error -->
-						<div class="error-container">
-							<div class="well">
-								<h1 class="grey lighter smaller">
-									<span class="blue bigger-125">
-										<i class="ace-icon fa fa-sitemap"></i>
-										ERROR
+							<div>
+								<form class="form-search" method="get" action="https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8">
+									<span class="input-icon align-middle">
+										<i class="ace-icon fa fa-search"></i>
+										<input type="text" class="search-query" name="wd" placeholder="搜索一下帮助方法..." />
 									</span>
-									页面找不到
-								</h1>
+									<button class="btn btn-sm" type="submit">百度一下</button>
+								</form>
 
-								<hr />
-								<h3 class="lighter smaller">我们其实也很想帮您找到页面，但是我们也是无能为力了!</h3>
-
-								<div>
-									<form class="form-search" method="get" action="https://www.baidu.com/baidu?tn=monline_3_dg&ie=utf-8">
-										<span class="input-icon align-middle">
-											<i class="ace-icon fa fa-search"></i>
-											<input type="text" class="search-query" name="wd" placeholder="搜索一下帮助方法..." />
-										</span>
-										<button class="btn btn-sm" type="submit">百度一下</button>
-									</form>
-
-									<div class="space"></div>
-									<h4 class="smaller">你还可以发邮件给我们获取帮助:</h4>
-
-									<ul class="list-unstyled spaced inline bigger-110 margin-15">
-										<li>
-											<i class="ace-icon fa fa-hand-o-right blue"></i>
-											<a href="mailto:admin@loverqi.cn">联系我们</a>
-										</li>
-									</ul>
-								</div>
-
-								<hr />
 								<div class="space"></div>
+								<h4 class="smaller">你还可以发邮件给我们获取帮助:</h4>
 
-								<div class="center">
-									<a onclick="javascript:window.history.back();return false;" class="btn btn-grey">
-										<i class="ace-icon fa fa-arrow-left"></i>
-										返回上一页
-									</a>
+								<ul class="list-unstyled spaced inline bigger-110 margin-15">
+									<li>
+										<i class="ace-icon fa fa-hand-o-right blue"></i>
+										<a href="mailto:admin@loverqi.cn">联系我们</a>
+									</li>
+								</ul>
+							</div>
 
-									<a href="/index.html" class="btn btn-primary">
-										<i class="ace-icon fa fa-tachometer"></i>
-										去主页
-									</a>
-								</div>
+							<hr />
+							<div class="space"></div>
+
+							<div class="center">
+								<a onclick="javascript:window.history.back();return false;" class="btn btn-grey">
+									<i class="ace-icon fa fa-arrow-left"></i>
+									返回上一页
+								</a>
+
+								<a href="/index.html" class="btn btn-primary">
+									<i class="ace-icon fa fa-tachometer"></i>
+									去主页
+								</a>
 							</div>
 						</div>
-						<!-- /section:pages/error -->
-						<!-- PAGE CONTENT ENDS -->
 					</div>
-					<!-- /.col -->
+					<!-- /section:pages/error -->
+					<!-- PAGE CONTENT ENDS -->
 				</div>
-				<!-- /.row -->
+				<!-- /.col -->
 			</div>
-			<!-- /.page-content-area -->
+			<!-- /.row -->
 		</div>
-		<!-- /.page-content -->
+		<!-- /.page-content-area -->
 	</div>
 </body>
 </html>

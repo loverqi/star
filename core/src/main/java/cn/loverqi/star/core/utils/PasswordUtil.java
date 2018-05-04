@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author LoverQi
  * @date 2018年3月5日
  */
-public class PasswordEncoderUtil {
+public class PasswordUtil {
 
     public static final String KEY_SHA = "LOVERQI_STAR_SHA";
 
@@ -81,7 +81,7 @@ public class PasswordEncoderUtil {
         return matcher.matches();
     }
 
-    private PasswordEncoderUtil() throws ClassNotFoundException {
+    private PasswordUtil() throws ClassNotFoundException {
         throw new ClassNotFoundException();
     }
 

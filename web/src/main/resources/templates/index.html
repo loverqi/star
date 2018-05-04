@@ -8,51 +8,34 @@
 
 <body>
 	<div layout:fragment="content">
-		<!-- #section:basics/content.breadcrumbs -->
-		<div class="breadcrumbs" id="breadcrumbs">
-			<ul class="breadcrumb">
-				<li>
-					<i class="ace-icon fa fa-home home-icon"></i>
-					<a href="javascript:void(0)">系统首页</a>
-				</li>
-			</ul>
-			<!-- /.breadcrumb -->
+		<!-- /section:settings.box -->
+		<div class="page-content-area">
 
+			<div class="row">
+				<div class="col-xs-12">
+					<!-- PAGE CONTENT BEGINS -->
+					<div class="alert alert-block alert-info">
+						<button type="button" class="close" data-dismiss="alert">
+							<i class="ace-icon fa fa-times"></i>
+						</button>
 
-			<!-- /section:basics/content.searchbox -->
-		</div>
-
-		<div class="page-content">
-			<!-- /section:settings.box -->
-			<div class="page-content-area">
-
-				<div class="row">
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
-						<div class="alert alert-block alert-info">
-							<button type="button" class="close" data-dismiss="alert">
-								<i class="ace-icon fa fa-times"></i>
-							</button>
-
-							<i class="ace-icon fa fa-check green"></i>
-							<strong class="green">温馨提示：</strong>
-							<span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.name}"></span>
-							您好,欢迎您访问林晟传媒办公系统。
-						</div>
-						<div class="row center">
-							<img class="img-responsive center-block" src="/assets/avatars/logo_2.png" />
-						</div>
-						<!-- /.row -->
-
-						<!-- PAGE CONTENT ENDS -->
+						<i class="ace-icon fa fa-check green"></i>
+						<strong class="green">温馨提示：</strong>
+						<span th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.name}"></span>
+						您好,欢迎您访问林晟传媒办公系统。
 					</div>
-					<!-- /.col -->
+					<div class="row center">
+						<img class="img-responsive center-block" src="/assets/avatars/logo_2.png" />
+					</div>
+					<!-- /.row -->
+
+					<!-- PAGE CONTENT ENDS -->
 				</div>
-				<!-- /.row -->
+				<!-- /.col -->
 			</div>
-			<!-- /.page-content-area -->
+			<!-- /.row -->
 		</div>
-		<!-- /.page-content -->
+		<!-- /.page-content-area -->
 	</div>
 </body>
 </html>

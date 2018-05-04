@@ -15,7 +15,7 @@ import cn.loverqi.star.core.mapper.StarSysPrivMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.service.StarSysUserInfoService;
 import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
-import cn.loverqi.star.core.utils.PasswordEncoderUtil;
+import cn.loverqi.star.core.utils.PasswordUtil;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.core.utils.SystemConfiguration;
 
@@ -175,14 +175,14 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
      */
     private void checkPassword(String password) throws PassWordComplexityException {
         //验证密码长度
-        if (!PasswordEncoderUtil.checkPasswordLength(password, SystemConfiguration.PASSWORD_LENGTH_MIN,
+        if (!PasswordUtil.checkPasswordLength(password, SystemConfiguration.PASSWORD_LENGTH_MIN,
                 SystemConfiguration.PASSWORD_LENGTH_MAX)) {
             throw new PassWordComplexityException("密码长度不符合规范");
         }
 
         //验证密码复杂度
         String passwordComplexity = SystemConfiguration.getPasswordComplexity();
-        if (passwordComplexity != null && !PasswordEncoderUtil.checkPasswordComplexity(password, passwordComplexity)) {
+        if (passwordComplexity != null && !PasswordUtil.checkPasswordComplexity(password, passwordComplexity)) {
             throw new PassWordComplexityException("密码复杂度不符合规范");
         }
     }
