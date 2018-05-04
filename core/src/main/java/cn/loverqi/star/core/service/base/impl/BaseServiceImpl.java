@@ -200,8 +200,8 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 修改的对象数量
      */
     @Override
-    public int updateByExample(Example example) {
-        int updateByExample = baseMapper.updateByExample(t, example);
+    public int updateByExample(T record, Example example) {
+        int updateByExample = baseMapper.updateByExample(record, example);
 
         return updateByExample;
     }
@@ -213,8 +213,8 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      * @return 修改的对象数量
      */
     @Override
-    public int updateByExampleSelective(Example example) {
-        int updateByExampleSelective = baseMapper.updateByExampleSelective(t, example);
+    public int updateByExampleSelective(T record, Example example) {
+        int updateByExampleSelective = baseMapper.updateByExampleSelective(record, example);
 
         return updateByExampleSelective;
     }

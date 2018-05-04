@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cn.loverqi.star.core.annotation.ExcelColumn;
 import cn.loverqi.star.core.annotation.ExcelName;
 import cn.loverqi.star.core.bean.ExcelColumnMapping;
-import cn.loverqi.star.core.mybaties.exception.PojoStructureException;
+import cn.loverqi.star.core.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
 import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
 import cn.loverqi.star.core.utils.ConstantUtil;

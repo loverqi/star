@@ -306,9 +306,8 @@ public class BaseTemplate<T extends BasePojo> {
      * @throws IllegalAccessException 
      * @throws InstantiationException 
      */
-    public String updateByExample(final Class<T> t, final Example example)
+    public String updateByExample(final T record, final Example example)
             throws InstantiationException, IllegalAccessException {
-        final T record = t.newInstance();
         String sql = new SQL() {
             {
                 UPDATE("`" + record.getTablename() + "`");
@@ -340,9 +339,8 @@ public class BaseTemplate<T extends BasePojo> {
      * @throws IllegalAccessException 
      * @throws InstantiationException 
      */
-    public String updateByExampleSelective(final Class<T> t, final Example example)
+    public String updateByExampleSelective(final T record, final Example example)
             throws InstantiationException, IllegalAccessException {
-        final T record = t.newInstance();
         String sql = new SQL() {
             {
                 UPDATE("`" + record.getTablename() + "`");

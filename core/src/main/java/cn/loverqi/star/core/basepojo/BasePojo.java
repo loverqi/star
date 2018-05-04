@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.annotation.TableId;
 import cn.loverqi.star.core.annotation.TableName;
-import cn.loverqi.star.core.mybaties.exception.PojoStructureException;
+import cn.loverqi.star.core.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
 import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
 

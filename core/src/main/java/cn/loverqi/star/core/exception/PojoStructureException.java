@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.mybaties.exception;
+package cn.loverqi.star.core.exception;
 
 /**
  * 持久层通用的异常类

@@ -104,7 +104,7 @@ public interface BaseService<T extends BasePojo> {
      * @param example 更新的条件
      * @return 修改的对象数量
      */
-    int updateByExample(Example example);
+    int updateByExample(T record, Example example);
 
     /**
      * 根据条件更新对象的方法，仅更新对象非空的属性
@@ -112,7 +112,7 @@ public interface BaseService<T extends BasePojo> {
      * @param example 更新的条件
      * @return 修改的对象数量
      */
-    int updateByExampleSelective(Example example);
+    int updateByExampleSelective(T record, Example example);
 
     /**
      * 根据主键删除对象的方法

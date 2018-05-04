@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import cn.loverqi.star.core.domain.StarSysUserInfo;
+import cn.loverqi.star.core.exception.PassWordComplexityException;
 import cn.loverqi.star.core.mapper.StarSysPrivMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.service.StarSysUserInfoService;
@@ -52,6 +53,65 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
         }
 
         return starSysUserInfo;
+    }
+
+    @Override
+    public int insert(StarSysUserInfo record) {
+        // TODO 自动生成的方法存根
+        return super.insert(record);
+    }
+
+    @Override
+    public int insertSelective(StarSysUserInfo record) {
+        // TODO 自动生成的方法存根
+        return super.insertSelective(record);
+    }
+
+    @Override
+    public int insertSelectiveWithGeneratedKeys(StarSysUserInfo record) {
+        record.setPassword(null);
+        return super.insertSelectiveWithGeneratedKeys(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(StarSysUserInfo record) {
+        record.setPassword(null);
+        return super.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(StarSysUserInfo record) {
+        record.setPassword(null);
+        return super.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByExample(StarSysUserInfo record, Example example) {
+        record.setPassword(null);
+        return super.updateByExample(record, example);
+    }
+
+    @Override
+    public int updateByExampleSelective(StarSysUserInfo record, Example example) {
+        record.setPassword(null);
+        return super.updateByExampleSelective(record, example);
+    }
+
+    @Override
+    public int updatePassWord(StarSysUserInfo record) throws PassWordComplexityException {
+        StarSysUserInfo starSysUserInfo = new StarSysUserInfo();
+        starSysUserInfo.setId(record.getId());
+        starSysUserInfo.setPassword(record.getPassword());
+
+        return super.updateByPrimaryKeySelective(starSysUserInfo);
+    }
+
+    @Override
+    public int updatePassWord(String password, Example example) throws PassWordComplexityException {
+        StarSysUserInfo starSysUserInfo = new StarSysUserInfo();
+        starSysUserInfo.setPassword(password);
+
+        return super.updateByExampleSelective(starSysUserInfo, example);
     }
 
 }

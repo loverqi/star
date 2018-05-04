@@ -131,7 +131,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 修改的对象数量
      */
     @UpdateProvider(type = BaseTemplate.class, method = "updateByExample")
-    int updateByExample(Class<T> t, Example example);
+    int updateByExample(T record, Example example);
 
     /**
      * 根据条件更新对象的方法，仅更新对象非空的属性
@@ -140,7 +140,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @return 修改的对象数量
      */
     @UpdateProvider(type = BaseTemplate.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(Class<T> t, Example example);
+    int updateByExampleSelective(T record, Example example);
 
     /**
      * 根据主键值和表名删除对象的方法
