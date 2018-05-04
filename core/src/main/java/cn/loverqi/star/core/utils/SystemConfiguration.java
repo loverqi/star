@@ -9,46 +9,57 @@ package cn.loverqi.star.core.utils;
 public class SystemConfiguration {
 
     // 系统名称
-    private static String systemName;
+    public static String SYSTEM_NAME;
 
-    // 是否开启用户密码定期日数
-    private static int passwordUpdateDays;
+    // 密码定期日数, 0为不限制
+    public static int PASSWORD_UPDATE_DAYS;
 
-    // 错误密码次数
-    private static int pwdFailsCount;
+    // 密码长度最小, 0为不限制
+    public static int PASSWORD_COUNT_MIN;
+
+    // 密码长度最大, 0为不限制
+    public static int PASSWORD_COUNT_MAX;
+
+    // 密码复杂度要求, 0为不限制
+    public static int PASSWORD_COMPLEXITY;
+
+    // 错误密码次数, 0为不限制
+    public static int PWD_FAILS_COUNT;
 
     static {
-        passwordUpdateDays = 30;
-        systemName = "Star 快速开发平台";
-        pwdFailsCount = 3;
+        SYSTEM_NAME = "Star 快速开发平台";
+        PASSWORD_UPDATE_DAYS = 30;
+        PASSWORD_COUNT_MIN = 6;
+        PASSWORD_COUNT_MAX = 15;
+        PASSWORD_COMPLEXITY = 2;
+        PWD_FAILS_COUNT = 3;
     }
 
-    public static int getPasswordUpdateDays() {
-        return passwordUpdateDays;
+    /**
+     * 获取系统的密码复杂度要求
+     */
+    public static String getPasswordComplexity() {
+        String passwordComplexityValue = null;
+        switch (PASSWORD_COMPLEXITY) {
+        case 1: //简单（只包含数字或字母）
+            passwordComplexityValue = "^(?:\\d+|[a-zA-Z]+|[!@#$%^&*]+)$";
+            break;
+        case 2: //中级（包含字母和数字）
+            passwordComplexityValue = "^(?![a-zA-z]+$)(?!\\d+$)(?![!@#$%^&*]+$)[a-zA-Z\\d!@#$%^&*]+$";
+            break;
+        case 3: //复杂（同时包含数字，字母，特殊符号）
+            passwordComplexityValue = "^^(?![a-zA-z]+$)(?!\\d+$)(?![!@#$%^&*_-]+$)(?![a-zA-z\\d]+$)(?![a-zA-z!@#$%^&*_-]+$)(?![\\d!@#$%^&*_-]+$)[a-zA-Z\\d!@#$%^&*_-]+$";
+            break;
+        }
+
+        return passwordComplexityValue;
     }
 
-    public static void setPasswordUpdateDays(int passwordUpdateDays) {
-        SystemConfiguration.passwordUpdateDays = passwordUpdateDays;
-    }
-
-    public static String getSystemName() {
-        return systemName;
-    }
-
-    public static void setSystemName(String systemName) {
-        SystemConfiguration.systemName = systemName;
-    }
-
-    public static int getPwdFailsCount() {
-        return pwdFailsCount;
-    }
-
-    public static void setPwdFailsCount(int pwdFailsCount) {
-        SystemConfiguration.pwdFailsCount = pwdFailsCount;
+    public static void setPASSWORD_COMPLEXITY(int pASSWORD_COMPLEXITY) {
+        PASSWORD_COMPLEXITY = pASSWORD_COMPLEXITY;
     }
 
     private SystemConfiguration() throws ClassNotFoundException {
         throw new ClassNotFoundException();
     }
-
 }
