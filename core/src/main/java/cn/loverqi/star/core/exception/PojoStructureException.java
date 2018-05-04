@@ -9,6 +9,10 @@ public class PojoStructureException extends RuntimeException {
 
     private static final long serialVersionUID = 6846686878331148551L;
 
+    public PojoStructureException() {
+        super();
+    }
+
     public PojoStructureException(String msg) {
         super(msg);
     }

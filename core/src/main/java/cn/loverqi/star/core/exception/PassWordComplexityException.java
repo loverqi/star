@@ -9,6 +9,10 @@ public class PassWordComplexityException extends Exception {
 
     private static final long serialVersionUID = 6846686878331148551L;
 
+    public PassWordComplexityException() {
+        super();
+    }
+
     public PassWordComplexityException(String msg) {
         super(msg);
     }

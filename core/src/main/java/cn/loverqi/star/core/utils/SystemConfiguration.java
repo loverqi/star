@@ -15,10 +15,10 @@ public class SystemConfiguration {
     public static int PASSWORD_UPDATE_DAYS;
 
     // 密码长度最小, 0为不限制
-    public static int PASSWORD_COUNT_MIN;
+    public static int PASSWORD_LENGTH_MIN;
 
     // 密码长度最大, 0为不限制
-    public static int PASSWORD_COUNT_MAX;
+    public static int PASSWORD_LENGTH_MAX;
 
     // 密码复杂度要求, 0为不限制
     public static int PASSWORD_COMPLEXITY;
@@ -29,8 +29,8 @@ public class SystemConfiguration {
     static {
         SYSTEM_NAME = "Star 快速开发平台";
         PASSWORD_UPDATE_DAYS = 30;
-        PASSWORD_COUNT_MIN = 6;
-        PASSWORD_COUNT_MAX = 15;
+        PASSWORD_LENGTH_MIN = 6;
+        PASSWORD_LENGTH_MAX = 15;
         PASSWORD_COMPLEXITY = 2;
         PASSWORD_FAILS_COUNT = 3;
     }

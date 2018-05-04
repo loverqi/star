@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cn.loverqi.star.core.domain.StarSysUserInfo;
@@ -14,6 +15,9 @@ import cn.loverqi.star.core.mapper.StarSysPrivMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.service.StarSysUserInfoService;
 import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
+import cn.loverqi.star.core.utils.PasswordEncoderUtil;
+import cn.loverqi.star.core.utils.StringUtil;
+import cn.loverqi.star.core.utils.SystemConfiguration;
 
 /**
  * 用户管理实现类
@@ -26,6 +30,9 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
 
     @Autowired
     private StarSysPrivMapper starSysPrivMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /*
      * 根据用户名加载用户的方法
@@ -57,13 +64,13 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
 
     @Override
     public int insert(StarSysUserInfo record) {
-        // TODO 自动生成的方法存根
+        record.setPassword(null);
         return super.insert(record);
     }
 
     @Override
     public int insertSelective(StarSysUserInfo record) {
-        // TODO 自动生成的方法存根
+        record.setPassword(null);
         return super.insertSelective(record);
     }
 
@@ -109,9 +116,74 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
     @Override
     public int updatePassWord(String password, Example example) throws PassWordComplexityException {
         StarSysUserInfo starSysUserInfo = new StarSysUserInfo();
-        starSysUserInfo.setPassword(password);
+        if (StringUtil.isNotNull(password)) {
+            checkPassword(password);
+            starSysUserInfo.setPassword(passwordEncoder.encode(password));
+        }
 
         return super.updateByExampleSelective(starSysUserInfo, example);
+    }
+
+    @Override
+    public int insertWithPassword(StarSysUserInfo record) throws PassWordComplexityException {
+        String password = record.getPassword();
+        if (StringUtil.isNotNull(password)) {
+            checkPassword(password);
+            record.setPassword(passwordEncoder.encode(password));
+        }
+
+        return super.insert(record);
+    }
+
+    @Override
+    public int insertWithPasswordAndGeneratedKeys(StarSysUserInfo record) throws PassWordComplexityException {
+        String password = record.getPassword();
+        if (StringUtil.isNotNull(password)) {
+            checkPassword(password);
+            record.setPassword(passwordEncoder.encode(password));
+        }
+
+        return super.insertSelective(record);
+    }
+
+    @Override
+    public int insertSelectiveWithPassword(StarSysUserInfo record) throws PassWordComplexityException {
+        String password = record.getPassword();
+        if (StringUtil.isNotNull(password)) {
+            checkPassword(password);
+            record.setPassword(passwordEncoder.encode(password));
+        }
+
+        return super.insertSelectiveWithGeneratedKeys(record);
+    }
+
+    @Override
+    public int insertSelectiveWithPasswordAndGeneratedKeys(StarSysUserInfo record) throws PassWordComplexityException {
+        String password = record.getPassword();
+        if (StringUtil.isNotNull(password)) {
+            checkPassword(password);
+            record.setPassword(passwordEncoder.encode(password));
+        }
+
+        return super.insertSelectiveWithGeneratedKeys(record);
+    }
+
+    /**
+     * 验证密码是否规范
+     * @param password 需要验证的密码
+     * @return 密码是否符合规范
+     */
+    private void checkPassword(String password) throws PassWordComplexityException {
+        //验证密码长度
+        if (!PasswordEncoderUtil.checkPasswordLength(password, SystemConfiguration.PASSWORD_LENGTH_MIN,
+                SystemConfiguration.PASSWORD_LENGTH_MAX)) {
+            throw new PassWordComplexityException("密码长度不符合规范");
+        }
+
+        //验证密码复杂度
+        if (!PasswordEncoderUtil.checkPasswordComplexity(password, SystemConfiguration.getPasswordComplexity())) {
+            throw new PassWordComplexityException("密码复杂度不符合规范");
+        }
     }
 
 }
