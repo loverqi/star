@@ -41,7 +41,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
             fails++;
 
             // 系统配置失败次数  
-            int pwdFailsCount = SystemConfiguration.getPwdFailsCount();
+            int pwdFailsCount = SystemConfiguration.PASSWORD_FAILS_COUNT;
 
             //开启了登陆出错验证
             if (pwdFailsCount != 0) {

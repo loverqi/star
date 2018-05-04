@@ -215,7 +215,7 @@ public class StarSysUserInfo extends BasePojo implements UserDetails {
         long currentTimeMillis = System.currentTimeMillis();
         if (updatePwdTime != null && currentTimeMillis != 0) {
             int millisecond = DateUtil.differentDaysByMillisecond(currentTimeMillis, updatePwdTime.getTime());
-            isAccountNon = millisecond < SystemConfiguration.getPasswordUpdateDays();
+            isAccountNon = millisecond < SystemConfiguration.PASSWORD_UPDATE_DAYS;
         }
         return isAccountNon;
     }

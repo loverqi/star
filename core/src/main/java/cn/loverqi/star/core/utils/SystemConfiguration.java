@@ -24,7 +24,7 @@ public class SystemConfiguration {
     public static int PASSWORD_COMPLEXITY;
 
     // 错误密码次数, 0为不限制
-    public static int PWD_FAILS_COUNT;
+    public static int PASSWORD_FAILS_COUNT;
 
     static {
         SYSTEM_NAME = "Star 快速开发平台";
@@ -32,7 +32,7 @@ public class SystemConfiguration {
         PASSWORD_COUNT_MIN = 6;
         PASSWORD_COUNT_MAX = 15;
         PASSWORD_COMPLEXITY = 2;
-        PWD_FAILS_COUNT = 3;
+        PASSWORD_FAILS_COUNT = 3;
     }
 
     /**
