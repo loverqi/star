@@ -181,7 +181,8 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
         }
 
         //验证密码复杂度
-        if (!PasswordEncoderUtil.checkPasswordComplexity(password, SystemConfiguration.getPasswordComplexity())) {
+        String passwordComplexity = SystemConfiguration.getPasswordComplexity();
+        if (passwordComplexity != null && !PasswordEncoderUtil.checkPasswordComplexity(password, passwordComplexity)) {
             throw new PassWordComplexityException("密码复杂度不符合规范");
         }
     }
