@@ -40,6 +40,9 @@ public class SystemConfiguration {
     // 错误密码次数, 0为不限制
     public static int PASSWORD_FAILS_COUNT;
 
+    // 是否启用系统日志
+    public static boolean SYSTEM_LOG_ENABLE;
+
     static {
         SYSTEM_NAME = "Star 快速开发平台";
     }
@@ -74,6 +77,8 @@ public class SystemConfiguration {
                 PASSWORD_COMPLEXITY_VALUE = config.getValue();
             } else if ("PASSWORD_FAILS_COUNT".equals(config.getName().trim())) {
                 PASSWORD_FAILS_COUNT = Integer.parseInt(config.getValue());
+            } else if ("SYSTEM_LOG_ENABLE".equals(config.getName().trim())) {
+                SYSTEM_LOG_ENABLE = Boolean.parseBoolean(config.getValue());
             } else {
                 count--;
             }

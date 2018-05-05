@@ -29,12 +29,12 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         String servletPath = request.getServletPath();
 
-        if (session.getAttribute("SPRING_SECURITY_CONTEXT") != null && servletPath.endsWith(".html")) {
-            StarSysMenuService starSysMenuService = BeanFactoryUtils.getBean(StarSysMenuService.class);
+        if (session.getAttribute("SPRING_SECURITY_CONTEXT") != null
+                && (servletPath.endsWith(".html") || servletPath.equals("/"))) {
 
             //从数据库中加载的用户可访问的所有的菜单
             if (session.getAttribute("menus") == null) {
-                List<StarSysMenu> starSysMenus = starSysMenuService
+                List<StarSysMenu> starSysMenus = BeanFactoryUtils.getBean(StarSysMenuService.class)
                         .selectStarSysMenuByPriv(SecurityUtil.getUserAuthorities());
                 session.setAttribute("menus", starSysMenus);
             }

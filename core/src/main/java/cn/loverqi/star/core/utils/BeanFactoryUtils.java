@@ -32,7 +32,10 @@ public class BeanFactoryUtils implements ApplicationContextAware {
      * @return 获得到的Bean
      */
     public static <T> T getBean(Class<T> clazz) {
-        T bean = applicationContext.getBean(clazz);
+        T bean = null;
+        if (applicationContext != null) {
+            bean = applicationContext.getBean(clazz);
+        }
 
         return bean;
     }
@@ -43,7 +46,10 @@ public class BeanFactoryUtils implements ApplicationContextAware {
      * @return 获得到的Bean
      */
     public static Object getBean(String name) {
-        Object bean = applicationContext.getBean(name);
+        Object bean = null;
+        if (applicationContext != null) {
+            bean = applicationContext.getBean(name);
+        }
 
         return bean;
     }

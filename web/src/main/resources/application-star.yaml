@@ -21,6 +21,7 @@ druid:
 
 # 关于系统web的一些基本设置
 web:
+  logEnable: true
   resources: classpath:/static/
   crossDomain:
     origin: GET,HEAD,POST,PUT,DELETE,OPTIONS

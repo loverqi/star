@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistra
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import cn.loverqi.star.core.interceptor.LogInterceptor;
 import cn.loverqi.star.core.interceptor.MenuInterceptor;
 import cn.loverqi.star.core.interceptor.SystemConfigInterceptor;
 
@@ -26,8 +27,12 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private SystemConfigInterceptor systemConfigInterceptor;
+
     @Autowired
     private MenuInterceptor menuInterceptor;
+
+    @Autowired
+    private LogInterceptor logInterceptor;
 
     @Value("${file.maxFileSize:10MB}")
     private String maxFileSize;
@@ -43,6 +48,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Value("${web.resources:classpath:/static/}")
     private String[] resources;
+
+    @Value("${web.logEnable:true}")
+    private boolean logEnable;
 
     @Value("${swagger.enable:false}")
     private boolean swaggerEnable;
@@ -87,8 +95,14 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         //添加系统参数的   拦截器
         registry.addInterceptor(systemConfigInterceptor);
+
         //添加系统的菜单拦截器
         registry.addInterceptor(menuInterceptor);
+
+        //添加系统的日志拦截器
+        if (logEnable) {
+            registry.addInterceptor(logInterceptor);
+        }
     }
 
     /**  
