@@ -44,7 +44,7 @@
 								<ul class="list-unstyled spaced inline bigger-110 margin-15">
 									<li>
 										<i class="ace-icon fa fa-hand-o-right blue"></i>
-										<a href="mailto:admin@loverqi.cn">联系我们</a>
+										<a th:href="'mailto:' + ${application.config.SYSTEM_EMAIL}">联系我们</a>
 									</li>
 								</ul>
 							</div>
@@ -59,7 +59,7 @@
 								</a>
 
 								<a href="/index.html" class="btn btn-primary">
-									<i class="ace-icon fa fa-tachometer"></i>
+									<i class="ace-icon fa fa-home"></i>
 									去主页
 								</a>
 							</div>

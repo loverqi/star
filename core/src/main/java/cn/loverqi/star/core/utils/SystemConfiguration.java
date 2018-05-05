@@ -18,6 +18,9 @@ public class SystemConfiguration {
 
     // 系统名称
     public static String SYSTEM_NAME;
+    
+    // 联系人邮箱
+    public static String SYSTEM_EMAIL;
 
     // 系统导航栏logo，路径
     public static String SYSTEM_LOGO_BAR;
@@ -45,6 +48,7 @@ public class SystemConfiguration {
 
     static {
         SYSTEM_NAME = "Star 快速开发平台";
+        SYSTEM_EMAIL = "admin@loverqi.cn";
     }
 
     public static int setConfig(List<StarSysConfig> configs) {
@@ -63,6 +67,8 @@ public class SystemConfiguration {
         if (config.getEnable()) {
             if ("SYSTEM_NAME".equals(config.getName().trim())) {
                 SYSTEM_NAME = config.getValue();
+            } else if ("SYSTEM_EMAIL".equals(config.getName().trim())) {
+                SYSTEM_EMAIL = config.getValue();
             } else if ("SYSTEM_LOGO_BAR".equals(config.getName().trim())) {
                 SYSTEM_LOGO_BAR = config.getValue();
             } else if ("PASSWORD_UPDATE_DAYS".equals(config.getName().trim())) {
