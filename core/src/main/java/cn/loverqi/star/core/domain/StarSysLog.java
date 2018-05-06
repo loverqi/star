@@ -21,6 +21,9 @@ public class StarSysLog extends BasePojo {
     /** 功能权限名*/
     private String text;
 
+    /** 访问地址*/
+    private String ipAddr;
+
     /** 访问时间*/
     private Date accessTime;
 
@@ -52,6 +55,14 @@ public class StarSysLog extends BasePojo {
 
     public void setText(String text) {
         this.text = text == null ? null : text.trim();
+    }
+
+    public String getIpAddr() {
+        return ipAddr;
+    }
+
+    public void setIpAddr(String ipAddr) {
+        this.ipAddr = ipAddr;
     }
 
     public Date getAccessTime() {

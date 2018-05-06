@@ -20,6 +20,7 @@ import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysLogService;
 import cn.loverqi.star.core.service.StarSysMenuService;
 import cn.loverqi.star.core.utils.BeanFactoryUtils;
+import cn.loverqi.star.core.utils.HostAddrUtil;
 import cn.loverqi.star.core.utils.SystemConfiguration;
 
 /**
@@ -66,12 +67,13 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
             String servletPath = request.getServletPath();
             if (!servletPath.endsWith(".jpg") && !servletPath.endsWith(".gif") && !servletPath.endsWith(".png")
                     && !servletPath.endsWith(".css") && !servletPath.endsWith(".ttf") && !servletPath.endsWith(".woff")
-                    && !servletPath.endsWith(".js") && !servletPath.endsWith("/login.html")
-                    && !servletPath.endsWith("/error")) { //忽略掉静态资源
+                    && !servletPath.endsWith(".js") && !servletPath.endsWith(".ico")
+                    && !servletPath.endsWith("/login.html") && !servletPath.endsWith("/error")) { //忽略掉静态资源
 
                 StarSysLog starSysLog = new StarSysLog();
                 starSysLog.setPath(servletPath);
                 starSysLog.setAccessTime(new Date());
+                starSysLog.setIpAddr(HostAddrUtil.getIpAddr(request));
                 if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
                     starSysLog.setAccessUser(SecurityUtil.getUser().getId());
                 }
