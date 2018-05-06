@@ -4,14 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -37,9 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${security.csrf:true}")
     private boolean csrf;
-
-    @Value("${security.hideNotFoundException:false}")
-    private boolean hideNotFoundException;
 
     @Value("${security.formLogin.enable:false}")
     private boolean formLoginEnable;
@@ -67,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${security.formLogin.rememberMe.enable:false}")
     private boolean rememberMeEnable;
-    @Value("${security.formLogin.rememberMe.key:loverqi#star}")
+    @Value("${security.formLogin.rememberMe.key:loverqi_star}")
     private String key;
     @Value("${security.formLogin.rememberMe.rememberMeParameter:remember-me}")
     private String rememberMeParameter;
@@ -85,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private AuthenticationProvider authenticationProvider;
+    private PasswordEncoder passwordEncoder;
 
     /** 注入默认错误处理类返回类*/
     @Autowired
@@ -94,14 +88,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /** 注入自定义拦截去从数据库读取配置文件*/
     @Autowired
     private DynamicFilterSecurityInterceptor dynamicFilterSecurityInterceptor;
-
-    /**
-     * 密码加密的类
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(4);
-    }
 
     /**
      * 设置页面跳转方式为转发
@@ -116,27 +102,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 设置不隐藏用户找不到异常时使用
-     */
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-
-        //传入userDetailsService后，会在用户登录时自动调用loadUserByUsername方法在
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setHideUserNotFoundExceptions(hideNotFoundException);
-
-        return daoAuthenticationProvider;
-    }
-
-    /**
      * 配置认证方式
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         if (enable) {
-            auth.authenticationProvider(authenticationProvider);
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
     }
 

@@ -3,7 +3,6 @@ package cn.loverqi.star.core.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -30,12 +29,12 @@ import io.swagger.annotations.Api;
 public class IndexController {
 
     @Autowired
-    private StringRedisTemplate template;
+//    private StringRedisTemplate template;
 
     @RequestMapping(value = { "/", "/index.html" }, method = RequestMethod.GET)
     public String index(HttpSession session) {
         //测试使用redis缓存数据
-        template.opsForValue().set("test", "100");
+//        template.opsForValue().set("test", "100");
         return "index";
     }
 

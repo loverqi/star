@@ -38,7 +38,6 @@ security:
   enable: true
   csrf: false
   iframe: true
-  hideNotFoundException: false
   formLogin:
     enable: true
     skipModel: redirect
@@ -50,7 +49,7 @@ security:
     passwordParameter: password
     rememberMe:
       enable: true
-      key: loverqi#star
+      key: loverqi_star
       rememberMeParameter: remember-me
       tokenValiditySeconds: 604800
   logout:
