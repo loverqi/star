@@ -40,7 +40,25 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000  
     # 合并多个DruidDataSource的监控数据  
     #useGlobalDataSourceStat: true  
-    
+
+  # Srping Session
+  session:  
+    store-type: redis 
+#    timeout: 7200
+    redis:
+        flush-mode: on-save
+        namespace: 
+  
+  #redis缓存数据库的配置
+  redis:  
+     database: 0
+     pool:  
+         max-active: 8  
+         max-wait: -1 
+         max-idle: 8  
+         min-idle: 0  
+         shutdown-timeout: 100
+  
 # 服务的基本配置
 server:
   port: 80
