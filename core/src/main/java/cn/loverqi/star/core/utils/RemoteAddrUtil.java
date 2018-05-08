@@ -3,17 +3,17 @@ package cn.loverqi.star.core.utils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 工具类
+ * 客户端ip工具类
  * @author LoverQi
  * @date 2018年5月7日
  */
-public class HostAddrUtil {
+public class RemoteAddrUtil {
 
     /** 
      * 获取用户真实IP地址
      * @return ip
      */
-    public static String getIpAddr(HttpServletRequest request) {
+    public static String getRemoteAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
 
         if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {

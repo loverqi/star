@@ -13,7 +13,7 @@ spring:
 
 # 服务器的基本属性配置
 server:
-  port: 70
+  port: 80
   session:
     timeout: 1800
 

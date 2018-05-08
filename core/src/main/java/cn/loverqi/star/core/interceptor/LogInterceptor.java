@@ -20,7 +20,7 @@ import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysLogService;
 import cn.loverqi.star.core.service.StarSysMenuService;
 import cn.loverqi.star.core.utils.BeanFactoryUtils;
-import cn.loverqi.star.core.utils.HostAddrUtil;
+import cn.loverqi.star.core.utils.RemoteAddrUtil;
 import cn.loverqi.star.core.utils.SystemConfiguration;
 
 /**
@@ -73,7 +73,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 StarSysLog starSysLog = new StarSysLog();
                 starSysLog.setPath(servletPath);
                 starSysLog.setAccessTime(new Date());
-                starSysLog.setIpAddr(HostAddrUtil.getIpAddr(request));
+                starSysLog.setRemoteAddr(RemoteAddrUtil.getRemoteAddr(request));
+                starSysLog.setLocalPath(request.getLocalAddr() + ":" + request.getLocalPort());
                 if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
                     starSysLog.setAccessUser(SecurityUtil.getUser().getId());
                 }

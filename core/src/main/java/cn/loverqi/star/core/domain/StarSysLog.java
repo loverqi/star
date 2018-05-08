@@ -22,7 +22,10 @@ public class StarSysLog extends BasePojo {
     private String text;
 
     /** 访问地址*/
-    private String ipAddr;
+    private String localPath;
+
+    /** 客户ip地址*/
+    private String remoteAddr;
 
     /** 访问时间*/
     private Date accessTime;
@@ -57,14 +60,6 @@ public class StarSysLog extends BasePojo {
         this.text = text == null ? null : text.trim();
     }
 
-    public String getIpAddr() {
-        return ipAddr;
-    }
-
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
-    }
-
     public Date getAccessTime() {
         return accessTime;
     }
@@ -79,6 +74,22 @@ public class StarSysLog extends BasePojo {
 
     public void setAccessUser(Integer accessUser) {
         this.accessUser = accessUser;
+    }
+
+    public String getLocalPath() {
+        return localPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
+    }
+
+    public String getRemoteAddr() {
+        return remoteAddr;
+    }
+
+    public void setRemoteAddr(String remoteAddr) {
+        this.remoteAddr = remoteAddr;
     }
 
     public Boolean getEnable() {
