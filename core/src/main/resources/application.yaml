@@ -44,7 +44,6 @@ spring:
   # Srping Session
   session:  
     store-type: redis 
-#    timeout: 7200
     redis:
         flush-mode: on-save
         namespace: 
@@ -57,13 +56,13 @@ spring:
          max-wait: -1 
          max-idle: 8  
          min-idle: 0  
-         shutdown-timeout: 100
+         shutdown-timeout: 0
   
 # 服务的基本配置
 server:
   port: 80
   session:
-    timeout: 3600
+    timeout: 1800
   # 关闭默认的错误处理
   error:  
     whitelabel:  
