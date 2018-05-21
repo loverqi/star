@@ -14,6 +14,9 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
 @EnableSpringHttpSession
 public class HttpSessionConfig {
 
+    /**
+     * 注入Lettuce工厂
+     */
     @Bean
     public LettuceConnectionFactory connectionFactory() {
         return new LettuceConnectionFactory();

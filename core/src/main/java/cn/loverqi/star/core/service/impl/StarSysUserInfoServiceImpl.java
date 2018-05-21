@@ -50,7 +50,7 @@ public class StarSysUserInfoServiceImpl extends BaseServiceImpl<StarSysUserInfo>
 
             Integer roleId = starSysUserInfo.getRoleId();
 
-            //查询用户的角色信息，并返回存入user中
+            //根据用户角色加载用户权限信息
             if (roleId != null) {
                 List<String> privs = starSysPrivMapper.selectPrivByRoleId(roleId);
                 starSysUserInfo.addAuthoritiesGlSysPrivs(privs);

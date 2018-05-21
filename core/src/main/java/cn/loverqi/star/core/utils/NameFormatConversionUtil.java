@@ -1,4 +1,4 @@
-package cn.loverqi.star.core.mybaties.utils;
+package cn.loverqi.star.core.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -3,7 +3,7 @@ package cn.loverqi.star.core.mybaties.example;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
+import cn.loverqi.star.core.utils.NameFormatConversionUtil;
 
 /**
  * 查询配置类，根据该类可以指定查询的参数和配置，实现单表查询的规范化操作

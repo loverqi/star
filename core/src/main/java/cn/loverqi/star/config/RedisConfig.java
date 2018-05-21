@@ -25,6 +25,9 @@ public class RedisConfig {
     @Autowired
     private LettuceConnectionFactory lettuceConnectionFactory;
 
+    /**
+     * 配置Redis操作类
+     */
     @Bean
     public RedisTemplate<?, ?> redisTemplate() {
         StringRedisTemplate template = new StringRedisTemplate(lettuceConnectionFactory);

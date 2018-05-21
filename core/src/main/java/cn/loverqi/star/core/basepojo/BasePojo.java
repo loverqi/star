@@ -17,7 +17,7 @@ import cn.loverqi.star.core.annotation.TableId;
 import cn.loverqi.star.core.annotation.TableName;
 import cn.loverqi.star.core.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
-import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
+import cn.loverqi.star.core.utils.NameFormatConversionUtil;
 
 /**
  * MyBatis通用的POJO基类

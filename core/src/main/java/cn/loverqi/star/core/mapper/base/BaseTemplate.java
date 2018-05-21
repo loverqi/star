@@ -7,7 +7,7 @@ import org.apache.ibatis.jdbc.SQL;
 import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.mybaties.example.Example.Criterion;
-import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
+import cn.loverqi.star.core.utils.NameFormatConversionUtil;
 import cn.loverqi.star.core.utils.StringUtil;
 
 /**

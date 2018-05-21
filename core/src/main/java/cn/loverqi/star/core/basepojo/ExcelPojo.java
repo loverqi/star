@@ -18,9 +18,9 @@ import cn.loverqi.star.core.annotation.ExcelName;
 import cn.loverqi.star.core.bean.ExcelColumnMapping;
 import cn.loverqi.star.core.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
-import cn.loverqi.star.core.mybaties.utils.NameFormatConversionUtil;
 import cn.loverqi.star.core.utils.ConstantUtil;
 import cn.loverqi.star.core.utils.DateUtil;
+import cn.loverqi.star.core.utils.NameFormatConversionUtil;
 
 /**
  * 可以导出和导入excel通用的POJO基类
@@ -55,22 +55,6 @@ public abstract class ExcelPojo extends BasePojo {
         return list;
     }
 
-    @JsonIgnore
-    public Map<String, ExcelColumnMapping> getExcelFieldsMap() {
-        Map<String, ExcelColumnMapping> map = new HashMap<String, ExcelColumnMapping>();
-        Field[] declaredField = getClass().getDeclaredFields();
-        for (Field field : declaredField) {
-            ExcelColumn annotation = AnnotationUtil.getAnnotation(field, ExcelColumn.class);
-            //根据注解判断当前字段是否需要隐藏
-            if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
-                map.put(annotation.value(), new ExcelColumnMapping(annotation.value(), field.getName(),
-                        annotation.order(), annotation.width(), field.getType()));
-            }
-        }
-
-        return map;
-    }
-
     /**
      * 获取POJO对应的excel表格名
      * 优先读取@Table注解
@@ -85,6 +69,26 @@ public abstract class ExcelPojo extends BasePojo {
         }
 
         return simpleName;
+    }
+
+    /**
+     * 加载POJO中需要导出的字段及值
+     * @return 得到的Map集合
+     */
+    @JsonIgnore
+    public Map<String, ExcelColumnMapping> getExcelFieldsMap() {
+        Map<String, ExcelColumnMapping> map = new HashMap<String, ExcelColumnMapping>();
+        Field[] declaredField = getClass().getDeclaredFields();
+        for (Field field : declaredField) {
+            ExcelColumn annotation = AnnotationUtil.getAnnotation(field, ExcelColumn.class);
+            //根据注解判断当前字段是否需要隐藏
+            if (annotation != null && !Modifier.isStatic(field.getModifiers())) {
+                map.put(annotation.value(), new ExcelColumnMapping(annotation.value(), field.getName(),
+                        annotation.order(), annotation.width(), field.getType()));
+            }
+        }
+
+        return map;
     }
 
     /**

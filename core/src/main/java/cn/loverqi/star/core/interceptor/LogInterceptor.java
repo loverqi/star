@@ -57,7 +57,9 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         return super.preHandle(request, response, handler);
     }
 
-    //后置拦截
+    /*
+     * 后置拦截，用于记录用户的资源访问情况
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -83,7 +85,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 Map<String, String> menuMaps = (Map<String, String>) request.getServletContext()
                         .getAttribute("menuMaps");
                 starSysLog.setText(menuMaps.get(servletPath));
-
                 BeanFactoryUtils.getBean(StarSysLogService.class).insertSelective(starSysLog);
             }
         }

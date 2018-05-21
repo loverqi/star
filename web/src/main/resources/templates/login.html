@@ -32,7 +32,8 @@
 					<div class="login-container">
 						<div class="center">
 							<h1>
-								<span class="white">客户账单管理登陆</span>
+								<span class="white" th:text="${application.config.SYSTEM_NAME}"></span>
+								<span class="white">登陆</span>
 							</h1>
 						</div>
 
@@ -112,9 +113,7 @@
 
 	<!--[if !IE]> -->
 	<script type="text/javascript">
-		window.jQuery
-				|| document.write("<script src='assets/js/jquery.min.js'>"
-						+ "<"+"/script>");
+		window.jQuery || document.write("<script src='assets/js/jquery.min.js'>" + "<"+"/script>");
 	</script>
 
 	<!-- <![endif]-->
@@ -126,9 +125,7 @@
 		<![endif]-->
 	<script type="text/javascript">
 		if ('ontouchstart' in document.documentElement)
-			document
-					.write("<script src='assets/js/jquery.mobile.custom.min.js'>"
-							+ "<"+"/script>");
+			document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<"+"/script>");
 	</script>
 
 	<!-- inline scripts related to this page -->

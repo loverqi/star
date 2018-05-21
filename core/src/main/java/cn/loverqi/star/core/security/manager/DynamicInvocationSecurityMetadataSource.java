@@ -58,7 +58,6 @@ public class DynamicInvocationSecurityMetadataSource implements FilterInvocation
                 map.put(starSysMenu.getPath(), array);
             }
         }
-
     }
 
     /*
