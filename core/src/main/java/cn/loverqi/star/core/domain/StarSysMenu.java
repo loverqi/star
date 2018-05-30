@@ -92,6 +92,7 @@ public class StarSysMenu extends BasePojo implements INode<StarSysMenu> {
         return children;
     }
 
+    @Override
     public void setChildren(List<StarSysMenu> children) {
         this.children = children;
     }
@@ -136,8 +137,16 @@ public class StarSysMenu extends BasePojo implements INode<StarSysMenu> {
         return parent;
     }
 
-    @Override
     public void setPid(String pid) {
         this.parent = pid;
+    }
+
+    @Override
+    public String getOId() {
+        return id;
+    }
+
+    public void setOId(String oId) {
+        this.id = oId;
     }
 }

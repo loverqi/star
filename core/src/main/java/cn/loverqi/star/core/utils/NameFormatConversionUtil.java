@@ -3,6 +3,8 @@ package cn.loverqi.star.core.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.thymeleaf.util.StringUtils;
+
 /**
  * 对象字段名称格式转换工具类
  * @author loverqi
@@ -33,6 +35,28 @@ public class NameFormatConversionUtil {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * 下划线转驼峰,首字母大写
+     * @param str 下划线格式的字段名
+     * @return 驼峰格式的字段名
+     */
+    public static String lineToHumpAndUpperCase(String str) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(str);
+        int count = sb.indexOf("_");
+        while (count != 0) {
+            int num = sb.indexOf("_", count);
+            count = num + 1;
+            if (num != -1) {
+                char ss = sb.charAt(count);
+                char ia = (char) (ss - 32);
+                sb.replace(count, count + 1, ia + "");
+            }
+        }
+        String result = sb.toString().replaceAll("_", "");
+        return StringUtils.capitalize(result);
     }
 
     /**

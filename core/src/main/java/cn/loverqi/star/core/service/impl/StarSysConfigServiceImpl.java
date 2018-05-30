@@ -12,6 +12,5 @@ import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
  * @date 2018年5月4日
  */
 @Service
-public class StarSysConfigServiceImpl extends BaseServiceImpl<StarSysConfig>
-        implements StarSysConfigService {
+public class StarSysConfigServiceImpl extends BaseServiceImpl<StarSysConfig> implements StarSysConfigService {
 }

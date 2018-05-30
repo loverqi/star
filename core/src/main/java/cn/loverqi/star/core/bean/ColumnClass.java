@@ -36,7 +36,7 @@ public class ColumnClass {
     }
 
     public String getColumnType() {
-        return columnType;
+        return columnType.toLowerCase();
     }
 
     public void setColumnType(String columnType) {

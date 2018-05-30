@@ -83,7 +83,7 @@ public class TreeBuilder<T extends INode<T>> {
     public List<T> getChildNodes(T pnode) {
         List<T> childNodes = new ArrayList<>();
         for (T n : nodes) {
-            if (pnode.getId().equals(n.getPid())) {
+            if (pnode.getOId().equals(n.getPid())) {
                 childNodes.add(n);
             }
         }

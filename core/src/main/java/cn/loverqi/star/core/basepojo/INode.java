@@ -13,31 +13,13 @@ public interface INode<T extends INode<T>> {
      * 获取当前节点的id
      * @return 当前节点的id
      */
-    String getId();
-
-    /**
-     * 设置当前节点的id
-     * @param id 当前节点的id
-     */
-    void setId(String id);
+    String getOId();
 
     /**
      * 获取当前节点的父节点id
      * @return 当前节点的父节点id
      */
     String getPid();
-
-    /**
-     * 设置当前节点的父节点id
-     * @param pid 当前节点的父节点id
-     */
-    void setPid(String pid);
-
-    /**
-     * 获取当前节点的孩子节点
-     * @return 当前节点的孩子节点
-     */
-    List<T> getChildren();
 
     /**
      * 设置当前节点的孩子节点
