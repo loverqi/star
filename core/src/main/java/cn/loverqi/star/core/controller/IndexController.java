@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,16 +35,16 @@ public class IndexController {
     public String index(HttpSession session) {
         //测试使用redis缓存数据
         //        template.opsForValue().set("test", "100");
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
-        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
+        //        System.err.println(session.getId());
         return "index";
     }
 
@@ -61,9 +62,9 @@ public class IndexController {
             try {
                 throw (AuthenticationException) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
             } catch (UsernameNotFoundException exception) {
-                massage = "用户不存在";
+                massage = "用户名不存在";
             } catch (BadCredentialsException exception) {
-                massage = "密码错误";
+                massage = "用户名或密码错误";
             } catch (AccountExpiredException exception) {
                 massage = "账户已过期";
             } catch (LockedException exception) {
@@ -72,6 +73,8 @@ public class IndexController {
                 massage = "账户不可用";
             } catch (CredentialsExpiredException exception) {
                 massage = "密码已过期";
+            } catch (InsufficientAuthenticationException exception) {
+                massage = exception.getMessage();
             } catch (Exception exception) {
                 massage = "系统异常";
             }

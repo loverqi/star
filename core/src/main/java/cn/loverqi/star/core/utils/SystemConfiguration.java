@@ -45,6 +45,9 @@ public class SystemConfiguration {
 
     // 是否启用系统日志
     public static boolean SYSTEM_LOG_ENABLE;
+   
+    // 是否启用系统日志
+    public static boolean CODE_ENABLE;
 
     static {
         SYSTEM_NAME = "Star 快速开发平台";

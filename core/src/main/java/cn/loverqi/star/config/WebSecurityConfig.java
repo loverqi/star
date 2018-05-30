@@ -12,8 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import cn.loverqi.star.core.security.filter.KaptchaAuthenticationFilter;
 import cn.loverqi.star.core.security.lnterceptor.DynamicFilterSecurityInterceptor;
+import cn.loverqi.star.core.utils.SystemConfiguration;
 
 /**
  * Spring Security配置
@@ -51,6 +54,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String usernameParameter;
     @Value("${security.formLogin.passwordParameter:password}")
     private String passwordParameter;
+    @Value("${security.formLogin.verificationCode.enable:true}")
+    private boolean codeEnable;
+    @Value("${security.formLogin.verificationCode.parameter:kaptcha}")
+    private String codeParameter;
 
     @Value("${security.logout.enable:false}")
     private boolean logoutEnable;
@@ -74,6 +81,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private int maximumSessions;
     @Value("${security.sessionManagement.expiredUrl:/login.html}")
     private String expiredUrl;
+
+    @Value("${security.ignorings:/getKaptchaImg.do}")
+    private String[] ignorings;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -114,6 +124,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (enable) {
+
+            if (codeEnable) {
+                //在认证用户名之前认证验证码，如果验证码错误，将不执行用户名和密码的认证
+                http.addFilterBefore(new KaptchaAuthenticationFilter(loginProcessingUrl, failureUrl, codeParameter),
+                        UsernamePasswordAuthenticationFilter.class);
+            }
+            SystemConfiguration.CODE_ENABLE = codeEnable;
+
             http.authorizeRequests() //开启认证规则配置
                     .anyRequest().authenticated(); //其他所有路径都是需要认证/登录后才能访问
 
@@ -185,6 +203,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             if (swaggerEnable) {
                 web.ignoring().antMatchers("/swagger-resources/**", "/v2/api-docs/**", "/webjars/**",
                         "/swagger-ui.html");
+            }
+
+            if (ignorings != null) {
+                for (String ignoring : ignorings) {
+                    web.ignoring().antMatchers(ignoring);
+                }
             }
         } else {
             web.ignoring().anyRequest();

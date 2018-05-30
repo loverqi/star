@@ -47,6 +47,9 @@ security:
     failureUrl: /login.html?error=true
     usernameParameter: username
     passwordParameter: password
+    verificationCode: 
+      enable: true
+      parameter: kaptcha
     rememberMe:
       enable: true
       key: loverqi_star
@@ -60,6 +63,7 @@ security:
     enable: true
     maximumSessions: 1
     expiredUrl: /login.html?msg=2
+  ignorings: /getKaptchaImg.do
 
 # 设置文件上传限制
 file:

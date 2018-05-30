@@ -11,6 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cn.loverqi.star.core.basepojo.INode;
 
+/**
+ * 树形菜单生成器
+ * @param <T>
+ * @author LoverQi
+ * @date 2018年5月27日
+ */
 public class TreeBuilder<T extends INode<T>> {
 
     @Autowired
