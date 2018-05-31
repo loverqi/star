@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.loverqi.star.core.bulid.TreeBuilder;
 import cn.loverqi.star.core.domain.StarSysMenu;
 import cn.loverqi.star.core.mapper.StarSysMenuMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.service.StarSysMenuService;
 import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
-import cn.loverqi.star.core.treedata.TreeBuilder;
 
 /**
  * 菜单权限操作类的实现类

@@ -1,4 +1,4 @@
-package cn.loverqi.star.service.impl;
+package ${package_name}.service.impl;
 
 import org.springframework.stereotype.Service;
 import cn.loverqi.star.domain.${table_name};

@@ -1,8 +1,8 @@
-package ${package_name};
+package ${package_name}.domain;
 
 <#if model_column?exists>
 	<#list model_column as model>
-    	<#if (model.columnType=="datetime")>
+    	<#if (model.columnType=="datetime" || model.columnType=="date")>
 import java.util.Date;
    			<#break>
 		</#if> 
@@ -34,7 +34,7 @@ public class ${table_name} extends ExcelPojo <#if is_node>implements INode<${tab
     private Double ${model.changeColumnName};
 		<#elseif (model.columnType=="bit")>
     private Boolean ${model.changeColumnName};
-		<#elseif (model.columnType=="datetime")>
+		<#elseif (model.columnType=="datetime" || model.columnType=="date")>
     private Date ${model.changeColumnName};
 		</#if> 
 
@@ -74,7 +74,7 @@ public class ${table_name} extends ExcelPojo <#if is_node>implements INode<${tab
     public Boolean get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType=="datetime")>
+		<#elseif (model.columnType=="datetime" || model.columnType=="date")>
     public void set${model.changeColumnName?cap_first}(Date ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }

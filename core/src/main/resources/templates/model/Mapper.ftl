@@ -1,4 +1,4 @@
-package cn.loverqi.star.mapper;
+package ${package_name}.mapper;
 
 import cn.loverqi.star.domain.${table_name};
 import cn.loverqi.star.core.mapper.base.BaseMapper;

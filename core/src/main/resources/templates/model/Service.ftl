@@ -1,4 +1,4 @@
-package cn.loverqi.star.service;
+package ${package_name}.service;
 
 import cn.loverqi.star.domain.${table_name};
 import cn.loverqi.star.core.service.base.BaseService;
