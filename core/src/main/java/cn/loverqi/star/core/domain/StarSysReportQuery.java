@@ -9,7 +9,8 @@ import cn.loverqi.star.core.basepojo.BasePojo;
  */
 public class StarSysReportQuery extends BasePojo {
 
-    private static final long serialVersionUID = 1L;
+    /** */
+    private static final long serialVersionUID = 8058023772492933094L;
 
     /** 主键*/
     private Integer id;
@@ -38,7 +39,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -46,7 +47,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setReportId(Integer reportId) {
         this.reportId = reportId;
     }
-    
+
     public Integer getReportId() {
         return reportId;
     }
@@ -54,7 +55,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
-    
+
     public String getName() {
         return name;
     }
@@ -62,7 +63,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -70,7 +71,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setType(Integer type) {
         this.type = type;
     }
-    
+
     public Integer getType() {
         return type;
     }
@@ -78,7 +79,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue == null ? null : defaultValue.trim();
     }
-    
+
     public String getDefaultValue() {
         return defaultValue;
     }
@@ -86,7 +87,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setCondition(String condition) {
         this.condition = condition == null ? null : condition.trim();
     }
-    
+
     public String getCondition() {
         return condition;
     }
@@ -94,7 +95,7 @@ public class StarSysReportQuery extends BasePojo {
     public void setEnable(Integer enable) {
         this.enable = enable;
     }
-    
+
     public Integer getEnable() {
         return enable;
     }

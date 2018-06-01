@@ -9,7 +9,8 @@ import cn.loverqi.star.core.basepojo.BasePojo;
  */
 public class StarSysReportData extends BasePojo {
 
-    private static final long serialVersionUID = 1L;
+    /** */
+    private static final long serialVersionUID = -8352978100457531601L;
 
     /** 主键*/
     private Integer id;

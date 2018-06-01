@@ -21,6 +21,7 @@ import cn.loverqi.star.core.basepojo.BasePojo;
  */
 public class ${table_name} extends BasePojo <#if is_node>implements INode<${table_name}></#if>{
 
+    /** 默认序列号*/
     private static final long serialVersionUID = 1L;
 
 <#if model_column?exists>

@@ -1,6 +1,7 @@
 package cn.loverqi.star.core.domain;
 
 import java.util.Date;
+
 import cn.loverqi.star.core.basepojo.BasePojo;
 
 /**
@@ -10,7 +11,8 @@ import cn.loverqi.star.core.basepojo.BasePojo;
  */
 public class StarSysReport extends BasePojo {
 
-    private static final long serialVersionUID = 1L;
+    /** */
+    private static final long serialVersionUID = 903636686463298995L;
 
     /** 主键*/
     private Integer id;
@@ -42,7 +44,7 @@ public class StarSysReport extends BasePojo {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -50,7 +52,7 @@ public class StarSysReport extends BasePojo {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
-    
+
     public String getName() {
         return name;
     }
@@ -58,7 +60,7 @@ public class StarSysReport extends BasePojo {
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -66,7 +68,7 @@ public class StarSysReport extends BasePojo {
     public void setBeanClass(String beanClass) {
         this.beanClass = beanClass == null ? null : beanClass.trim();
     }
-    
+
     public String getBeanClass() {
         return beanClass;
     }
@@ -74,7 +76,7 @@ public class StarSysReport extends BasePojo {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
-    
+
     public Integer getPageSize() {
         return pageSize;
     }
@@ -82,7 +84,7 @@ public class StarSysReport extends BasePojo {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-    
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -90,7 +92,7 @@ public class StarSysReport extends BasePojo {
     public void setOperation(Integer operation) {
         this.operation = operation;
     }
-    
+
     public Integer getOperation() {
         return operation;
     }
@@ -98,7 +100,7 @@ public class StarSysReport extends BasePojo {
     public void setPermissionsEnable(Integer permissionsEnable) {
         this.permissionsEnable = permissionsEnable;
     }
-    
+
     public Integer getPermissionsEnable() {
         return permissionsEnable;
     }
@@ -106,7 +108,7 @@ public class StarSysReport extends BasePojo {
     public void setEnable(Integer enable) {
         this.enable = enable;
     }
-    
+
     public Integer getEnable() {
         return enable;
     }
