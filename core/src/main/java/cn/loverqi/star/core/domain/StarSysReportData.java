@@ -3,13 +3,13 @@ package cn.loverqi.star.core.domain;
 import cn.loverqi.star.core.basepojo.BasePojo;
 
 /**
- * 报表通用查询类  
+ * 报表显示数据配置表实体类
  * @author LoverQi
- * @date 2018年4月21日
+ * @date 2018年6月01日
  */
-public class ReportQuery extends BasePojo {
-    /** */
-    private static final long serialVersionUID = -886180225513568162L;
+public class StarSysReportData extends BasePojo {
+
+    private static final long serialVersionUID = 1L;
 
     /** 主键*/
     private Integer id;
@@ -29,62 +29,74 @@ public class ReportQuery extends BasePojo {
     /** 默认值*/
     private String defaultValue;
 
-    /** 对比条件*/
-    private String condition;
+    /** 格式化显示*/
+    private String format;
 
-    public Integer getId() {
-        return id;
-    }
+    /** 是否启用*/
+    private Integer enable;
 
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public Integer getReportId() {
-        return reportId;
+    
+    public Integer getId() {
+        return id;
     }
 
     public void setReportId(Integer reportId) {
         this.reportId = reportId;
     }
-
-    public String getName() {
-        return name;
+    
+    public Integer getReportId() {
+        return reportId;
     }
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
-
-    public String getTitle() {
-        return title;
+    
+    public String getName() {
+        return name;
     }
 
     public void setTitle(String title) {
         this.title = title == null ? null : title.trim();
     }
-
-    public Integer getType() {
-        return type;
+    
+    public String getTitle() {
+        return title;
     }
 
     public void setType(Integer type) {
         this.type = type;
     }
-
-    public String getDefaultValue() {
-        return defaultValue;
+    
+    public Integer getType() {
+        return type;
     }
 
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue == null ? null : defaultValue.trim();
     }
-
-    public String getCondition() {
-        return condition;
+    
+    public String getDefaultValue() {
+        return defaultValue;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition == null ? null : condition.trim();
+    public void setFormat(String format) {
+        this.format = format == null ? null : format.trim();
     }
+    
+    public String getFormat() {
+        return format;
+    }
+
+    public void setEnable(Integer enable) {
+        this.enable = enable;
+    }
+    
+    public Integer getEnable() {
+        return enable;
+    }
+
 }
