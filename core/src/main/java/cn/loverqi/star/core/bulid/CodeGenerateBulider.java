@@ -213,11 +213,13 @@ public class CodeGenerateBulider {
             DatabaseMetaData databaseMetaData = connection.getMetaData();
             ResultSet resultSetTable = databaseMetaData.getTables(null, "%", tableName, new String[] { "TABLE" });
             String tableAnnotation = null;
-            while (resultSetTable.next()) {
+            if (resultSetTable.next()) {
                 tableAnnotation = resultSetTable.getString("REMARKS");
-                break;
+            } else {
+                tableAnnotation = "";
             }
             resultSetTable.close();
+
             String changeTableName = NameFormatConversionUtil.lineToHumpAndUpperCase(tableName);
 
             ResultSet resultSet = databaseMetaData.getColumns(null, "%", tableName, "%");

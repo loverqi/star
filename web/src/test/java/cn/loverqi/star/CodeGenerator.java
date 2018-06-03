@@ -24,20 +24,20 @@ public class CodeGenerator {
         //设置文件日期格式
         bulid.setDateFormat("yyyy年M月dd日");
         //是否生成实体类
-        bulid.setGenDomain(true);
+        bulid.setGenDomain(false);
         //实体类是否支持excel操作
         bulid.setExcel(false);
         //实体类是否是层级菜单
         bulid.setNode(false);
         //是否生成数据库操作类
-        bulid.setGenMapper(true);
+        bulid.setGenMapper(false);
         //是否生成逻辑处理类
         bulid.setGenService(true);
         //是否生成逻辑处理类实现类
         bulid.setGenServieImpl(true);
 
         //指定需要生成的表，不定参，不传参时生成当前库所有
-        bulid.generate("star_sys_report", "star_sys_report_query", "star_sys_report_data");
+        bulid.generate("object_bean");
     }
 
 }

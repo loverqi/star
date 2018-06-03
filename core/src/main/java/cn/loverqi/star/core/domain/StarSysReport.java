@@ -7,12 +7,12 @@ import cn.loverqi.star.core.basepojo.BasePojo;
 /**
  * 报表实体类
  * @author LoverQi
- * @date 2018年6月01日
+ * @date 2018年6月03日
  */
 public class StarSysReport extends BasePojo {
 
-    /** */
-    private static final long serialVersionUID = 903636686463298995L;
+    /** 默认序列号*/
+    private static final long serialVersionUID = -324723302732813798L;
 
     /** 主键*/
     private Integer id;
@@ -32,8 +32,20 @@ public class StarSysReport extends BasePojo {
     /** 创建时间*/
     private Date createTime;
 
-    /** 操作按钮，根据000-111*/
-    private Integer operation;
+    /** 显示上传按钮*/
+    private Integer operationUpload;
+
+    /** 显示下载按钮*/
+    private Integer operationDownload;
+
+    /** 查看操作JS方法*/
+    private Integer operationViewFunc;
+
+    /** 编辑操作JS方法*/
+    private Integer operationEditFunc;
+
+    /** 删除操作JS方法*/
+    private Integer operationDeleteFunc;
 
     /** 是否启用权限*/
     private Integer permissionsEnable;
@@ -89,12 +101,44 @@ public class StarSysReport extends BasePojo {
         return createTime;
     }
 
-    public void setOperation(Integer operation) {
-        this.operation = operation;
+    public void setOperationUpload(Integer operationUpload) {
+        this.operationUpload = operationUpload;
     }
 
-    public Integer getOperation() {
-        return operation;
+    public Integer getOperationUpload() {
+        return operationUpload;
+    }
+
+    public void setOperationDownload(Integer operationDownload) {
+        this.operationDownload = operationDownload;
+    }
+
+    public Integer getOperationDownload() {
+        return operationDownload;
+    }
+
+    public void setOperationViewFunc(Integer operationViewFunc) {
+        this.operationViewFunc = operationViewFunc;
+    }
+
+    public Integer getOperationViewFunc() {
+        return operationViewFunc;
+    }
+
+    public void setOperationEditFunc(Integer operationEditFunc) {
+        this.operationEditFunc = operationEditFunc;
+    }
+
+    public Integer getOperationEditFunc() {
+        return operationEditFunc;
+    }
+
+    public void setOperationDeleteFunc(Integer operationDeleteFunc) {
+        this.operationDeleteFunc = operationDeleteFunc;
+    }
+
+    public Integer getOperationDeleteFunc() {
+        return operationDeleteFunc;
     }
 
     public void setPermissionsEnable(Integer permissionsEnable) {
