@@ -117,6 +117,17 @@ public class BaseTemplate<T extends BasePojo> {
     public String selectByExample(final Class<T> t, final Example example)
             throws InstantiationException, IllegalAccessException {
         final T record = t.newInstance();
+
+        return selectByExampleBean(record, example);
+    }
+
+    /**
+     * 根据条件查询对象的方法
+     * @param record 查询的表名
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    public String selectByExampleBean(final T record, final Example example) {
         String sql = new SQL() {
             {
                 if (example != null && example.isDistinct()) {
@@ -155,6 +166,17 @@ public class BaseTemplate<T extends BasePojo> {
     public String selectCountByExample(final Class<T> t, final Example example)
             throws InstantiationException, IllegalAccessException {
         final T record = t.newInstance();
+
+        return selectCountByExampleBean(record, example);
+    }
+
+    /**
+     * 根据条件查询页面数据个数的方法
+     * @param tableName 查询的表名
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    public String selectCountByExampleBean(final T record, final Example example) {
         String sql = new SQL() {
             {
                 if (example != null && example.isDistinct()) {
@@ -181,7 +203,6 @@ public class BaseTemplate<T extends BasePojo> {
         }.toString();
 
         return sql;
-
     }
 
     /**
@@ -409,6 +430,17 @@ public class BaseTemplate<T extends BasePojo> {
     public String deleteByExample(final Class<T> t, final Example example)
             throws InstantiationException, IllegalAccessException {
         final T record = t.newInstance();
+
+        return deleteByExampleBean(record, example);
+    }
+
+    /**
+     * 根据条件删除对象的方法
+     * @param tableName 查询的表名
+     * @param example 删除的条件
+     * @return 删除的对象的个数
+     */
+    public String deleteByExampleBean(final T record, final Example example) {
         String sql = new SQL() {
             {
                 DELETE_FROM("`" + record.getTablename() + "`");

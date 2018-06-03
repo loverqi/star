@@ -89,6 +89,15 @@ public interface BaseMapper<T extends BasePojo> {
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectCountByExample")
     int selectCountByExample(Class<T> t, Example example);
+    
+    /**
+     * 根据条件查询页面数据个数的方法
+     * @param tableName 查询的表名
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    @SelectProvider(type = BaseTemplate.class, method = "selectCountByExampleBeanT")
+    int selectCountByExampleBean(T record, Example example);
 
     /**
      * 根据条件查询页面数据个数的方法
@@ -107,6 +116,15 @@ public interface BaseMapper<T extends BasePojo> {
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByExample")
     List<T> selectByExample(Class<T> t, Example example);
+    
+    /**
+     * 根据条件查询对象的方法
+     * @param record 查询的表名
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    @SelectProvider(type = BaseTemplate.class, method = "selectByExampleBean")
+    List<T> selectByExampleBean(T record, Example example);
 
     /**
      * 根据主键id更新对象的方法
@@ -167,6 +185,15 @@ public interface BaseMapper<T extends BasePojo> {
      */
     @DeleteProvider(type = BaseTemplate.class, method = "deleteByExample")
     int deleteByExample(Class<T> t, Example example);
+    
+    /**
+     * 根据条件删除对象的方法
+     * @param tableName 查询的表名
+     * @param example 删除的条件
+     * @return 删除的对象的个数
+     */
+    @DeleteProvider(type = BaseTemplate.class, method = "deleteByExampleBean")
+    int deleteByExampleBean(T record, Example example);
 
     /**
      * 根据条件删除对象的方法
