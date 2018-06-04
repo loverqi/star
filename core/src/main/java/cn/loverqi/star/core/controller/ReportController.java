@@ -15,6 +15,8 @@ import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.service.StarSysReportService;
 import cn.loverqi.star.core.service.base.BaseMapService;
 import cn.loverqi.star.core.utils.CollectionUtil;
+import cn.loverqi.star.core.utils.PackageUtil;
+import cn.loverqi.star.core.utils.StringUtil;
 import io.swagger.annotations.Api;
 
 /**
@@ -44,9 +46,13 @@ public class ReportController {
             report = reports.get(0);
         }
 
-        List<Map<String, String>> selectByExample = baseMapService.selectByExample(report.getBeanClass(), null);
-        for (Map<String, String> map : selectByExample) {
-            System.err.println(map);
+        String className = PackageUtil.getClassName(report.getBeanClass());
+
+        if (StringUtil.isNotNull(className)) {
+            List<Map<String, String>> selectByExample = baseMapService.selectByExample(className, null);
+            for (Map<String, String> map : selectByExample) {
+                System.err.println(map);
+            }
         }
 
         return "error";
