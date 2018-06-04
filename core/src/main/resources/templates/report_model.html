@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="base/layout">
+<head>
+<meta charset="utf-8" />
+<title th:text="${report.title}"></title>
+<style type="text/css">
+.table-responsive table {
+	margin-bottom: 0px;
+}
+
+.CSSearchTbl {
+	border: 1px #008CD4 solid;
+	margin-bottom: 15px;
+}
+
+.CSSearchTbl thead tr th {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.CSSearchTbl tbody tr td {
+	padding: 10px;
+}
+
+.CSSearchTbl tbody tr td.right {
+	text-align: left;
+}
+
+.CSSearchTbl tbody tr td.left {
+	text-align: right;
+}
+
+.table th, .table td {
+	text-align: center;
+	vertical-align: middle !important;
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="page-content-area">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="table-header ">查询条件</div>
+
+					<div class="table-responsive no-margin-bottom">
+						<table id="sample-table-2 no-margin-bottom" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="center"
+										th:if="${{report.operationViewFunc} != null || {report.operationEditFunc} != null||{report.operationDeleteFunc} != null} ">操作</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+
+									<td>
+										<div class="center">
+											<a target="_blank" th:href="@{'/customer/customer_details.html?id='}" class="btn btn-xs btn-success center"
+												title="查看">
+												<i class="ace-icon fa fa-search"></i>
+											</a>
+											<a target="_blank" th:href="@{'/customer/edit_customer.html?id='}" class="btn btn-xs btn-info center"
+												title="编辑">
+												<i class="ace-icon fa fa-pencil"></i>
+											</a>
+											<button th:id="1" onclick="deleteCostomer(this)" class="btn btn-xs btn-danger center" title="删除">
+												<i class="ace-icon fa fa-trash-o"></i>
+											</button>
+										</div>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer no-margin-top">
+						<span style="margin-right: 15px">
+							共
+							<strong>
+								<span></span>
+							</strong>
+							页，当前第
+							<strong>
+								<span id="thePageId"></span>
+							</strong>
+							页
+						</span>
+						<ul class="pagination pull-right no-margin" id="totalPages">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/assets/js/jquery.min.js"></script>
+		<script src="/assets/js/jqpaginator.min.js"></script>
+		<script src="/assets/js/date-time/moment.min.js"></script>
+		<script src="/assets/js/date-time/daterangepicker.min.js"></script>
+		<script src="/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
+		<script src="/assets/js/ajaxfileupload.min.js"></script>
+		<script src="/assets/js/downloadfile.min.js"></script>
+		<script type="text/javascript">
+			function changeFile(input) {
+				var file = input.files[0];//上传的图片的所有信息
+				if (file.type!='application/vnd.ms-excel') {
+					alert('上传文件必须是xls格式');
+				} else {
+					$.ajaxFileUpload({
+						url : '/customer/uploadFile.do', //用于文件上传的服务器端请求地址
+						secureuri : false, //是否需要安全协议，一般设置为false
+						fileElementId : 'input_file', //文件上传域的ID
+						dataType : 'json', //返回值类型 一般设置为json
+						success : function(data) {
+							if (data.code == 0) {
+								alert(data.data);
+								$("#form1").submit();
+							} else{
+								alert("导入失败请重试");
+							}
+						},
+						error : function(data) {
+							alert("网络超时");
+						}
+					})
+				}
+			}
+			function download(){
+				$.download('/customer/downloadFile.do',$("#form1").serialize(),'post');
+			}
+		</script>
+		<script type="text/javascript">
+		function deleteCostomer(btn){
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/customer/deleteCustomer.do",
+				data : {"id":btn.id},//
+				async : false,
+				error : function(request) {
+					alert("网络超时");
+				},
+				success : function(data) {
+					if (data.code == 0) {
+						alert(data.message);
+						$("#form1").submit();
+					} else {
+						alert(data.message);
+					}
+				}
+			});
+		}
+			$('#totalPages')
+					.jqPaginator(
+							{
+								totalPages : [[${datas.pages==0?1:datas.pages}]], //设置分页的总页数
+								visiblePages : 5, //设置最多显示数
+								currentPage : [[${datas.pageNum==0?1:datas.pageNum}]], //当前页数
+								first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
+								last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
+								page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+								onPageChange : function(num, type) {
+									$('#thePageId').html(num);
+									$('#thePageIdInput').val(num);
+									if (type == 'change') {
+										$("#form1").submit();
+									}
+								}
+							});
+
+			$('#date-timepicker1').datetimepicker({
+				language : 'zh-CN',
+				format : 'YYYY-MM-DD HH:mm:00',
+				autoclose : true,
+				todayBtn : true,
+				clearBtn : true
+			}).next().on(ace.click_event, function() {
+				$(this).prev().focus();
+			});
+			$('#date-timepicker2').datetimepicker({
+				language : 'zh-CN',
+				format : 'YYYY-MM-DD HH:mm:00',
+				autoclose : true,
+				todayBtn : true,
+				clearBtn : true
+			}).next().on(ace.click_event, function() {
+				$(this).prev().focus();
+			});
+		</script>
+
+
+	</div>
+</body>
+</html>

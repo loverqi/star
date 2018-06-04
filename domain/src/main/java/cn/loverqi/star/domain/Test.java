@@ -1,14 +1,15 @@
 package cn.loverqi.star.domain;
 
-import cn.loverqi.star.core.basepojo.BasePojo;
+import cn.loverqi.star.core.basepojo.ExcelPojo;
 
 /**
  * 测试表实体类
  * @author LoverQi
- * @date 2018年5月31日
+ * @date 2018年6月04日
  */
-public class Test extends BasePojo {
+public class Test extends ExcelPojo {
 
+    /** 默认序列号*/
     private static final long serialVersionUID = 1L;
 
     /** 主键*/
@@ -33,7 +34,7 @@ public class Test extends BasePojo {
     private String condition;
 
     /** 是否启用*/
-    private Integer enable;
+    private Boolean enable;
 
     /** 测试字段*/
     private Double date;
@@ -100,11 +101,11 @@ public class Test extends BasePojo {
         return condition;
     }
 
-    public void setEnable(Integer enable) {
+    public void setEnable(Boolean enable) {
         this.enable = enable;
     }
     
-    public Integer getEnable() {
+    public Boolean getEnable() {
         return enable;
     }
 

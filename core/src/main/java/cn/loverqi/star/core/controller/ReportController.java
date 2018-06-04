@@ -38,7 +38,7 @@ public class ReportController {
     public String addUser4(@PathVariable String reportName, Model model) {
 
         Example example = new Example();
-        example.createCriteria().andFieldEqualTo("name", reportName);
+        example.createCriteria().andFieldEqualTo("name", reportName).andFieldEqualTo("enable", true);
         List<StarSysReport> reports = starSysReportService.selectByExample(example);
 
         StarSysReport report = null;
@@ -46,16 +46,20 @@ public class ReportController {
             report = reports.get(0);
         }
 
-        String className = PackageUtil.getClassName(report.getBeanClass());
+        if (report != null) {
+            String className = PackageUtil.getClassName(report.getBeanClass());
 
-        if (StringUtil.isNotNull(className)) {
-            List<Map<String, String>> selectByExample = baseMapService.selectByExample(className, null);
-            for (Map<String, String> map : selectByExample) {
-                System.err.println(map);
+            if (StringUtil.isNotNull(className)) {
+                List<Map<String, String>> selectByExample = baseMapService.selectByExample(className, null);
+                for (Map<String, String> map : selectByExample) {
+                    System.err.println(map);
+                }
             }
+
+            model.addAttribute("report", report);
         }
 
-        return "error";
+        return "report_model";
     }
 
 }

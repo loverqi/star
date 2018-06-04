@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,8 +23,9 @@ import cn.loverqi.star.core.utils.NameFormatConversionUtil;
 import freemarker.template.Template;
 
 /**
- * 描述：代码生成器
- * Created by Ay on 2017/5/1.
+ * 代码生成器
+ * @author LoverQi
+ * @date 2018年6月4日
  */
 public class CodeGenerateBulider {
 
@@ -260,18 +262,8 @@ public class CodeGenerateBulider {
         final String templateName = "BasePojo.ftl";
         File mapperFile = new File(path);
         List<ColumnClass> columnClassList = new ArrayList<>();
-        ColumnClass columnClass = null;
         while (resultSet.next()) {
-            columnClass = new ColumnClass();
-            //获取字段名称
-            columnClass.setColumnName(resultSet.getString("COLUMN_NAME"));
-            //获取字段类型
-            columnClass.setColumnType(resultSet.getString("TYPE_NAME"));
-            //转换字段名称，如 sys_name 变成 sysName
-            columnClass.setChangeColumnName(NameFormatConversionUtil.lineToHump(resultSet.getString("COLUMN_NAME")));
-            //字段在数据库的注释
-            columnClass.setColumnComment(resultSet.getString("REMARKS"));
-            columnClassList.add(columnClass);
+            columnClassList.add(getColumn(resultSet));
         }
 
         Map<String, Object> dataMap = new HashMap<>();
@@ -290,18 +282,8 @@ public class CodeGenerateBulider {
         final String templateName = "ExcelPojo.ftl";
         File mapperFile = new File(path);
         List<ColumnClass> columnClassList = new ArrayList<>();
-        ColumnClass columnClass = null;
         while (resultSet.next()) {
-            columnClass = new ColumnClass();
-            //获取字段名称
-            columnClass.setColumnName(resultSet.getString("COLUMN_NAME"));
-            //获取字段类型
-            columnClass.setColumnType(resultSet.getString("TYPE_NAME"));
-            //转换字段名称，如 sys_name 变成 sysName
-            columnClass.setChangeColumnName(NameFormatConversionUtil.lineToHump(resultSet.getString("COLUMN_NAME")));
-            //字段在数据库的注释
-            columnClass.setColumnComment(resultSet.getString("REMARKS"));
-            columnClassList.add(columnClass);
+            columnClassList.add(getColumn(resultSet));
         }
 
         Map<String, Object> dataMap = new HashMap<>();
@@ -362,6 +344,26 @@ public class CodeGenerateBulider {
 
         FreeMarkerTemplateUtils.clearCache();
         System.err.println("生成文件: [" + file + "]");
+    }
+
+    /**
+     * 获取数据库对象参数
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
+    private ColumnClass getColumn(ResultSet resultSet) throws SQLException {
+        ColumnClass columnClass = new ColumnClass();
+        //获取字段名称
+        columnClass.setColumnName(resultSet.getString("COLUMN_NAME").trim());
+        //获取字段类型
+        columnClass.setColumnType(resultSet.getString("TYPE_NAME").replace("UNSIGNED", "").trim());
+        //转换字段名称，如 sys_name 变成 sysName
+        columnClass.setChangeColumnName(NameFormatConversionUtil.lineToHump(resultSet.getString("COLUMN_NAME").trim()));
+        //字段在数据库的注释
+        columnClass.setColumnComment(resultSet.getString("REMARKS"));
+
+        return columnClass;
     }
 
 }

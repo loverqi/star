@@ -33,25 +33,25 @@ public class StarSysReport extends BasePojo {
     private Date createTime;
 
     /** 显示上传按钮*/
-    private Integer operationUpload;
+    private Boolean operationUpload;
 
     /** 显示下载按钮*/
-    private Integer operationDownload;
+    private Boolean operationDownload;
 
     /** 查看操作JS方法*/
-    private Integer operationViewFunc;
+    private String operationViewFunc;
 
     /** 编辑操作JS方法*/
-    private Integer operationEditFunc;
+    private String operationEditFunc;
 
     /** 删除操作JS方法*/
-    private Integer operationDeleteFunc;
+    private String operationDeleteFunc;
 
     /** 是否启用权限*/
-    private Integer permissionsEnable;
+    private Boolean permissionsEnable;
 
     /** 是否启用*/
-    private Integer enable;
+    private Boolean enable;
 
     public void setId(Integer id) {
         this.id = id;
@@ -101,60 +101,59 @@ public class StarSysReport extends BasePojo {
         return createTime;
     }
 
-    public void setOperationUpload(Integer operationUpload) {
+    public void setOperationUpload(Boolean operationUpload) {
         this.operationUpload = operationUpload;
     }
 
-    public Integer getOperationUpload() {
+    public Boolean getOperationUpload() {
         return operationUpload;
     }
 
-    public void setOperationDownload(Integer operationDownload) {
+    public void setOperationDownload(Boolean operationDownload) {
         this.operationDownload = operationDownload;
     }
 
-    public Integer getOperationDownload() {
+    public Boolean getOperationDownload() {
         return operationDownload;
     }
 
-    public void setOperationViewFunc(Integer operationViewFunc) {
-        this.operationViewFunc = operationViewFunc;
+    public void setOperationViewFunc(String operationViewFunc) {
+        this.operationViewFunc = operationViewFunc == null ? null : operationViewFunc.trim();
     }
 
-    public Integer getOperationViewFunc() {
+    public String getOperationViewFunc() {
         return operationViewFunc;
     }
 
-    public void setOperationEditFunc(Integer operationEditFunc) {
-        this.operationEditFunc = operationEditFunc;
+    public void setOperationEditFunc(String operationEditFunc) {
+        this.operationEditFunc = operationEditFunc == null ? null : operationEditFunc.trim();
     }
 
-    public Integer getOperationEditFunc() {
+    public String getOperationEditFunc() {
         return operationEditFunc;
     }
 
-    public void setOperationDeleteFunc(Integer operationDeleteFunc) {
-        this.operationDeleteFunc = operationDeleteFunc;
+    public void setOperationDeleteFunc(String operationDeleteFunc) {
+        this.operationDeleteFunc = operationDeleteFunc == null ? null : operationDeleteFunc.trim();
     }
 
-    public Integer getOperationDeleteFunc() {
+    public String getOperationDeleteFunc() {
         return operationDeleteFunc;
     }
 
-    public void setPermissionsEnable(Integer permissionsEnable) {
+    public void setPermissionsEnable(Boolean permissionsEnable) {
         this.permissionsEnable = permissionsEnable;
     }
 
-    public Integer getPermissionsEnable() {
+    public Boolean getPermissionsEnable() {
         return permissionsEnable;
     }
 
-    public void setEnable(Integer enable) {
+    public void setEnable(Boolean enable) {
         this.enable = enable;
     }
 
-    public Integer getEnable() {
+    public Boolean getEnable() {
         return enable;
     }
-
 }

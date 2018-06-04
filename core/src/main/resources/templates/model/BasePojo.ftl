@@ -2,7 +2,7 @@ package ${package_name}.domain;
 
 <#if model_column?exists>
 	<#list model_column as model>
-    	<#if (model.columnType=="datetime" || model.columnType=="date")>
+    	<#if (model.columnType=="DATETIME" || model.columnType=="DATE")>
 import java.util.Date;
    			<#break>
 		</#if> 
@@ -27,15 +27,15 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
 <#if model_column?exists>
 	<#list model_column as model>
     /** ${model.columnComment}*/
-    	<#if (model.columnType=="varchar" || model.columnType=="text")>
+    	<#if (model.columnType=="VARCHAR" || model.columnType=="TEXT")>
     private String ${model.changeColumnName};
-		<#elseif (model.columnType?contains("int"))>
+		<#elseif (model.columnType=="INT")>
     private Integer ${model.changeColumnName};
-		<#elseif (model.columnType?contains("double"))>
+		<#elseif (model.columnType=="DOUBLE")>
     private Double ${model.changeColumnName};
-		<#elseif (model.columnType=="bit")>
+		<#elseif (model.columnType=="TINYINT")>
     private Boolean ${model.changeColumnName};
-		<#elseif (model.columnType=="datetime" || model.columnType=="date")>
+		<#elseif (model.columnType=="DATETIME" || model.columnType=="DATE")>
     private Date ${model.changeColumnName};
 		</#if> 
 
@@ -43,7 +43,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
 </#if>
 <#if model_column?exists>
 	<#list model_column as model>
-    	<#if (model.columnType=="varchar" || model.columnType=="text")>
+    	<#if (model.columnType=="VARCHAR" || model.columnType=="TEXT")>
     public void set${model.changeColumnName?cap_first}(String ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName} == null ? null : ${model.changeColumnName}.trim();
     }
@@ -51,7 +51,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     public String get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType?contains("int"))>
+		<#elseif (model.columnType=="INT")>
     public void set${model.changeColumnName?cap_first}(Integer ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }
@@ -59,7 +59,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     public Integer get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType?contains("double"))>
+		<#elseif (model.columnType=="DOUBLE")>
     public void set${model.changeColumnName?cap_first}(Double ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }
@@ -67,7 +67,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     public Double get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType=="bit")>
+		<#elseif (model.columnType=="TINYINT")>
     public void set${model.changeColumnName?cap_first}(Boolean ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }
@@ -75,7 +75,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     public Boolean get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType=="datetime" || model.columnType=="date")>
+		<#elseif (model.columnType=="DATETIME" || model.columnType=="DATE")>
     public void set${model.changeColumnName?cap_first}(Date ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }
