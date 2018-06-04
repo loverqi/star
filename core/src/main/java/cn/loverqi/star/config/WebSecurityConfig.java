@@ -167,7 +167,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             //记住用户登陆信息
             if (formLoginEnable && rememberMeEnable) {
-                System.err.println("开启了");
                 //开启cookie保存用户数据
                 http.rememberMe().rememberMeParameter(rememberMeParameter)
                         //设置cookie有效期
