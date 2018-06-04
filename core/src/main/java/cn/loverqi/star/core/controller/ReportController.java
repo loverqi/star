@@ -16,6 +16,7 @@ import cn.loverqi.star.core.service.StarSysReportService;
 import cn.loverqi.star.core.service.base.BaseMapService;
 import cn.loverqi.star.core.utils.CollectionUtil;
 import cn.loverqi.star.core.utils.PackageUtil;
+import cn.loverqi.star.core.utils.ReportUtil;
 import cn.loverqi.star.core.utils.StringUtil;
 import io.swagger.annotations.Api;
 
@@ -47,16 +48,24 @@ public class ReportController {
         }
 
         if (report != null) {
-            String className = PackageUtil.getClassName(report.getBeanClass());
+            String operationViewFunc = report.getOperationViewFunc();
+            String operationEditFunc = report.getOperationEditFunc();
+            String getOperationDeleteFunc = report.getOperationDeleteFunc();
 
+            String className = PackageUtil.getClassName(report.getBeanClass());
+            List<Map<String, Object>> values = null;
             if (StringUtil.isNotNull(className)) {
-                List<Map<String, String>> selectByExample = baseMapService.selectByExample(className, null);
-                for (Map<String, String> map : selectByExample) {
-                    System.err.println(map);
+                values = baseMapService.selectByExample(className, null);
+                for (Map<String, Object> map : values) {
+                    map.put("operationViewFunc__", ReportUtil.fillFuncField(operationViewFunc, map));
+                    map.put("operationEditFunc__", ReportUtil.fillFuncField(operationEditFunc, map));
+                    map.put("getOperationDeleteFunc__", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
                 }
             }
 
+
             model.addAttribute("report", report);
+            model.addAttribute("values", values);
         }
 
         return "report_model";

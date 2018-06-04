@@ -47,35 +47,35 @@ public interface BaseMapService {
      * @param 对象
      * @return 查询到的对象，查询不到返回null
      */
-    Map<String, String> selectByPrimaryKey(BasePojo record);
+    Map<String, Object> selectByPrimaryKey(BasePojo record);
 
     /**
      * 根据主键值获取对象的方法
      * @param 对象
      * @return 查询到的对象，查询不到返回null
      */
-    Map<String, String> selectByPrimaryKey(String tableName, Integer id);
+    Map<String, Object> selectByPrimaryKey(String tableName, Integer id);
 
     /**
      * 根据条件查询对象的方法
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    List<Map<String, String>> selectByExample(String tableName, Example example);
+    List<Map<String, Object>> selectByExample(String tableName, Example example);
 
     /**
      * 根据条件查询对象的方法
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    List<Map<String, String>> selectByExample(BasePojo record, Example example);
+    List<Map<String, Object>> selectByExample(BasePojo record, Example example);
 
     /**
      * 根据条件查询对象的方法, 支持分页
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    ResponsePageData<Map<String, String>> selectByExampleWithRowbounds(BasePojo record, Example example, int page,
+    ResponsePageData<Map<String, Object>> selectByExampleWithRowbounds(BasePojo record, Example example, int page,
             int pageSize);
 
     /**
@@ -83,7 +83,7 @@ public interface BaseMapService {
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    ResponsePageData<Map<String, String>> selectByExampleWithRowbounds(String tableName, Example example, int page,
+    ResponsePageData<Map<String, Object>> selectByExampleWithRowbounds(String tableName, Example example, int page,
             int pageSize);
 
     /**

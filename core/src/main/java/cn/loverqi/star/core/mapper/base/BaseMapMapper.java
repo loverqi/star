@@ -62,7 +62,7 @@ public interface BaseMapMapper {
      * @return 查询到的对象，查询不到返回null
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByPrimaryKey")
-    Map<String, String> selectByPrimaryKey(BasePojo record);
+    Map<String, Object> selectByPrimaryKey(BasePojo record);
 
     /**
      * 根据主键值获取对象的方法
@@ -71,7 +71,7 @@ public interface BaseMapMapper {
      * @return 查询到的对象，查询不到返回null
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByPrimaryKeyValue")
-    Map<String, String> selectByPrimaryKeyValue(String tableName, Integer id);
+    Map<String, Object> selectByPrimaryKeyValue(String tableName, Integer id);
 
     /**
      * 根据条件查询对象的方法
@@ -80,7 +80,7 @@ public interface BaseMapMapper {
      * @return 所有符合条件的对象
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByValueExample")
-    List<Map<String, String>> selectByValueExample(String tableName, Example example);
+    List<Map<String, Object>> selectByValueExample(String tableName, Example example);
 
     /**
      * 根据条件查询页面数据个数的方法
@@ -107,7 +107,7 @@ public interface BaseMapMapper {
      * @return 所有符合条件的对象
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByExampleBean")
-    List<Map<String, String>> selectByExample(BasePojo record, Example example);
+    List<Map<String, Object>> selectByExample(BasePojo record, Example example);
 
     /**
      * 根据主键id更新对象的方法

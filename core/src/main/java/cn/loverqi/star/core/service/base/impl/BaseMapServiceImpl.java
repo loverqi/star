@@ -80,8 +80,8 @@ public class BaseMapServiceImpl implements BaseMapService {
      * @return 查询到的对象，查询不到返回null
      */
     @Override
-    public Map<String, String> selectByPrimaryKey(BasePojo record) {
-        Map<String, String> selectByPrimaryKey = baseMapper.selectByPrimaryKey(record);
+    public Map<String, Object> selectByPrimaryKey(BasePojo record) {
+        Map<String, Object> selectByPrimaryKey = baseMapper.selectByPrimaryKey(record);
 
         return selectByPrimaryKey;
     }
@@ -92,8 +92,8 @@ public class BaseMapServiceImpl implements BaseMapService {
      * @return 查询到的对象，查询不到返回null
      */
     @Override
-    public Map<String, String> selectByPrimaryKey(String tableName, Integer id) {
-        Map<String, String> selectByPrimaryKey = baseMapper.selectByPrimaryKeyValue(tableName, id);
+    public Map<String, Object> selectByPrimaryKey(String tableName, Integer id) {
+        Map<String, Object> selectByPrimaryKey = baseMapper.selectByPrimaryKeyValue(tableName, id);
 
         return selectByPrimaryKey;
     }
@@ -104,8 +104,8 @@ public class BaseMapServiceImpl implements BaseMapService {
      * @return 所有符合条件的对象
      */
     @Override
-    public List<Map<String, String>> selectByExample(String tableName, Example example) {
-        List<Map<String, String>> selectByExample = baseMapper.selectByValueExample(tableName, example);
+    public List<Map<String, Object>> selectByExample(String tableName, Example example) {
+        List<Map<String, Object>> selectByExample = baseMapper.selectByValueExample(tableName, example);
 
         return selectByExample;
     }
@@ -116,8 +116,8 @@ public class BaseMapServiceImpl implements BaseMapService {
      * @return 所有符合条件的对象
      */
     @Override
-    public List<Map<String, String>> selectByExample(BasePojo record, Example example) {
-        List<Map<String, String>> selectByExample = baseMapper.selectByExample(record, example);
+    public List<Map<String, Object>> selectByExample(BasePojo record, Example example) {
+        List<Map<String, Object>> selectByExample = baseMapper.selectByExample(record, example);
 
         return selectByExample;
     }
@@ -128,17 +128,17 @@ public class BaseMapServiceImpl implements BaseMapService {
      * @return 所有符合条件的对象
      */
     @Override
-    public ResponsePageData<Map<String, String>> selectByExampleWithRowbounds(BasePojo record, Example example,
+    public ResponsePageData<Map<String, Object>> selectByExampleWithRowbounds(BasePojo record, Example example,
             int page, int pageSize) {
 
         //添加分页属性
         PageHelper.startPage(page, pageSize);
-        List<Map<String, String>> selectByExampleWithRowbounds = baseMapper.selectByExample(record, example);
+        List<Map<String, Object>> selectByExampleWithRowbounds = baseMapper.selectByExample(record, example);
 
         //用PageInfo对结果进行包装
-        PageInfo<Map<String, String>> pageInfo = new PageInfo<Map<String, String>>(selectByExampleWithRowbounds);
+        PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(selectByExampleWithRowbounds);
 
-        return new ResponsePageData<Map<String, String>>(pageInfo);
+        return new ResponsePageData<Map<String, Object>>(pageInfo);
     }
 
     /**
@@ -147,16 +147,16 @@ public class BaseMapServiceImpl implements BaseMapService {
      * @return 所有符合条件的对象
      */
     @Override
-    public ResponsePageData<Map<String, String>> selectByExampleWithRowbounds(String tableName, Example example,
+    public ResponsePageData<Map<String, Object>> selectByExampleWithRowbounds(String tableName, Example example,
             int page, int pageSize) {
         //添加分页属性
         PageHelper.startPage(1, 10);
-        List<Map<String, String>> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
+        List<Map<String, Object>> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
 
         //用PageInfo对结果进行包装
-        PageInfo<Map<String, String>> pageInfo = new PageInfo<Map<String, String>>(selectByExampleWithRowbounds);
+        PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(selectByExampleWithRowbounds);
 
-        return new ResponsePageData<Map<String, String>>(pageInfo);
+        return new ResponsePageData<Map<String, Object>>(pageInfo);
     }
 
     /**

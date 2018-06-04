@@ -50,24 +50,25 @@
 							<thead>
 								<tr>
 									<th class="center"
-										th:if="${{report.operationViewFunc} != null || {report.operationEditFunc} != null||{report.operationDeleteFunc} != null} ">操作</th>
+										th:if="${report.operationViewFunc!=null || report.operationEditFunc!=null || report.operationDeleteFunc!=null}">操作</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<tr>
-
+								<tr th:each="value : ${values}">
 									<td>
-										<div class="center">
-											<a target="_blank" th:href="@{'/customer/customer_details.html?id='}" class="btn btn-xs btn-success center"
-												title="查看">
+										<div class="center"
+											th:if="${report.operationViewFunc!=null || report.operationEditFunc!=null || report.operationDeleteFunc!=null}">
+											<button th:id="1" th:if="${report.operationViewFunc!=null}" th:onclick="${value.operationViewFunc__}"
+												class="btn btn-xs btn-success center" title="删除">
 												<i class="ace-icon fa fa-search"></i>
-											</a>
-											<a target="_blank" th:href="@{'/customer/edit_customer.html?id='}" class="btn btn-xs btn-info center"
-												title="编辑">
+											</button>
+											<button th:id="1" th:if="${report.operationEditFunc!=null}" th:onclick="${value.operationViewFunc__}"
+												class="btn btn-xs btn-info center" title="编辑">
 												<i class="ace-icon fa fa-pencil"></i>
-											</a>
-											<button th:id="1" onclick="deleteCostomer(this)" class="btn btn-xs btn-danger center" title="删除">
+											</button>
+											<button th:id="1" th:if="${report.operationDeleteFunc!=null}" th:onclick="${value.operationViewFunc__}"
+												class="btn btn-xs btn-danger center" title="删除">
 												<i class="ace-icon fa fa-trash-o"></i>
 											</button>
 										</div>
@@ -105,7 +106,7 @@
 		<script type="text/javascript">
 			function changeFile(input) {
 				var file = input.files[0];//上传的图片的所有信息
-				if (file.type!='application/vnd.ms-excel') {
+				if (file.type != 'application/vnd.ms-excel') {
 					alert('上传文件必须是xls格式');
 				} else {
 					$.ajaxFileUpload({
@@ -117,7 +118,7 @@
 							if (data.code == 0) {
 								alert(data.data);
 								$("#form1").submit();
-							} else{
+							} else {
 								alert("导入失败请重试");
 							}
 						},
@@ -127,48 +128,49 @@
 					})
 				}
 			}
-			function download(){
-				$.download('/customer/downloadFile.do',$("#form1").serialize(),'post');
+			function download() {
+				$.download('/customer/downloadFile.do', $("#form1").serialize(), 'post');
 			}
 		</script>
 		<script type="text/javascript">
-		function deleteCostomer(btn){
-			$.ajax({
-				cache : true,
-				type : "POST",
-				url : "/customer/deleteCustomer.do",
-				data : {"id":btn.id},//
-				async : false,
-				error : function(request) {
-					alert("网络超时");
-				},
-				success : function(data) {
-					if (data.code == 0) {
-						alert(data.message);
+			function view() {
+				alert(1);
+				/* $.ajax({
+					cache : true,
+					type : "POST",
+					url : "/customer/deleteCustomer.do",
+					data : {
+						"id" : btn.id
+					},//
+					async : false,
+					error : function(request) {
+						alert("网络超时");
+					},
+					success : function(data) {
+						if (data.code == 0) {
+							alert(data.message);
+							$("#form1").submit();
+						} else {
+							alert(data.message);
+						}
+					}
+				}); */
+			}
+			$('#totalPages').jqPaginator({
+				totalPages : 10, //设置分页的总页数
+				visiblePages : 5, //设置最多显示数
+				currentPage : 5, //当前页数
+				first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
+				last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
+				page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+				onPageChange : function(num, type) {
+					$('#thePageId').html(num);
+					$('#thePageIdInput').val(num);
+					if (type == 'change') {
 						$("#form1").submit();
-					} else {
-						alert(data.message);
 					}
 				}
 			});
-		}
-			$('#totalPages')
-					.jqPaginator(
-							{
-								totalPages : [[${datas.pages==0?1:datas.pages}]], //设置分页的总页数
-								visiblePages : 5, //设置最多显示数
-								currentPage : [[${datas.pageNum==0?1:datas.pageNum}]], //当前页数
-								first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
-								last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
-								page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
-								onPageChange : function(num, type) {
-									$('#thePageId').html(num);
-									$('#thePageIdInput').val(num);
-									if (type == 'change') {
-										$("#form1").submit();
-									}
-								}
-							});
 
 			$('#date-timepicker1').datetimepicker({
 				language : 'zh-CN',
