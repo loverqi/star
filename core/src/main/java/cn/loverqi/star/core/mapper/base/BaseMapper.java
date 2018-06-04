@@ -96,7 +96,7 @@ public interface BaseMapper<T extends BasePojo> {
      * @param example 指定的条件
      * @return 所有符合条件的对象
      */
-    @SelectProvider(type = BaseTemplate.class, method = "selectCountByExampleBeanT")
+    @SelectProvider(type = BaseTemplate.class, method = "selectCountByExampleBean")
     int selectCountByExampleBean(T record, Example example);
 
     /**

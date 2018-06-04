@@ -5,14 +5,12 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 
-import cn.loverqi.star.core.basepojo.BasePojo;
-
 /**
  * 带页码的Response的返回值类型，该类只能使用PageInfo实例化
  * @author loverqi
  * @date 2018年1月5日
  */
-public class ResponsePageData<T extends BasePojo> implements Serializable {
+public class ResponsePageData<T> implements Serializable {
 
     private static final long serialVersionUID = -2869658134927577905L;
 
