@@ -1,5 +1,7 @@
 package cn.loverqi.star.core.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +27,7 @@ public class ReportUtil {
                 matcher = pattern.matcher(func);
                 if (matcher.find()) {
                     String group = matcher.group();
-                    String string = group.substring(2, group.length() - 1);
+                    String string = NameFormatConversionUtil.humpToLine(group.substring(2, group.length() - 1));
                     String value = null;
                     Object obj = values.get(string);
                     if (obj != null) {
@@ -46,6 +48,26 @@ public class ReportUtil {
         }
 
         return func;
+    }
+
+    /**
+     * 根据个数将集合拆分为多个集合的方法
+     * @param reportDatas
+     * @param count
+     */
+    public static <T> List<List<T>> splitReportDatas(List<T> reportDatas, int countSize) {
+        List<List<T>> lists = new ArrayList<List<T>>();
+        if (CollectionUtil.isNotNull(reportDatas)) {
+            int size = reportDatas.size();
+            int count = (int) Math.ceil(((double) size) / countSize);
+            for (int i = 0; i < count; i++) {
+                int start = i * countSize;
+                int end = start + countSize;
+                lists.add(reportDatas.subList(start, end > size ? size : end));
+            }
+        }
+
+        return lists;
     }
 
 }
