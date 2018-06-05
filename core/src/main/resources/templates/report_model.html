@@ -59,15 +59,15 @@
 									<td>
 										<div class="center"
 											th:if="${report.operationViewFunc!=null || report.operationEditFunc!=null || report.operationDeleteFunc!=null}">
-											<button th:id="1" th:if="${report.operationViewFunc!=null}" th:onclick="${value.operationViewFunc__}"
+											<button th:id="1" th:if="${report.operationViewFunc!=null}" th:onclick="${value.operationViewFunc_star_}"
 												class="btn btn-xs btn-success center" title="删除">
 												<i class="ace-icon fa fa-search"></i>
 											</button>
-											<button th:id="1" th:if="${report.operationEditFunc!=null}" th:onclick="${value.operationViewFunc__}"
+											<button th:id="1" th:if="${report.operationEditFunc!=null}" th:onclick="${value.operationViewFunc_star_}"
 												class="btn btn-xs btn-info center" title="编辑">
 												<i class="ace-icon fa fa-pencil"></i>
 											</button>
-											<button th:id="1" th:if="${report.operationDeleteFunc!=null}" th:onclick="${value.operationViewFunc__}"
+											<button th:id="1" th:if="${report.operationDeleteFunc!=null}" th:onclick="${value.operationViewFunc_star_}"
 												class="btn btn-xs btn-danger center" title="删除">
 												<i class="ace-icon fa fa-trash-o"></i>
 											</button>

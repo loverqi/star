@@ -57,9 +57,9 @@ public class ReportController {
             if (StringUtil.isNotNull(className)) {
                 values = baseMapService.selectByExample(className, null);
                 for (Map<String, Object> map : values) {
-                    map.put("operationViewFunc__", ReportUtil.fillFuncField(operationViewFunc, map));
-                    map.put("operationEditFunc__", ReportUtil.fillFuncField(operationEditFunc, map));
-                    map.put("getOperationDeleteFunc__", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
+                    map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));
+                    map.put("operationEditFunc_star_", ReportUtil.fillFuncField(operationEditFunc, map));
+                    map.put("getOperationDeleteFunc_star_", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
                 }
             }
 
