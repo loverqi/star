@@ -45,15 +45,15 @@
 				<div class="col-xs-12">
 					<div class="table-header ">查询条件</div>
 					<div class="table-responsive CSSearchTbl">
-						<form id="form1" action="#" method="post" class="form-horizontal" role="form">
-							<input id="thePageIdInput" type="hidden" />
+						<form id="form1" th:object="${query}" th:action="@{/report/{reportName}_report.html(reportName=${report.name})}" method="post" class="form-horizontal" role="form">
+							<input name="page" th:field="*{params[page]}" id="thePageIdInput" type="hidden" />
 							<table class="table no-margin-bottom">
 								<th:block th:each="reportQuery,queryStat : ${reportQuerys}">
 									<tr th:if="${queryStat.index < queryStat.size-1}">
 										<th:block th:each="query : ${reportQuery}">
 											<td class="left" th:text="${query.title}">-</td>
 											<td class="right">
-												<input th:name="${query.name}" type="text" size="16" />
+												<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
 											</td>
 										</th:block>
 									</tr>
@@ -61,7 +61,7 @@
 										<th:block th:each="query : ${reportQuery}">
 											<td class="left" th:text="${query.title}">-</td>
 											<td class="right">
-												<input th:name="${query.name}" type="text" size="16" />
+												<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
 											</td>
 										</th:block>
 										<td class="right" th:colspan="${2*(5-#lists.size(reportQuery))}">
@@ -76,7 +76,7 @@
 											<th:block th:each="query : ${reportQuery}">
 												<td class="left" th:text="${query.title}">-</td>
 												<td class="right">
-													<input th:name="${query.name}" type="text" size="16" />
+													<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
 												</td>
 											</th:block>
 										</tr>
@@ -106,9 +106,23 @@
 							</thead>
 
 							<tbody>
-								<tr th:each="value : ${values}">
-									<td class="center" th:each="reportData : ${reportDatas}"
-										th:text="${value[reportData.name]==null}? ${reportData.defaultValue} : ${value[reportData.name]}">-</td>
+								<tr th:each="value : ${values.list}">
+									<th:block th:each="reportData : ${reportDatas}">
+										<td th:if="${reportData.type==1}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : ${value[reportData.name]}">-</td>
+										<td th:if="${reportData.type==2}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : ${#numbers.formatInteger(value[reportData.name],reportData.format)}">-</td>
+										<td th:if="${reportData.type==3}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : ${#numbers.formatDecimal(value[reportData.name],#strings.arraySplit(reportData.format,',')[0],#strings.arraySplit(reportData.format,',')[1])}">-</td>
+										<td th:if="${reportData.type==4}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : (${value[reportData.name]} ? ${#strings.arraySplit(reportData.format,'|')[0]} : ${#strings.arraySplit(reportData.format,'|')[1]})">-</td>
+										<td th:if="${reportData.type==5}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : ${#dates.format(value[reportData.name], reportData.format)}">-</td>
+										<td th:if="${reportData.type==6}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : ${value[reportData.name]}">-</td>
+										<td th:if="${reportData.type<1 || reportData.type>6}" class="center"
+											th:text="${value[reportData.name]==null} ? ${reportData.defaultValue} : ${value[reportData.name]}">-</td>
+									</th:block>
 									<td>
 										<div class="center"
 											th:if="${report.operationViewFunc!=null || report.operationEditFunc!=null || report.operationDeleteFunc!=null}">
@@ -116,11 +130,11 @@
 												class="btn btn-xs btn-success center" title="删除">
 												<i class="ace-icon fa fa-search"></i>
 											</button>
-											<button th:id="1" th:if="${report.operationEditFunc!=null}" th:onclick="${value.operationViewFunc_star_}"
+											<button th:id="1" th:if="${report.operationEditFunc!=null}" th:onclick="${value.operationEditFunc_star_}"
 												class="btn btn-xs btn-info center" title="编辑">
 												<i class="ace-icon fa fa-pencil"></i>
 											</button>
-											<button th:id="1" th:if="${report.operationDeleteFunc!=null}" th:onclick="${value.operationViewFunc_star_}"
+											<button th:id="1" th:if="${report.operationDeleteFunc!=null}" th:onclick="${value.operationDeleteFunc_star_}"
 												class="btn btn-xs btn-danger center" title="删除">
 												<i class="ace-icon fa fa-trash-o"></i>
 											</button>
@@ -135,11 +149,11 @@
 						<span style="margin-right: 15px">
 							共
 							<strong>
-								<span></span>
+								<span th:text="${values.pages}"></span>
 							</strong>
 							页，当前第
 							<strong>
-								<span id="thePageId"></span>
+								<span id="thePageId" th:text="${values.pageNum}"></span>
 							</strong>
 							页
 						</span>
@@ -210,9 +224,9 @@
 				}); */
 			}
 			$('#totalPages').jqPaginator({
-				totalPages : 10, //设置分页的总页数
+				totalPages : [[${values.pages==0?1:values.pages}]], //设置分页的总页数
 				visiblePages : 5, //设置最多显示数
-				currentPage : 5, //当前页数
+				currentPage : [[${values.pageNum==0?1:values.pageNum}]], //当前页数
 				first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
 				last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
 				page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',

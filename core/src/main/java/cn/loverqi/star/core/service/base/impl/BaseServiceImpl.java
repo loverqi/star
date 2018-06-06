@@ -160,7 +160,7 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
     @Override
     public ResponsePageData<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize) {
         //添加分页属性
-        PageHelper.startPage(1, 10);
+        PageHelper.startPage(page, pageSize);
         List<T> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
 
         //用PageInfo对结果进行包装

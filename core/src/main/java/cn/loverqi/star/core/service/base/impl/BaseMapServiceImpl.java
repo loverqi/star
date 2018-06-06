@@ -150,7 +150,7 @@ public class BaseMapServiceImpl implements BaseMapService {
     public ResponsePageData<Map<String, Object>> selectByExampleWithRowbounds(String tableName, Example example,
             int page, int pageSize) {
         //添加分页属性
-        PageHelper.startPage(1, 10);
+        PageHelper.startPage(page, pageSize);
         List<Map<String, Object>> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
 
         //用PageInfo对结果进行包装

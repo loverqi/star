@@ -6,10 +6,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.loverqi.star.core.bean.ResponsePageData;
+import cn.loverqi.star.core.controller.param.QueryVo;
 import cn.loverqi.star.core.domain.StarSysReport;
 import cn.loverqi.star.core.domain.StarSysReportData;
 import cn.loverqi.star.core.domain.StarSysReportQuery;
@@ -43,8 +46,12 @@ public class ReportController {
     @Autowired
     private StarSysReportQueryService starSysReportQueryService;
 
-    @RequestMapping(value = "/{reportName}_report.html", method = RequestMethod.GET)
-    public String addUser4(@PathVariable String reportName, Model model) {
+    @RequestMapping(value = "/{reportName}_report.html", method = { RequestMethod.GET, RequestMethod.POST })
+    public String createReport(@PathVariable String reportName, @ModelAttribute QueryVo query, Model model) {
+
+        if (query == null) {
+            query = new QueryVo();
+        }
 
         Example example = new Example();
         example.createCriteria().andFieldEqualTo("name", reportName).andFieldEqualTo("enable", true);
@@ -68,13 +75,16 @@ public class ReportController {
 
             //封装需要展示的数据
             String className = PackageUtil.getClassName(report.getBeanClass());
-            List<Map<String, Object>> values = null;
+            ResponsePageData<Map<String, Object>> values = null;
             if (StringUtil.isNotNull(className)) {
-                values = baseMapService.selectByExample(className, null);
-                for (Map<String, Object> map : values) {
+                Example valuesExample = new Example();
+                Object pageObj = query.getParams().get("page");
+                int page = pageObj==null?1:Integer.parseInt(pageObj.toString());
+                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, page, report.getPageSize());
+                for (Map<String, Object> map : values.getList()) {
                     map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));
                     map.put("operationEditFunc_star_", ReportUtil.fillFuncField(operationEditFunc, map));
-                    map.put("getOperationDeleteFunc_star_", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
+                    map.put("operationDeleteFunc_star_", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
                 }
             }
 
@@ -82,6 +92,7 @@ public class ReportController {
             model.addAttribute("reportDatas", reportDatas);
             model.addAttribute("report", report);
             model.addAttribute("values", values);
+            model.addAttribute("query", query);
         }
 
         return "report_model";

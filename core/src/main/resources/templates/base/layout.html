@@ -179,12 +179,12 @@
 				<ul class="breadcrumb" id="breadcrumb_list">
 				</ul>
 
-				<input id="input_file" name="file" type="file" class="hidden" accept=".xls" onchange="changeFile(this)" />
-				<div class="nav-search" id="nav-search" th:if="${1==session.SPRING_SECURITY_CONTEXT.authentication.principal.id}">
-					<button class="btn btn-xs center" title="导入" onclick="$('#input_file').click();">
+				<div class="nav-search" id="nav-search" th:if="${report!=null}">
+					<input th:if="${report.operationUpload}" id="input_file" name="file" type="file" class="hidden" accept=".xls" onchange="changeFile(this)" />
+					<button th:if="${report.operationUpload}" class="btn btn-xs center" title="导入" onclick="$('#input_file').click();">
 						<i class="fa-upload fa fa-trash-o"></i>
 					</button>
-					<button class="btn btn-xs center" title="导出" onclick="download()">
+					<button th:if="${report.operationDownload}" class="btn btn-xs center" title="导出" onclick="download()">
 						<i class="fa-download fa fa-trash-o"></i>
 					</button>
 				</div>
