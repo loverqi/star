@@ -177,6 +177,27 @@ public class Example {
         }
 
         /**
+         * 添加自定义条件
+         * @param fileld
+         */
+        public Criteria andFieldCustom(String fileld, String property) {
+            addCriterion(fileld, " " + property);
+
+            return this;
+        }
+
+        /**
+         * 添加自定义条件
+         * @param fileld
+         */
+        public Criteria andFieldCustom(String fileld, String property, Object value) {
+            String standard = getStandardString(value);
+            addCriterion(fileld, property, standard);
+
+            return this;
+        }
+
+        /**
          * 添加空条件
          * @param fileld
          */
@@ -397,7 +418,7 @@ public class Example {
                     valueStr = standard.toString();
                 }
             }
-            
+
             return valueStr;
         }
     }
