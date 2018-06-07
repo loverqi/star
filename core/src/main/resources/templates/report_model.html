@@ -45,7 +45,8 @@
 				<div class="col-xs-12">
 					<div class="table-header ">查询条件</div>
 					<div class="table-responsive CSSearchTbl">
-						<form id="form1" th:object="${query}" th:action="@{/report/{reportName}_report.html(reportName=${report.name})}" method="post" class="form-horizontal" role="form">
+						<form id="form1" th:object="${query}" th:action="@{/report/{reportName}_report.html(reportName=${report.name})}"
+							method="post" class="form-horizontal" role="form">
 							<input name="page" th:field="*{params[page]}" id="thePageIdInput" type="hidden" />
 							<table class="table no-margin-bottom">
 								<th:block th:each="reportQuery,queryStat : ${reportQuerys}">
@@ -64,6 +65,15 @@
 												<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
 											</td>
 										</th:block>
+										<td class="left">客户来源：</td>
+										<td class="right">
+											<select th:field="*{params[customer_source]}" multiple="multiple">
+												<option value="">请选择客户来源</option>
+												<option value="tg">推广</option>
+												<option value="zmt">自媒体</option>
+												<option value="dd">单导</option>
+											</select>
+										</td>
 										<td class="right" th:colspan="${2*(5-#lists.size(reportQuery))}">
 											<button class="btn btn-primary pull-left col-sm-12 tbl-search">
 												开始搜索

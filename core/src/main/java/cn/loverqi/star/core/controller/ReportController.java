@@ -1,5 +1,6 @@
 package cn.loverqi.star.core.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -85,19 +86,26 @@ public class ReportController {
                     Object value = params.get(key); //需要验证的值
                     if (value != null && StringUtil.isNotNull(value.toString())) {
                         String condition = queryMap.get(key);
-                        switch (condition) {
-                        case "like":
-                            valuesExample.createCriteria().andFieldLike(key, value);
-                            break;
-                        case "rlike":
-                            valuesExample.createCriteria().andFieldCustom(key, condition, value);
-                            break;
-                        case "llike":
-                            valuesExample.createCriteria().andFieldCustom(key, condition, value);
-                            break;
-                        default:
-                            valuesExample.createCriteria().andFieldCustom(key, condition, value);
-                            break;
+                        System.err.println(condition);
+                        
+                        if (condition != null) {
+                            switch (condition) {
+                            case "like":
+                                valuesExample.createCriteria().andFieldLike(key, value);
+                                break;
+                            case "rlike":
+                                valuesExample.createCriteria().andFieldRightLike(key, value);
+                                break;
+                            case "llike":
+                                valuesExample.createCriteria().andFieldLeftLike(key, value);
+                                break;
+                            case "in":
+                                valuesExample.createCriteria().andFieldIn(key, Arrays.asList((String[])value));
+                                break;
+                            default:
+                                valuesExample.createCriteria().andFieldCustom(key, condition, value);
+                                break;
+                            }
                         }
                     }
                 }
