@@ -79,8 +79,32 @@ public class ReportController {
             if (StringUtil.isNotNull(className)) {
                 Example valuesExample = new Example();
                 Object pageObj = query.getParams().get("page");
-                int page = pageObj==null?1:Integer.parseInt(pageObj.toString());
-                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, page, report.getPageSize());
+                Map<String, Object> params = query.getParams(); //前端传来的数据
+                Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
+                for (String key : params.keySet()) {
+                    Object value = params.get(key); //需要验证的值
+                    if (value != null && StringUtil.isNotNull(value.toString())) {
+                        String condition = queryMap.get(key);
+                        switch (condition) {
+                        case "like":
+                            valuesExample.createCriteria().andFieldLike(key, value);
+                            break;
+                        case "rlike":
+                            valuesExample.createCriteria().andFieldCustom(key, condition, value);
+                            break;
+                        case "llike":
+                            valuesExample.createCriteria().andFieldCustom(key, condition, value);
+                            break;
+                        default:
+                            valuesExample.createCriteria().andFieldCustom(key, condition, value);
+                            break;
+                        }
+                    }
+                }
+
+                int page = pageObj == null ? 1 : Integer.parseInt(pageObj.toString());
+                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, page,
+                        report.getPageSize());
                 for (Map<String, Object> map : values.getList()) {
                     map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));
                     map.put("operationEditFunc_star_", ReportUtil.fillFuncField(operationEditFunc, map));

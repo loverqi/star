@@ -384,24 +384,61 @@ public class Example {
         }
 
         /**
-         * 添加not between条件
+         * 添加like条件
          */
         public Criteria andFieldLike(String fileld, Object value) {
-            String valueStr = getStandardString(value);
-            if (valueStr.contains("'")) {
-                valueStr = valueStr.replaceAll("'", "");
-            }
-            valueStr = "'%" + valueStr + "%'";
+            String valueStr = "'%" + value.toString() + "%'";
             addCriterion(fileld, "LIKE", valueStr);
 
             return this;
         }
 
         /**
-         * 添加not between条件
+         * 添加like条件
+         */
+        public Criteria andFieldLeftLike(String fileld, Object value) {
+            String valueStr = "'%" + value.toString() + "'";
+            addCriterion(fileld, "LIKE", valueStr);
+
+            return this;
+        }
+
+        /**
+         * 添加like条件
+         */
+        public Criteria andFieldRightLike(String fileld, Object value) {
+            String valueStr = "'" + value.toString() + "%'";
+            addCriterion(fileld, "LIKE", valueStr);
+
+            return this;
+        }
+
+        /**
+         * 添加not like条件
          */
         public Criteria andFieldNotLike(String fileld, Object value) {
-            addCriterion(fileld, "NOT LIKE", getStandardString(value));
+            String valueStr = "'%" + value.toString() + "%'";
+            addCriterion(fileld, "NOT LIKE", valueStr);
+
+            return this;
+        }
+
+        /**
+         * 添加not like条件
+         */
+        public Criteria andFieldNotLeftLike(String fileld, Object value) {
+            String valueStr = "'%" + value.toString() + "'";
+            addCriterion(fileld, "NOT LIKE", valueStr);
+
+            return this;
+        }
+
+        /**
+         * 添加not like条件
+         */
+        public Criteria andFieldNotRightLike(String fileld, Object value) {
+            String valueStr = "'" + value.toString() + "%'";
+            addCriterion(fileld, "NOT LIKE", valueStr);
 
             return this;
         }

@@ -1,10 +1,13 @@
 package cn.loverqi.star.core.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.loverqi.star.core.domain.StarSysReportQuery;
 
 /**
  * 报表相关的工具类
@@ -52,8 +55,8 @@ public class ReportUtil {
 
     /**
      * 根据个数将集合拆分为多个集合的方法
-     * @param reportDatas
-     * @param count
+     * @param reportDatas 报表查询集合
+     * @param count 拆分阈值
      */
     public static <T> List<List<T>> splitReportDatas(List<T> reportDatas, int countSize) {
         List<List<T>> lists = new ArrayList<List<T>>();
@@ -68,6 +71,24 @@ public class ReportUtil {
         }
 
         return lists;
+    }
+
+    /**
+     * 根据查询集合获取查询条件map
+     * @param reportDatas 报表查询集合
+     */
+    public static Map<String, String> getQueryMap(List<StarSysReportQuery> reportDatas) {
+        Map<String, String> map = new HashMap<>();
+        for (StarSysReportQuery query : reportDatas) {
+            String name = query.getName();
+            String condition = query.getCondition();
+
+            if (StringUtil.isNotNull(name) && StringUtil.isNotNull(condition)) {
+                map.put(name.trim(), condition.trim());
+            }
+        }
+
+        return map;
     }
 
 }

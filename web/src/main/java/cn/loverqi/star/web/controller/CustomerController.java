@@ -155,13 +155,13 @@ public class CustomerController {
             example.createCriteria().andFieldEqualTo("qqNumber", param.getQqNumber());
         }
         if (StringUtil.isNotNull(param.getQqName())) {
-            example.createCriteria().andFieldLike("qqName", "%" + param.getQqName() + "%");
+            example.createCriteria().andFieldLike("qqName", param.getQqName());
         }
         if (StringUtil.isNotNull(param.getWechatNumber())) {
             example.createCriteria().andFieldEqualTo("wechatNumber", param.getWechatNumber());
         }
         if (StringUtil.isNotNull(param.getWechatName())) {
-            example.createCriteria().andFieldLike("wechatName", "%" + param.getWechatName() + "%");
+            example.createCriteria().andFieldLike("wechatName", param.getWechatName());
         }
         if (StringUtil.isNotNull(param.getCustomerSource())) {
             example.createCriteria().andFieldEqualTo("customerSource", param.getCustomerSource());
