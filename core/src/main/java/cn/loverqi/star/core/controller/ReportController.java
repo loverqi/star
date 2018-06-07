@@ -79,15 +79,13 @@ public class ReportController {
             ResponsePageData<Map<String, Object>> values = null;
             if (StringUtil.isNotNull(className)) {
                 Example valuesExample = new Example();
-                Object pageObj = query.getParams().get("page");
                 Map<String, Object> params = query.getParams(); //前端传来的数据
                 Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
                 for (String key : params.keySet()) {
                     Object value = params.get(key); //需要验证的值
                     if (value != null && StringUtil.isNotNull(value.toString())) {
                         String condition = queryMap.get(key);
-                        System.err.println(condition);
-                        
+
                         if (condition != null) {
                             switch (condition) {
                             case "like":
@@ -100,7 +98,7 @@ public class ReportController {
                                 valuesExample.createCriteria().andFieldLeftLike(key, value);
                                 break;
                             case "in":
-                                valuesExample.createCriteria().andFieldIn(key, Arrays.asList((String[])value));
+                                valuesExample.createCriteria().andFieldIn(key, Arrays.asList((String[]) value));
                                 break;
                             default:
                                 valuesExample.createCriteria().andFieldCustom(key, condition, value);
@@ -109,9 +107,10 @@ public class ReportController {
                         }
                     }
                 }
-
-                int page = pageObj == null ? 1 : Integer.parseInt(pageObj.toString());
-                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, page,
+                if (query.getPage() == null) {
+                    query.setPage(1);
+                }
+                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, query.getPage(),
                         report.getPageSize());
                 for (Map<String, Object> map : values.getList()) {
                     map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));

@@ -23,6 +23,9 @@ public class StarSysReport extends BasePojo {
     /** 报表标题*/
     private String title;
 
+    /** 工作空间(用于指定js地址)*/
+    private String namespace;
+
     /** 数据源*/
     private String beanClass;
 
@@ -75,6 +78,14 @@ public class StarSysReport extends BasePojo {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 
     public void setBeanClass(String beanClass) {

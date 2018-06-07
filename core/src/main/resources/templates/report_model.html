@@ -54,7 +54,12 @@
 										<th:block th:each="query : ${reportQuery}">
 											<td class="left" th:text="${query.title}">-</td>
 											<td class="right">
-												<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type==1}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type==2}" class="date-timepicker" th:field="*{params[__${query.name}__]}" type="text"
+													size="16" />
+												<input th:if="${query.type==3}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type==4}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type<1 || query.type>4}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
 											</td>
 										</th:block>
 									</tr>
@@ -62,18 +67,14 @@
 										<th:block th:each="query : ${reportQuery}">
 											<td class="left" th:text="${query.title}">-</td>
 											<td class="right">
-												<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type==1}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type==2}" class="date-timepicker" th:field="*{params[__${query.name}__]}" type="text"
+													size="16" />
+												<input th:if="${query.type==3}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type==4}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+												<input th:if="${query.type<1 || query.type>4}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
 											</td>
 										</th:block>
-										<td class="left">客户来源：</td>
-										<td class="right">
-											<select th:field="*{params[customer_source]}" multiple="multiple">
-												<option value="">请选择客户来源</option>
-												<option value="tg">推广</option>
-												<option value="zmt">自媒体</option>
-												<option value="dd">单导</option>
-											</select>
-										</td>
 										<td class="right" th:colspan="${2*(5-#lists.size(reportQuery))}">
 											<button class="btn btn-primary pull-left col-sm-12 tbl-search">
 												开始搜索
@@ -86,7 +87,20 @@
 											<th:block th:each="query : ${reportQuery}">
 												<td class="left" th:text="${query.title}">-</td>
 												<td class="right">
-													<input th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type==1}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type==2}" class="date-timepicker" th:field="*{params[__${query.name}__]}" type="text"
+														size="16" />
+													<input th:if="${query.type==3}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type==4}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type<1 || query.type>4}" th:field="*{params[__${query.name}__]}" type="text"
+														size="16" />
+													<input th:if="${query.type==1}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type==2}" class="date-timepicker" th:field="*{params[__${query.name}__]}" type="text"
+														size="16" />
+													<input th:if="${query.type==3}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type==4}" th:field="*{params[__${query.name}__]}" type="text" size="16" />
+													<input th:if="${query.type<1 || query.type>4}" th:field="*{params[__${query.name}__]}" type="text"
+														size="16" />
 												</td>
 											</th:block>
 										</tr>
@@ -180,96 +194,29 @@
 		<script src="/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
 		<script src="/assets/js/ajaxfileupload.min.js"></script>
 		<script src="/assets/js/downloadfile.min.js"></script>
+		<script src="/js/star.report.js"></script>
+		<script th:if="${report.namespace != null}" th:src="${report.namespace} + '.js'"></script>
 		<script type="text/javascript">
-			function changeFile(input) {
-				var file = input.files[0];//上传的图片的所有信息
-				if (file.type != 'application/vnd.ms-excel') {
-					alert('上传文件必须是xls格式');
-				} else {
-					$.ajaxFileUpload({
-						url : '/customer/uploadFile.do', //用于文件上传的服务器端请求地址
-						secureuri : false, //是否需要安全协议，一般设置为false
-						fileElementId : 'input_file', //文件上传域的ID
-						dataType : 'json', //返回值类型 一般设置为json
-						success : function(data) {
-							if (data.code == 0) {
-								alert(data.data);
-								$("#form1").submit();
-							} else {
-								alert("导入失败请重试");
-							}
-						},
-						error : function(data) {
-							alert("网络超时");
-						}
-					})
-				}
-			}
-			function download() {
-				$.download('/customer/downloadFile.do', $("#form1").serialize(), 'post');
-			}
-		</script>
-		<script type="text/javascript">
-			function view() {
-				alert(1);
-				/* $.ajax({
-					cache : true,
-					type : "POST",
-					url : "/customer/deleteCustomer.do",
-					data : {
-						"id" : btn.id
-					},//
-					async : false,
-					error : function(request) {
-						alert("网络超时");
-					},
-					success : function(data) {
-						if (data.code == 0) {
-							alert(data.message);
+			$(function(){
+			　　$('#totalPages').jqPaginator({
+					totalPages : [[${values.pages==0?1:values.pages}]], //设置分页的总页数
+					visiblePages : 5, //设置最多显示数
+					currentPage : [[${values.pageNum==0?1:values.pageNum}]], //当前页数
+					first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
+					last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
+					page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+					onPageChange : function(num, type) {
+						$('#thePageId').html(num);
+						$('#thePageIdInput').val(num);
+						if (type == 'change') {
 							$("#form1").submit();
-						} else {
-							alert(data.message);
 						}
 					}
-				}); */
-			}
-			$('#totalPages').jqPaginator({
-				totalPages : [[${values.pages==0?1:values.pages}]], //设置分页的总页数
-				visiblePages : 5, //设置最多显示数
-				currentPage : [[${values.pageNum==0?1:values.pageNum}]], //当前页数
-				first : '<li class="first"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-left"></i></a></li>',
-				last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
-				page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
-				onPageChange : function(num, type) {
-					$('#thePageId').html(num);
-					$('#thePageIdInput').val(num);
-					if (type == 'change') {
-						$("#form1").submit();
-					}
-				}
-			});
-
-			$('#date-timepicker1').datetimepicker({
-				language : 'zh-CN',
-				format : 'YYYY-MM-DD HH:mm:00',
-				autoclose : true,
-				todayBtn : true,
-				clearBtn : true
-			}).next().on(ace.click_event, function() {
-				$(this).prev().focus();
-			});
-			$('#date-timepicker2').datetimepicker({
-				language : 'zh-CN',
-				format : 'YYYY-MM-DD HH:mm:00',
-				autoclose : true,
-				todayBtn : true,
-				clearBtn : true
-			}).next().on(ace.click_event, function() {
-				$(this).prev().focus();
-			});
+				});
+				//加载时间选择框
+				loadDateInput();
+			}); 
 		</script>
-
-
 	</div>
 </body>
 </html>
