@@ -269,7 +269,7 @@ public class BaseTemplate<T extends BasePojo> {
                 }
             }
         }.toString();
-
+System.err.println(sql);
         return sql;
     }
 

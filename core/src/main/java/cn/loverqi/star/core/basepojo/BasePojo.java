@@ -208,6 +208,30 @@ public abstract class BasePojo implements Serializable {
     }
 
     /**
+     * 根据字段名获取字段的类型
+     * @return 字段的值
+     */
+    @JsonIgnore
+    public String getTableFieldClass(String fieldName) {
+        String clazzStr = null;
+        fieldName = NameFormatConversionUtil.lineToHump(fieldName);
+        try {
+            Class<? extends BasePojo> clazz = getClass();
+            Field fieldId = clazz.getDeclaredField(fieldName);
+            if (fieldId != null) {
+                String type = fieldId.getType().getName();
+                String[] split = type.split("\\.");
+
+                clazzStr = split[split.length - 1].toLowerCase();
+            }
+        } catch (Exception e) {
+            throw new PojoStructureException("字段不存在", e);
+        }
+
+        return clazzStr;
+    }
+
+    /**
      * 根据属性字段名自动赋值的方法
      * @param fieldName 属性名
      * @param fieldValue 属性值

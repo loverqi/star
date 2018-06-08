@@ -30,7 +30,7 @@ function download() {
 }
 
 /* 加载时间选择框的方法 */
-function loadDateInput(){
+function loadDateInput() {
 	$('.date-timepicker').datetimepicker({
 		language : 'zh-CN',
 		format : 'YYYY-MM-DD HH:mm:00',
@@ -39,5 +39,11 @@ function loadDateInput(){
 		clearBtn : true
 	}).next().on(ace.click_event, function() {
 		$(this).prev().focus();
-	});	
+	});
+
+	$('.sel_search_orderstatus').multiselect({
+        buttonWidth: '160px',
+		includeSelectAllOption : true,// 是否现实全选
+		enableFiltering: true,//过滤 
+	});
 }

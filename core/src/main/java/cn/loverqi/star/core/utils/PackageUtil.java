@@ -1,5 +1,7 @@
 package cn.loverqi.star.core.utils;
 
+import cn.loverqi.star.core.basepojo.BasePojo;
+
 /**
  * 有关包和类的工具类
  * @author LoverQi
@@ -64,11 +66,11 @@ public class PackageUtil {
      * @throws IllegalAccessException 
      * @throws InstantiationException 
      */
-    public static Object getClassBean(String fullName) {
-        Object newInstance = null;
+    public static BasePojo getClassBean(String fullName) {
+        BasePojo newInstance = null;
         try {
             Class<?> clazz = Class.forName(fullName);
-            newInstance = clazz.newInstance();
+            newInstance = (BasePojo) clazz.newInstance();
         } catch (Exception e) {
         }
 

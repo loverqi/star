@@ -1,6 +1,5 @@
 package cn.loverqi.star.core.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.controller.param.QueryVo;
 import cn.loverqi.star.core.domain.StarSysReport;
@@ -78,30 +78,35 @@ public class ReportController {
             String className = PackageUtil.getClassName(report.getBeanClass());
             ResponsePageData<Map<String, Object>> values = null;
             if (StringUtil.isNotNull(className)) {
+                BasePojo classBean = PackageUtil.getClassBean(report.getBeanClass());
                 Example valuesExample = new Example();
                 Map<String, Object> params = query.getParams(); //前端传来的数据
                 Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
                 for (String key : params.keySet()) {
+
+                    String fieldClass = classBean.getTableFieldClass(key);
                     Object value = params.get(key); //需要验证的值
                     if (value != null && StringUtil.isNotNull(value.toString())) {
                         String condition = queryMap.get(key);
-
                         if (condition != null) {
+
+                            Object typeValue = ReportUtil.getTypeValue(value, condition, fieldClass);
+
                             switch (condition) {
                             case "like":
-                                valuesExample.createCriteria().andFieldLike(key, value);
+                                valuesExample.createCriteria().andFieldLike(key, typeValue);
                                 break;
                             case "rlike":
-                                valuesExample.createCriteria().andFieldRightLike(key, value);
+                                valuesExample.createCriteria().andFieldRightLike(key, typeValue);
                                 break;
                             case "llike":
-                                valuesExample.createCriteria().andFieldLeftLike(key, value);
+                                valuesExample.createCriteria().andFieldLeftLike(key, typeValue);
                                 break;
                             case "in":
-                                valuesExample.createCriteria().andFieldIn(key, Arrays.asList((String[]) value));
+                                valuesExample.createCriteria().andFieldIn(key, (List<?>) typeValue);
                                 break;
                             default:
-                                valuesExample.createCriteria().andFieldCustom(key, condition, value);
+                                valuesExample.createCriteria().andFieldCustom(key, condition, typeValue);
                                 break;
                             }
                         }

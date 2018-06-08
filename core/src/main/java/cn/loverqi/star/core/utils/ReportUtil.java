@@ -91,4 +91,65 @@ public class ReportUtil {
         return map;
     }
 
+    /**
+     * 根据参数和类型整理数据类型的方法
+     * @param condition
+     * @param fieldClass
+     * @return
+     */
+    public static Object getTypeValue(Object value, String condition, String fieldClass) {
+        Object obj = null;
+
+        if (condition.equals("in")) {
+            List<Object> list = new ArrayList<Object>();
+            if (value.getClass().isArray()) {
+                String[] valueArr = (String[]) value;
+                for (String string : valueArr) {
+                    list.add(getTheTypeValue(string, condition, fieldClass));
+                }
+            } else {
+                list.add(getTheTypeValue(value, condition, fieldClass));
+            }
+            obj = list;
+        } else {
+            obj = getTheTypeValue(value, condition, fieldClass);
+        }
+
+        return obj;
+    }
+
+    /**
+     * 根据参数和类型整理数据类型的方法
+     * @param condition
+     * @param fieldClass
+     * @return
+     */
+    private static Object getTheTypeValue(Object value, String condition, String fieldClass) {
+        Object obj = null;
+        switch (fieldClass) {
+        case "short":
+        case "int":
+        case "integer":
+            obj = Integer.parseInt(value.toString());
+            break;
+
+        case "float":
+        case "double":
+            //双精度
+            obj = Double.parseDouble(value.toString());
+            break;
+
+        case "boolean":
+            //布尔型
+            obj = Boolean.parseBoolean(value.toString());
+            break;
+
+        default:
+            obj = value.toString();
+            break;
+        }
+
+        return obj;
+    }
+
 }
