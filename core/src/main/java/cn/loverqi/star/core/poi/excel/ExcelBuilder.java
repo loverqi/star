@@ -130,10 +130,6 @@ public class ExcelBuilder {
 
     /**
      * 对外提供读取excel 的方法
-     * @param file
-     * @param cls
-     * @return
-     * @throws IOException
      */
     public static <T extends ExcelPojo> List<T> readExcel(MultipartFile file, Class<T> clazz) {
         List<T> list = new ArrayList<T>();
@@ -151,22 +147,42 @@ public class ExcelBuilder {
     }
 
     /**
+     * 对外提供读取excel 的方法
+     */
+    public static <T extends ExcelPojo> List<T> readExcel(MultipartFile file, T t) {
+        List<T> list = new ArrayList<T>();
+        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
+                .toLowerCase();
+        if ("xls".equals(extension) || "xlsx".equals(extension)) {
+            try {
+                list = readExcel(file.getInputStream(), t);
+            } catch (IOException | EncryptedDocumentException | InvalidFormatException | InstantiationException
+                    | IllegalAccessException e) {
+            }
+        }
+
+        return list;
+    }
+
+    /**
      * 获取excel数据 将之转换成bean
-     * @param path
-     * @param cls
-     * @param <T>
-     * @return
-     * @throws IOException 
-     * @throws InvalidFormatException 
-     * @throws EncryptedDocumentException 
-     * @throws IllegalAccessException 
-     * @throws InstantiationException 
      */
     private static <T extends ExcelPojo> List<T> readExcel(InputStream inputStream, Class<T> clazz)
             throws EncryptedDocumentException, InvalidFormatException, IOException, InstantiationException,
             IllegalAccessException {
-        List<T> list = new ArrayList<T>();
         T t = clazz.newInstance();
+
+        return readExcel(inputStream, t);
+    }
+
+    /**
+     * 获取excel数据 将之转换成bean
+     */
+    @SuppressWarnings("unchecked")
+    private static <T extends ExcelPojo> List<T> readExcel(InputStream inputStream, T t)
+            throws EncryptedDocumentException, InvalidFormatException, IOException, InstantiationException,
+            IllegalAccessException {
+        List<T> list = new ArrayList<T>();
         Workbook workbook = WorkbookFactory.create(inputStream);
         Map<String, ExcelColumnMapping> excelFieldsMap = t.getExcelFieldsMap();
         Sheet sheet = workbook.getSheetAt(0);
@@ -185,14 +201,14 @@ public class ExcelBuilder {
 
         Cell cell = null;
 
-        for (int i = sheet.getFirstRowNum() + 2; i < sheet.getPhysicalNumberOfRows(); i++) {
+        for (int i = sheet.getFirstRowNum() + 2; i <= sheet.getLastRowNum(); i++) {
             row = sheet.getRow(i);
-            t = clazz.newInstance();
+            t = (T) t.clone();
             for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
                 cell = row.getCell(j);
                 t.setFieldValueByKey(excelList.get(j).getFieldName(), getCellValue(cell, excelList.get(j).getType()));
-                list.add(t);
             }
+            list.add(t);
         }
 
         return list;

@@ -1,11 +1,11 @@
 /* 页面文件上传的方法 */
-function changeFile(input) {
+function changeFile(input, name) {
 	var file = input.files[0];// 上传的图片的所有信息
 	if (file.type != 'application/vnd.ms-excel') {
 		alert('上传文件必须是xls格式');
 	} else {
 		$.ajaxFileUpload({
-			url : '/customer/uploadFile.do', // 用于文件上传的服务器端请求地址
+			url : '/report/' + name + '_uploadFile.do', // 用于文件上传的服务器端请求地址
 			secureuri : false, // 是否需要安全协议，一般设置为false
 			fileElementId : 'input_file', // 文件上传域的ID
 			dataType : 'json', // 返回值类型 一般设置为json

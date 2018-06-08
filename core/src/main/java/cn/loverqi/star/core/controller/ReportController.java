@@ -1,13 +1,13 @@
 package cn.loverqi.star.core.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.loverqi.star.core.basepojo.BasePojo;
 import cn.loverqi.star.core.basepojo.ExcelPojo;
+import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.bean.ResponsePageData;
 import cn.loverqi.star.core.controller.param.QueryVo;
 import cn.loverqi.star.core.domain.StarSysReport;
@@ -34,6 +36,9 @@ import cn.loverqi.star.core.utils.PackageUtil;
 import cn.loverqi.star.core.utils.ReportUtil;
 import cn.loverqi.star.core.utils.StringUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 验证码的获取
@@ -222,4 +227,40 @@ public class ReportController {
             }
         }
     }
+
+    @ApiOperation(value = "上传报表数据项", notes = "上传报表，code为0是成功")
+    @RequestMapping(value = "/{reportName}_uploadFile.do", method = RequestMethod.POST, headers = ("content-type=multipart/*"), consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", required = true, dataType = "file", paramType = "form"), })
+    public @ResponseBody ResponseData<String> uploadFile(@PathVariable String reportName, MultipartFile file) {
+        ResponseData<String> responseDate = new ResponseData<String>();
+        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1)
+                .toLowerCase();
+
+        Example example = new Example();
+        example.createCriteria().andFieldEqualTo("name", reportName).andFieldEqualTo("enable", true);
+        List<StarSysReport> reports = starSysReportService.selectByExample(example);
+
+        StarSysReport report = null;
+        if (CollectionUtil.isNotNull(reports)) {
+            report = reports.get(0);
+        }
+
+        if (report != null) {
+            if ("xls".equals(extension) || "xlsx".equals(extension)) {
+
+                List<ExcelPojo> excelPojos = ExcelBuilder.readExcel(file,
+                        (ExcelPojo) PackageUtil.getClassBean(report.getBeanClass()));
+                int insert = 0;
+                for (ExcelPojo excelPojo : excelPojos) {
+                    insert += baseMapService.insert(excelPojo);
+                }
+
+                responseDate.setData("共插入[" + insert + "]条数据");
+            }
+        }
+
+        return responseDate;
+    }
+
 }
