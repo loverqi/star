@@ -15,6 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import cn.loverqi.star.core.domain.StarSysLog;
 import cn.loverqi.star.core.domain.StarSysMenu;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
 import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysLogService;
@@ -78,7 +79,9 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 starSysLog.setRemoteAddr(RemoteAddrUtil.getRemoteAddr(request));
                 starSysLog.setLocalPath(request.getLocalAddr() + ":" + request.getLocalPort());
                 if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
-                    starSysLog.setAccessUser(SecurityUtil.getUser().getId());
+                    StarSysUserInfo user = SecurityUtil.getUser();
+                    starSysLog.setAccessUser(user.getId());
+                    starSysLog.setAccessUserName(user.getName());
                 }
 
                 //加载菜单列表

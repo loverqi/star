@@ -33,6 +33,9 @@ public class StarSysLog extends BasePojo {
     /** 访问用户*/
     private Integer accessUser;
 
+    /** 访问用户*/
+    private String accessUserName;
+
     /** 是否启用*/
     private Boolean enable;
 
@@ -74,6 +77,14 @@ public class StarSysLog extends BasePojo {
 
     public void setAccessUser(Integer accessUser) {
         this.accessUser = accessUser;
+    }
+
+    public String getAccessUserName() {
+        return accessUserName;
+    }
+
+    public void setAccessUserName(String accessUserName) {
+        this.accessUserName = accessUserName;
     }
 
     public String getLocalPath() {

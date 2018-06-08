@@ -23,6 +23,7 @@ import cn.loverqi.star.core.service.StarSysReportQueryService;
 import cn.loverqi.star.core.service.StarSysReportService;
 import cn.loverqi.star.core.service.base.BaseMapService;
 import cn.loverqi.star.core.utils.CollectionUtil;
+import cn.loverqi.star.core.utils.NameFormatConversionUtil;
 import cn.loverqi.star.core.utils.PackageUtil;
 import cn.loverqi.star.core.utils.ReportUtil;
 import cn.loverqi.star.core.utils.StringUtil;
@@ -81,33 +82,35 @@ public class ReportController {
                 BasePojo classBean = PackageUtil.getClassBean(report.getBeanClass());
                 Example valuesExample = new Example();
                 Map<String, Object> params = query.getParams(); //前端传来的数据
-                Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
-                for (String key : params.keySet()) {
+                if (reportQuerys != null) {
+                    Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
+                    for (String key : params.keySet()) {
 
-                    String fieldClass = classBean.getTableFieldClass(key);
-                    Object value = params.get(key); //需要验证的值
-                    if (value != null && StringUtil.isNotNull(value.toString())) {
-                        String condition = queryMap.get(key);
-                        if (condition != null) {
+                        String fieldClass = classBean.getTableFieldClass(key);
+                        Object value = params.get(key); //需要验证的值
+                        if (value != null && StringUtil.isNotNull(value.toString())) {
+                            String condition = queryMap.get(key);
+                            if (condition != null) {
 
-                            Object typeValue = ReportUtil.getTypeValue(value, condition, fieldClass);
+                                Object typeValue = ReportUtil.getTypeValue(value, condition, fieldClass);
 
-                            switch (condition) {
-                            case "like":
-                                valuesExample.createCriteria().andFieldLike(key, typeValue);
-                                break;
-                            case "rlike":
-                                valuesExample.createCriteria().andFieldRightLike(key, typeValue);
-                                break;
-                            case "llike":
-                                valuesExample.createCriteria().andFieldLeftLike(key, typeValue);
-                                break;
-                            case "in":
-                                valuesExample.createCriteria().andFieldIn(key, (List<?>) typeValue);
-                                break;
-                            default:
-                                valuesExample.createCriteria().andFieldCustom(key, condition, typeValue);
-                                break;
+                                switch (condition) {
+                                case "like":
+                                    valuesExample.createCriteria().andFieldLike(key, typeValue);
+                                    break;
+                                case "rlike":
+                                    valuesExample.createCriteria().andFieldRightLike(key, typeValue);
+                                    break;
+                                case "llike":
+                                    valuesExample.createCriteria().andFieldLeftLike(key, typeValue);
+                                    break;
+                                case "in":
+                                    valuesExample.createCriteria().andFieldIn(key, (List<?>) typeValue);
+                                    break;
+                                default:
+                                    valuesExample.createCriteria().andFieldCustom(key, condition, typeValue);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -117,7 +120,7 @@ public class ReportController {
                 Integer page = query.getPage();
                 query.setPage(1);
 
-                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, page == null ? 1 : page,
+                values = baseMapService.selectByExampleWithRowbounds(NameFormatConversionUtil.humpToLine(className), valuesExample, page == null ? 1 : page,
                         report.getPageSize());
                 for (Map<String, Object> map : values.getList()) {
                     map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));

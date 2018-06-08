@@ -59,14 +59,17 @@ public class ReportUtil {
      * @param count 拆分阈值
      */
     public static <T> List<List<T>> splitReportDatas(List<T> reportDatas, int countSize) {
-        List<List<T>> lists = new ArrayList<List<T>>();
+        List<List<T>> lists = null;
         if (CollectionUtil.isNotNull(reportDatas)) {
-            int size = reportDatas.size();
-            int count = (int) Math.ceil(((double) size) / countSize);
-            for (int i = 0; i < count; i++) {
-                int start = i * countSize;
-                int end = start + countSize;
-                lists.add(reportDatas.subList(start, end > size ? size : end));
+            lists = new ArrayList<List<T>>();
+            if (CollectionUtil.isNotNull(reportDatas)) {
+                int size = reportDatas.size();
+                int count = (int) Math.ceil(((double) size) / countSize);
+                for (int i = 0; i < count; i++) {
+                    int start = i * countSize;
+                    int end = start + countSize;
+                    lists.add(reportDatas.subList(start, end > size ? size : end));
+                }
             }
         }
 
