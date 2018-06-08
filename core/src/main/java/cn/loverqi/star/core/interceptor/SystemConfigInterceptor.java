@@ -22,10 +22,10 @@ public class SystemConfigInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         ServletContext servletContext = request.getServletContext();
-        
+
         if (servletContext.getAttribute("config") == null) {
             servletContext.setAttribute("config", SystemConfiguration.getConfigs());
-         
+
         }
 
         return super.preHandle(request, response, handler);
