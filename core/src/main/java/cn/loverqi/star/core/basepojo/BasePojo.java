@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.formula.functions.T;
 
@@ -24,7 +25,12 @@ import cn.loverqi.star.core.utils.NameFormatConversionUtil;
  * @author loverqi
  * @date 2018年1月9日
  */
-public abstract class BasePojo implements Serializable {
+/**
+ * 
+ * @author LoverQi
+ * @date 2018年6月9日
+ */
+public abstract class BasePojo implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 7017005956368469919L;
 
@@ -281,6 +287,31 @@ public abstract class BasePojo implements Serializable {
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    @Override
+    public BasePojo clone() {
+        BasePojo obj = null;
+        try {
+            obj = (BasePojo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    /**
+     * 复制并根据map赋值
+     * @param map
+     * @return
+     */
+    public BasePojo clone(Map<String, Object> map) {
+        BasePojo obj = this.clone();
+        for (String key : map.keySet()) {
+            obj.setFieldValueByKey(NameFormatConversionUtil.lineToHump(key), map.get(key));
+        }
+
+        return obj;
     }
 
 }

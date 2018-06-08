@@ -25,8 +25,8 @@ function changeFile(input) {
 }
 
 /* 页面文件下载的方法 */
-function download() {
-	$.download('/customer/downloadFile.do', $("#form1").serialize(), 'post');
+function download(name) {
+	$.download('/report/' + name + '_downloadFile.do', $("#form1").serialize(), 'post');
 }
 
 /* 加载时间选择框的方法 */
@@ -42,8 +42,8 @@ function loadDateInput() {
 	});
 
 	$('.sel_search_orderstatus').multiselect({
-        buttonWidth: '160px',
+		buttonWidth : '160px',
 		includeSelectAllOption : true,// 是否现实全选
-		enableFiltering: true,//过滤 
+		enableFiltering : true,// 过滤
 	});
 }

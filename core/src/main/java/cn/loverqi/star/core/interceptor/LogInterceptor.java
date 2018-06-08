@@ -20,7 +20,7 @@ import cn.loverqi.star.core.mybaties.example.Example;
 import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysLogService;
 import cn.loverqi.star.core.service.StarSysMenuService;
-import cn.loverqi.star.core.utils.BeanFactoryUtils;
+import cn.loverqi.star.core.utils.BeanFactoryUtil;
 import cn.loverqi.star.core.utils.RemoteAddrUtil;
 import cn.loverqi.star.core.utils.SystemConfiguration;
 
@@ -43,7 +43,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         if (SystemConfiguration.SYSTEM_LOG_ENABLE && servletContext.getAttribute("menuMaps") == null) {
             Example example = new Example();
             example.createCriteria().andFieldEqualTo("enable", true);
-            List<StarSysMenu> starSysMenuServices = BeanFactoryUtils.getBean(StarSysMenuService.class)
+            List<StarSysMenu> starSysMenuServices = BeanFactoryUtil.getBean(StarSysMenuService.class)
                     .selectByExample(example);
             Map<String, String> menuMaps = new HashMap<String, String>();
             for (StarSysMenu starSysMenu : starSysMenuServices) {
@@ -88,7 +88,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 Map<String, String> menuMaps = (Map<String, String>) request.getServletContext()
                         .getAttribute("menuMaps");
                 starSysLog.setText(menuMaps.get(servletPath));
-                BeanFactoryUtils.getBean(StarSysLogService.class).insertSelective(starSysLog);
+                BeanFactoryUtil.getBean(StarSysLogService.class).insertSelective(starSysLog);
             }
         }
 

@@ -45,8 +45,7 @@ public class ExcelBuilder {
      * @throws InstantiationException 
      * @throws IOException
      */
-    public static <T extends ExcelPojo> void exportExcel(OutputStream os, Class<T> clazz, List<T> list) {
-
+    public static <T extends ExcelPojo> void exportExcel(OutputStream os, Class<T> clazz, List<?> list) {
         T t = null;
         try {
             t = clazz.newInstance();
@@ -55,6 +54,19 @@ public class ExcelBuilder {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        exportExcel(os, t, list);
+    }
+
+    /**
+     * 根据对象的值生成excel表格的静态方法
+     * @param os
+     * @throws IllegalAccessException 
+     * @throws InstantiationException 
+     * @throws IOException
+     */
+    @SuppressWarnings({ "unchecked" })
+    public static <T extends ExcelPojo> void exportExcel(OutputStream os, T t, List<?> list) {
 
         Workbook book = new HSSFWorkbook();
         Sheet sheet = book.createSheet(t.getExcelName());
@@ -71,22 +83,30 @@ public class ExcelBuilder {
         // 设置首行
 
         row = sheet.createRow(1);
+        CellStyle titleNoteStyle = getTitleNoteStyle(book);
         for (int i = 0; i < exms.size(); i++) {
             ExcelColumnMapping ecm = exms.get(i);
             Cell createCell = row.createCell(i);
             createCell.setCellValue(ecm.getName());
-            createCell.setCellStyle(getTitleNoteStyle(book));
+            createCell.setCellStyle(titleNoteStyle);
         }
 
+        CellStyle noteStyle = getNoteStyle(book);
         for (int i = 0; i < list.size(); i++) {
-            T tTemp = list.get(i);
+            T tTemp = null;
+            Object object = list.get(i);
+            if (t.getClass().getName().equals(object.getClass().getName())) {
+                tTemp = (T) object;
+            } else {
+                tTemp = (T) t.clone((Map<String, Object>) object);
+            }
             row = sheet.createRow(i + 2);
 
             for (int j = 0; j < exms.size(); j++) {
                 ExcelColumnMapping ecm = exms.get(j);
                 Cell createCell = row.createCell(j);
                 createCell.setCellValue(tTemp.getExcelFieldValue(ecm.getFieldName()));
-                createCell.setCellStyle(getNoteStyle(book));
+                createCell.setCellStyle(noteStyle);
             }
         }
 

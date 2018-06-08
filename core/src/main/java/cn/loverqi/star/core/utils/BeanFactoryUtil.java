@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
  * @date 2018年5月3日
  */
 @Component
-public class BeanFactoryUtils implements ApplicationContextAware {
+public class BeanFactoryUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-    private BeanFactoryUtils() {
+    private BeanFactoryUtil() {
     }
 
     /**
@@ -60,7 +60,7 @@ public class BeanFactoryUtils implements ApplicationContextAware {
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        BeanFactoryUtils.applicationContext = applicationContext;
+        BeanFactoryUtil.applicationContext = applicationContext;
     }
 
 }

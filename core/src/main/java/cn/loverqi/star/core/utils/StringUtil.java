@@ -96,4 +96,28 @@ public class StringUtil {
         throw new ClassNotFoundException();
     }
 
+    /**
+     * 首字母转小写
+     * @param s 需要转换的字符串
+     * @return 转化完成的字符串
+     */
+    public static String toLowerCaseFirstOne(String s) {
+        if (Character.isLowerCase(s.charAt(0)))
+            return s;
+        else
+            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
+    }
+
+    /**
+     * 首字母转大写
+     * @param s 需要转换的字符串
+     * @return 转化完成的字符串
+     */
+    public static String toUpperCaseFirstOne(String s) {
+        if (Character.isUpperCase(s.charAt(0)))
+            return s;
+        else
+            return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0))).append(s.substring(1)).toString();
+    }
+
 }

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import cn.loverqi.star.core.domain.StarSysMenu;
 import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysMenuService;
-import cn.loverqi.star.core.utils.BeanFactoryUtils;
+import cn.loverqi.star.core.utils.BeanFactoryUtil;
 
 /**
  * 进入页面前的拦截器，用户加载系统的菜单信息
@@ -34,7 +34,7 @@ public class MenuInterceptor extends HandlerInterceptorAdapter {
 
             //从数据库中加载的用户可访问的所有的菜单
             if (session.getAttribute("menus") == null) {
-                List<StarSysMenu> starSysMenus = BeanFactoryUtils.getBean(StarSysMenuService.class)
+                List<StarSysMenu> starSysMenus = BeanFactoryUtil.getBean(StarSysMenuService.class)
                         .selectStarSysMenuByPriv(SecurityUtil.getUserAuthorities());
                 session.setAttribute("menus", starSysMenus);
             }
