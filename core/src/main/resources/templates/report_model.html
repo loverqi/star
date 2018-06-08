@@ -47,7 +47,7 @@
 					<div class="table-responsive CSSearchTbl">
 						<form id="form1" th:object="${query}" th:action="@{/report/{reportName}_report.html(reportName=${report.name})}"
 							method="post" class="form-horizontal" role="form">
-							<input name="page" th:field="*{params[page]}" id="thePageIdInput" type="hidden" />
+							<input name="page" th:field="${query.page}" id="thePageIdInput" type="hidden" />
 							<table class="table no-margin-bottom">
 								<th:block th:each="reportQuery,queryStat : ${reportQuerys}">
 									<tr th:if="${queryStat.index < queryStat.size-1}">
@@ -195,7 +195,7 @@
 		<script src="/assets/js/ajaxfileupload.min.js"></script>
 		<script src="/assets/js/downloadfile.min.js"></script>
 		<script src="/js/star.report.js"></script>
-		<script th:if="${report.namespace != null}" th:src="${report.namespace} + '.js'"></script>
+		<script th:src="@{{jsName}.js(jsName=${report.namespace})}"></script>
 		<script type="text/javascript">
 			$(function(){
 			　　$('#totalPages').jqPaginator({
@@ -206,9 +206,9 @@
 					last : '<li class="last"><a href="javascript:void(0);"><i class="ace-icon fa fa-angle-double-right"></i></a></li>',
 					page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
 					onPageChange : function(num, type) {
-						$('#thePageId').html(num);
-						$('#thePageIdInput').val(num);
-						if (type == 'change') {
+						if (type != 'init') {
+							$('#thePageId').html(num);
+							$('#thePageIdInput').val(num);
 							$("#form1").submit();
 						}
 					}

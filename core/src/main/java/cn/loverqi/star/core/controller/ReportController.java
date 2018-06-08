@@ -107,10 +107,12 @@ public class ReportController {
                         }
                     }
                 }
-                if (query.getPage() == null) {
-                    query.setPage(1);
-                }
-                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, query.getPage(),
+
+                //获取查询页码并归1
+                Integer page = query.getPage();
+                query.setPage(1);
+
+                values = baseMapService.selectByExampleWithRowbounds(className, valuesExample, page == null ? 1 : page,
                         report.getPageSize());
                 for (Map<String, Object> map : values.getList()) {
                     map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));
