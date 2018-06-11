@@ -64,6 +64,13 @@ public interface BaseMapService {
     List<Map<String, Object>> selectByExample(String tableName, Example example);
 
     /**
+     * 根据Sql查询对象的方法
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    List<Map<String, Object>> selectBySql(String sql);
+
+    /**
      * 根据条件查询对象的方法
      * @param example 指定的条件
      * @return 所有符合条件的对象
@@ -85,6 +92,13 @@ public interface BaseMapService {
      */
     ResponsePageData<Map<String, Object>> selectByExampleWithRowbounds(String tableName, Example example, int page,
             int pageSize);
+
+    /**
+     * 根据Sql查询对象的方法, 支持分页
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    ResponsePageData<Map<String, Object>> selectBySqlWithRowbounds(String Sql, int page, int pageSize);
 
     /**
      * 根据主键id更新对象的方法
@@ -160,5 +174,12 @@ public interface BaseMapService {
      * @return 所有符合条件的对象
      */
     int selectCountByExample(BasePojo record, Example example);
+
+    /**
+     * 根据sql查询页面数据个数的方法
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    int selectCountBySql(String sql);
 
 }

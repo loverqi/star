@@ -81,7 +81,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
                     StarSysUserInfo user = SecurityUtil.getUser();
                     starSysLog.setAccessUser(user.getId());
-                    starSysLog.setAccessUserName(user.getName());
                 }
 
                 //加载菜单列表

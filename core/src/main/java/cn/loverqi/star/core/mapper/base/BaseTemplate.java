@@ -269,7 +269,7 @@ public class BaseTemplate<T extends BasePojo> {
                 }
             }
         }.toString();
-System.err.println(sql);
+
         return sql;
     }
 
@@ -477,6 +477,24 @@ System.err.println(sql);
             }
         }.toString();
 
+        return sql;
+    }
+
+    /**
+     * 根据sql查询对象的方法
+     * @param sql sql件
+     * @return 所有符合条件的对象
+     */
+    public String selectBySql(String sql) {
+        return sql;
+    }
+
+    /**
+     * 根据条件查询页面数据个数的方法
+     * @param sql sql件
+     * @return 所有符合条件的对象
+     */
+    public String selectCountBySql(String sql) {
         return sql;
     }
 

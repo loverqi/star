@@ -14,7 +14,7 @@ import cn.loverqi.star.core.utils.StringUtil;
  * @author LoverQi
  * @date 2018年4月3日
  */
-@ExcelName("林晟传媒客户详情")
+@ExcelName("客户详情测试")
 public class Customer extends ExcelPojo {
     private static final long serialVersionUID = 4087956886528178194L;
 

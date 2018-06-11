@@ -93,6 +93,23 @@ public class ReportUtil {
 
         return map;
     }
+    /**
+     * 根据查询集合获取查询条件map
+     * @param reportDatas 报表查询集合
+     */
+    public static Map<String, String> getQueryType(List<StarSysReportQuery> reportDatas) {
+        Map<String, String> map = new HashMap<>();
+        for (StarSysReportQuery query : reportDatas) {
+            String name = query.getName();
+            String condition = query.getClassType();
+            
+            if (StringUtil.isNotNull(name) && StringUtil.isNotNull(condition)) {
+                map.put(name.trim(), condition.trim());
+            }
+        }
+        
+        return map;
+    }
 
     /**
      * 根据参数和类型整理数据类型的方法

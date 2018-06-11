@@ -20,6 +20,6 @@ public interface StarSysPrivMapper extends BaseMapper<StarSysPriv> {
      */
     @Select("SELECT m.func_name FROM " + TableName.SYS_PRIV + " AS p INNER JOIN " + TableName.SYS_MENU
             + " AS m ON m.id = p.menu_id " + "WHERE p.role_id = #{roleId} "
-            + "AND p.`enable` = true AND m.`enable` = true AND m.is_juris = true")
+            + "AND p.`enable` = true AND m.`enable` = true AND m.`is_juris` = true AND m.`func_name` IS NOT NULL")
     List<String> selectPrivByRoleId(Integer roleId);
 }

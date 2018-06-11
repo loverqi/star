@@ -135,6 +135,18 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
     }
 
     /**
+     * 根据sql查询对象的方法
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    @Override
+    public List<T> selectBySql(String sql) {
+        List<T> selectByExample = baseMapper.selectBySql(sql);
+
+        return selectByExample;
+    }
+
+    /**
      * 根据条件查询对象的方法, 支持分页
      * @param example 指定的条件
      * @return 所有符合条件的对象
@@ -162,6 +174,23 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
         //添加分页属性
         PageHelper.startPage(page, pageSize);
         List<T> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
+
+        //用PageInfo对结果进行包装
+        PageInfo<T> pageInfo = new PageInfo<T>(selectByExampleWithRowbounds);
+
+        return new ResponsePageData<T>(pageInfo);
+    }
+
+    /**
+     * 根据Sql查询对象的方法, 支持分页
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    @Override
+    public ResponsePageData<T> selectBySqlWithRowbounds(String sql, int page, int pageSize) {
+        //添加分页属性
+        PageHelper.startPage(page, pageSize);
+        List<T> selectByExampleWithRowbounds = baseMapper.selectBySql(sql);
 
         //用PageInfo对结果进行包装
         PageInfo<T> pageInfo = new PageInfo<T>(selectByExampleWithRowbounds);
@@ -289,9 +318,21 @@ public abstract class BaseServiceImpl<T extends BasePojo> implements BaseService
      */
     @Override
     public int selectCountByExample(Example example) {
-        int deleteByExample = baseMapper.selectCountByExample(t, example);
+        int selectCountByExample = baseMapper.selectCountByExample(t, example);
 
-        return deleteByExample;
+        return selectCountByExample;
+    }
+
+    /**
+     * 根据sql查询页面数据个数的方法
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    @Override
+    public int selectCountBySql(String sql) {
+        int selectCountBySql = baseMapper.selectCountBySql(sql);
+
+        return selectCountBySql;
     }
 
 }

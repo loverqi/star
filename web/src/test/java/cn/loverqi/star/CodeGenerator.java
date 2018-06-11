@@ -37,7 +37,7 @@ public class CodeGenerator {
         bulid.setGenServieImpl(false);
 
         //指定需要生成的表，不定参，不传参时生成当前库所有
-        bulid.generate("star_sys_report","test");
+        bulid.generate("test");
     }
 
 }

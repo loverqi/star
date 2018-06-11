@@ -47,10 +47,10 @@ public class KaptchaAuthenticationFilter extends AbstractAuthenticationProcessin
                 String parameter = req.getParameter(codeParameter);
                 if (StringUtil.isNull(parameter)) {
                     msg = "请输入验证码";
-                } else if ( !expect.equalsIgnoreCase(parameter)) {
+                } else if (!expect.equalsIgnoreCase(parameter)) {
                     msg = "验证码不正确";
                 }
-                
+
                 if (StringUtil.isNotNull(msg)) {
                     unsuccessfulAuthentication(req, res, new InsufficientAuthenticationException(msg));
                     return;

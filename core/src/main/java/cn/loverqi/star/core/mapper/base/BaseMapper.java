@@ -89,7 +89,7 @@ public interface BaseMapper<T extends BasePojo> {
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectCountByExample")
     int selectCountByExample(Class<T> t, Example example);
-    
+
     /**
      * 根据条件查询页面数据个数的方法
      * @param tableName 查询的表名
@@ -116,7 +116,23 @@ public interface BaseMapper<T extends BasePojo> {
      */
     @SelectProvider(type = BaseTemplate.class, method = "selectByExample")
     List<T> selectByExample(Class<T> t, Example example);
-    
+
+    /**
+     * 根据sql查询对象的方法
+     * @param sql sql件
+     * @return 所有符合条件的对象
+     */
+    @SelectProvider(type = BaseTemplate.class, method = "selectBySql")
+    List<T> selectBySql(String sql);
+
+    /**
+     * 根据条件查询页面数据个数的方法
+     * @param sql sql件
+     * @return 所有符合条件的对象
+     */
+    @SelectProvider(type = BaseTemplate.class, method = "selectCountBySql")
+    int selectCountBySql(String sql);
+
     /**
      * 根据条件查询对象的方法
      * @param record 查询的表名
@@ -185,7 +201,7 @@ public interface BaseMapper<T extends BasePojo> {
      */
     @DeleteProvider(type = BaseTemplate.class, method = "deleteByExample")
     int deleteByExample(Class<T> t, Example example);
-    
+
     /**
      * 根据条件删除对象的方法
      * @param tableName 查询的表名

@@ -71,6 +71,13 @@ public interface BaseService<T extends BasePojo> {
     List<T> selectByExample(Example example);
 
     /**
+     * 根据Sql查询对象的方法
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    List<T> selectBySql(String sql);
+
+    /**
      * 根据条件查询对象的方法, 支持分页
      * @param example 指定的条件
      * @return 所有符合条件的对象
@@ -83,6 +90,13 @@ public interface BaseService<T extends BasePojo> {
      * @return 所有符合条件的对象
      */
     ResponsePageData<T> selectByExampleWithRowbounds(String tableName, Example example, int page, int pageSize);
+
+    /**
+     * 根据Sql查询对象的方法, 支持分页
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    ResponsePageData<T> selectBySqlWithRowbounds(String Sql, int page, int pageSize);
 
     /**
      * 根据主键id更新对象的方法
@@ -158,4 +172,11 @@ public interface BaseService<T extends BasePojo> {
      * @return 所有符合条件的对象
      */
     int selectCountByExample(Example example);
+
+    /**
+     * 根据sql查询页面数据个数的方法
+     * @param sql sql
+     * @return 所有符合条件的对象
+     */
+    int selectCountBySql(String sql);
 }

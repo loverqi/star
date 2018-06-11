@@ -29,6 +29,9 @@ public class StarSysReport extends BasePojo {
     /** 数据源*/
     private String beanClass;
 
+    /** 查询sql，与beanClass不能同时为空*/
+    private String querySql;
+
     /** 每页的页数*/
     private Integer pageSize;
 
@@ -94,6 +97,14 @@ public class StarSysReport extends BasePojo {
 
     public String getBeanClass() {
         return beanClass;
+    }
+
+    public String getQuerySql() {
+        return querySql;
+    }
+
+    public void setQuerySql(String querySql) {
+        this.querySql = querySql;
     }
 
     public void setPageSize(Integer pageSize) {

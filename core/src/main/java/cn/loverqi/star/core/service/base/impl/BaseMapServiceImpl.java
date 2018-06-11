@@ -123,6 +123,18 @@ public class BaseMapServiceImpl implements BaseMapService {
     }
 
     /**
+     * 根据Sql查询对象的方法
+     * @param Sql Sql
+     * @return 所有符合条件的对象
+     */
+    @Override
+    public List<Map<String, Object>> selectBySql(String sql) {
+        List<Map<String, Object>> selectByExample = baseMapper.selectBySql(sql);
+
+        return selectByExample;
+    }
+
+    /**
      * 根据条件查询对象的方法, 支持分页
      * @param example 指定的条件
      * @return 所有符合条件的对象
@@ -152,6 +164,23 @@ public class BaseMapServiceImpl implements BaseMapService {
         //添加分页属性
         PageHelper.startPage(page, pageSize);
         List<Map<String, Object>> selectByExampleWithRowbounds = baseMapper.selectByValueExample(tableName, example);
+
+        //用PageInfo对结果进行包装
+        PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(selectByExampleWithRowbounds);
+
+        return new ResponsePageData<Map<String, Object>>(pageInfo);
+    }
+
+    /**
+     * 根据Sql查询对象的方法, 支持分页
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    @Override
+    public ResponsePageData<Map<String, Object>> selectBySqlWithRowbounds(String sql, int page, int pageSize) {
+        //添加分页属性
+        PageHelper.startPage(page, pageSize);
+        List<Map<String, Object>> selectByExampleWithRowbounds = baseMapper.selectBySql(sql);
 
         //用PageInfo对结果进行包装
         PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(selectByExampleWithRowbounds);
@@ -280,6 +309,19 @@ public class BaseMapServiceImpl implements BaseMapService {
     @Override
     public int selectCountByExample(BasePojo record, Example example) {
         int deleteByExample = baseMapper.selectCountByExample(record, example);
+
+        return deleteByExample;
+    }
+
+    /**
+     * 根据Sql查询页面数据个数的方法
+     * @param Sql Sql
+     * @param example 指定的条件
+     * @return 所有符合条件的对象
+     */
+    @Override
+    public int selectCountBySql(String sql) {
+        int deleteByExample = baseMapper.selectCountBySql(sql);
 
         return deleteByExample;
     }

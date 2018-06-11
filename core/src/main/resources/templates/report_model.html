@@ -173,7 +173,7 @@
 								</tr>
 							</thead>
 
-							<tbody>
+							<tbody th:if="${values != null}">
 								<tr th:each="value : ${values.list}">
 									<th:block th:each="reportData : ${reportDatas}">
 										<td th:if="${reportData.type==1}" class="center"
@@ -213,7 +213,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="modal-footer no-margin-top">
+					<div th:if="${values != null}" class="modal-footer no-margin-top">
 						<span style="margin-right: 15px">
 							共
 							<strong>
@@ -241,7 +241,7 @@
 		<script src="/assets/js/downloadfile.min.js"></script>
 		<script src="/js/star.report.js"></script>
 		<script th:src="@{{jsName}.js(jsName=${report.namespace})}"></script>
-		<script type="text/javascript">
+		<script type="text/javascript" th:if="${values != null}">
 			$(function(){
 			　　$('#totalPages').jqPaginator({
 					totalPages : [[${values.pages==0?1:values.pages}]], //设置分页的总页数

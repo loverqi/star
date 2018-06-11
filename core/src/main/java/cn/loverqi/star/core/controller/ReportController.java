@@ -87,57 +87,66 @@ public class ReportController {
             String getOperationDeleteFunc = report.getOperationDeleteFunc();
 
             //封装需要展示的数据
-            String className = PackageUtil.getClassName(report.getBeanClass());
             ResponsePageData<Map<String, Object>> values = null;
-            if (StringUtil.isNotNull(className)) {
-                BasePojo classBean = PackageUtil.getClassBean(report.getBeanClass());
-                Example valuesExample = new Example();
-                Map<String, Object> params = query.getParams(); //前端传来的数据
-                if (reportQuerys != null) {
-                    Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
-                    for (String key : params.keySet()) {
+            
+            BasePojo classBean = PackageUtil.getClassBean(report.getBeanClass());
+            Example valuesExample = new Example();
+            Map<String, Object> params = query.getParams(); //前端传来的数据
+            if (reportQuerys != null) {
+                Map<String, String> queryMap = ReportUtil.getQueryMap(reportQuerys); //需要对比的条目
+                Map<String, String> queryType = ReportUtil.getQueryType(reportQuerys); //需要对比的条目
+                for (String key : params.keySet()) {
 
-                        String fieldClass = classBean.getTableFieldClass(key);
-                        Object value = params.get(key); //需要验证的值
-                        if (value != null && StringUtil.isNotNull(value.toString())) {
-                            String condition = queryMap.get(key);
-                            if (condition != null) {
+                    String fieldClass = queryType.get(key);
+                    if (StringUtil.isNull(fieldClass)) {
+                        fieldClass = classBean != null ? classBean.getTableFieldClass(key) : "string";
+                    }
 
-                                Object typeValue = ReportUtil.getTypeValue(value, condition, fieldClass);
+                    Object value = params.get(key); //需要验证的值
+                    if (value != null && StringUtil.isNotNull(value.toString())) {
+                        String condition = queryMap.get(key);
+                        if (condition != null) {
 
-                                switch (condition) {
-                                case "like":
-                                    valuesExample.createCriteria().andFieldLike(key, typeValue);
-                                    break;
-                                case "rlike":
-                                    valuesExample.createCriteria().andFieldRightLike(key, typeValue);
-                                    break;
-                                case "llike":
-                                    valuesExample.createCriteria().andFieldLeftLike(key, typeValue);
-                                    break;
-                                case "in":
-                                    valuesExample.createCriteria().andFieldIn(key, (List<?>) typeValue);
-                                    break;
-                                default:
-                                    valuesExample.createCriteria().andFieldCustom(key, condition, typeValue);
-                                    break;
-                                }
+                            Object typeValue = ReportUtil.getTypeValue(value, condition, fieldClass);
+
+                            switch (condition) {
+                            case "like":
+                                valuesExample.createCriteria().andFieldLike(key, typeValue);
+                                break;
+                            case "rlike":
+                                valuesExample.createCriteria().andFieldRightLike(key, typeValue);
+                                break;
+                            case "llike":
+                                valuesExample.createCriteria().andFieldLeftLike(key, typeValue);
+                                break;
+                            case "in":
+                                valuesExample.createCriteria().andFieldIn(key, (List<?>) typeValue);
+                                break;
+                            default:
+                                valuesExample.createCriteria().andFieldCustom(key, condition, typeValue);
+                                break;
                             }
                         }
                     }
                 }
+            }
 
-                //获取查询页码并归1
-                Integer page = query.getPage();
-                query.setPage(1);
+            //获取查询页码并归1
+            Integer page = query.getPage();
+            query.setPage(1);
 
+            if (classBean != null) {
                 values = baseMapService.selectByExampleWithRowbounds(classBean, valuesExample, page == null ? 1 : page,
                         report.getPageSize());
-                for (Map<String, Object> map : values.getList()) {
-                    map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));
-                    map.put("operationEditFunc_star_", ReportUtil.fillFuncField(operationEditFunc, map));
-                    map.put("operationDeleteFunc_star_", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
-                }
+            } else {
+                values = baseMapService.selectBySqlWithRowbounds(report.getQuerySql(), page == null ? 1 : page,
+                        report.getPageSize());
+            }
+
+            for (Map<String, Object> map : values.getList()) {
+                map.put("operationViewFunc_star_", ReportUtil.fillFuncField(operationViewFunc, map));
+                map.put("operationEditFunc_star_", ReportUtil.fillFuncField(operationEditFunc, map));
+                map.put("operationDeleteFunc_star_", ReportUtil.fillFuncField(getOperationDeleteFunc, map));
             }
 
             model.addAttribute("reportQuerys", ReportUtil.splitReportDatas(reportQuerys, 5));
@@ -148,6 +157,7 @@ public class ReportController {
         }
 
         return "report_model";
+
     }
 
     @ResponseBody

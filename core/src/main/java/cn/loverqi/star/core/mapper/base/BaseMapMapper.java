@@ -92,6 +92,22 @@ public interface BaseMapMapper {
     int selectCountByExample(BasePojo record, Example example);
 
     /**
+     * 根据sql查询对象的方法
+     * @param sql sql件
+     * @return 所有符合条件的对象
+     */
+    @SelectProvider(type = BaseTemplate.class, method = "selectBySql")
+    List<Map<String, Object>> selectBySql(String sql);
+
+    /**
+     * 根据条件查询页面数据个数的方法
+     * @param sql sql件
+     * @return 所有符合条件的对象
+     */
+    @SelectProvider(type = BaseTemplate.class, method = "selectCountBySql")
+    int selectCountBySql(String sql);
+
+    /**
      * 根据条件查询页面数据个数的方法
      * @param tableName 查询的表名
      * @param example 指定的条件

@@ -24,6 +24,9 @@ public class StarSysReportQuery extends BasePojo {
     /** 字段标题*/
     private String title;
 
+    /** 字段数据类型*/
+    private String classType;
+
     /** 字段类型(包括字典值)*/
     private Integer type;
 
@@ -66,6 +69,14 @@ public class StarSysReportQuery extends BasePojo {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
     }
 
     public void setType(Integer type) {

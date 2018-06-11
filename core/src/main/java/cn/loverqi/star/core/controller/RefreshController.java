@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.loverqi.star.core.bean.ResponseData;
 import cn.loverqi.star.core.domain.StarSysConfig;
 import cn.loverqi.star.core.domain.StarSysMenu;
+import cn.loverqi.star.core.domain.StarSysUserInfo;
+import cn.loverqi.star.core.mapper.StarSysPrivMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.security.manager.DynamicInvocationSecurityMetadataSource;
 import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysConfigService;
 import cn.loverqi.star.core.service.StarSysMenuService;
@@ -34,9 +41,16 @@ import io.swagger.annotations.ApiOperation;
 public class RefreshController {
 
     @Autowired
+    private DynamicInvocationSecurityMetadataSource securityMetadataSource;
+    @Autowired
     private StarSysConfigService starSysConfigService;
     @Autowired
     private StarSysMenuService starSysMenuService;
+    @Autowired
+    private StarSysPrivMapper starSysPrivMapper;
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @RequestMapping(value = { "/", "/refresh.html" }, method = RequestMethod.GET)
     public String refreshPage(HttpSession session) {
@@ -70,11 +84,31 @@ public class RefreshController {
         }
 
         //更新系统权限
-        if (jurisdictionSys != null && jurisdictionSys) { //暂时未提供
+        if (jurisdictionSys != null && jurisdictionSys) {
+            securityMetadataSource.loadResourceDefine();
             count++;
         }
+
         //更新用户权限
-        if (jurisdictionUser != null && jurisdictionUser) { //暂时未提供
+        if (jurisdictionUser != null && jurisdictionUser) {
+
+            Authentication authentication = SecurityUtil.getAuthentication();
+
+            List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+            for (Object object : allPrincipals) {
+                StarSysUserInfo userInfo = (StarSysUserInfo) object;
+                System.err.println(userInfo.getName());
+
+                List<String> privs = starSysPrivMapper.selectPrivByRoleId(userInfo.getRoleId());
+                userInfo.addAuthoritiesGlSysPrivs(privs);
+
+                // 重新new一个token，因为Authentication中的权限是不可变的.  
+                UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(userInfo,
+                        authentication.getCredentials(), userInfo.getAuthorities());
+                result.setDetails(authentication.getDetails());
+                SecurityContextHolder.getContext().setAuthentication(result);
+            }
+
             count++;
         }
 
