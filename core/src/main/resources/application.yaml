@@ -74,6 +74,13 @@ mybatis:
     map-underscore-to-camel-case: true
     call-setters-on-nulls: true
 
+# pagehelper的配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
 #开发环境下开启 DEBUG 模式
 #logging:
 #  level:

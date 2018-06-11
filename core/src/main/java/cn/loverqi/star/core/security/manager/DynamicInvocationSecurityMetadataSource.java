@@ -17,8 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import cn.loverqi.star.core.domain.StarSysMenu;
+import cn.loverqi.star.core.mapper.StarSysMenuMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
-import cn.loverqi.star.core.service.StarSysMenuService;
 import cn.loverqi.star.core.utils.StringUtil;
 
 /**
@@ -30,7 +30,7 @@ import cn.loverqi.star.core.utils.StringUtil;
 public class DynamicInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
-    private StarSysMenuService starSysMenuService;
+    private StarSysMenuMapper starSysMenuMapper;
 
     private HashMap<String, Collection<ConfigAttribute>> map = null;
 
@@ -45,7 +45,7 @@ public class DynamicInvocationSecurityMetadataSource implements FilterInvocation
         //只查询启用的权限
         example.createCriteria().andFieldEqualTo("enable", true).andFieldEqualTo("isJuris", true)
                 .andFieldIsNotNull("funcName");
-        List<StarSysMenu> starSysMenus = starSysMenuService.selectByExample(example);
+        List<StarSysMenu> starSysMenus = starSysMenuMapper.selectByExample(StarSysMenu.class, example);
 
         Collection<ConfigAttribute> array = null;
         for (StarSysMenu starSysMenu : starSysMenus) {

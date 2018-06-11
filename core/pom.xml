@@ -45,9 +45,18 @@
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
-			<version>4.2.1</version>
+			<version>5.1.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.3</version>
+		</dependency>
 		<!-- 引入redis -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -96,7 +105,7 @@
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 		</dependency>
-		
+
 		<!-- 引入kaptcha插件 -->
 		<dependency>
 			<groupId>com.github.penggle</groupId>
