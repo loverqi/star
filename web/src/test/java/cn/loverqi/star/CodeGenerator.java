@@ -13,7 +13,7 @@ public class CodeGenerator {
 
     @Test
     public void generate() {
-        String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/star?useUnicode=true&characterEncoding=UTF-8";
+        String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/teacher_evaluation?useUnicode=true&characterEncoding=UTF-8";
         String jdbcUserName = "root";
         String jdbcPassWord = "root";
 
@@ -30,14 +30,15 @@ public class CodeGenerator {
         //实体类是否是层级菜单
         bulid.setNode(false);
         //是否生成数据库操作类
-        bulid.setGenMapper(false);
+        bulid.setGenMapper(true);
         //是否生成逻辑处理类
-        bulid.setGenService(false);
+        bulid.setGenService(true);
         //是否生成逻辑处理类实现类
-        bulid.setGenServieImpl(false);
+        bulid.setGenServieImpl(true);
 
         //指定需要生成的表，不定参，不传参时生成当前库所有
-        bulid.generate("test");
+        bulid.generate("star_te_evaluation_activity", "star_te_evaluation_template", "star_te_evaluation_template_item",
+                "star_te_score_record", "star_te_student_score", "star_te_teacher_detail");
     }
 
 }
