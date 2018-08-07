@@ -31,7 +31,7 @@ public class ${table_name} extends ExcelPojo <#if is_node>implements INode<${tab
     private String ${model.changeColumnName};
 		<#elseif (model.columnType=="INT")>
     private Integer ${model.changeColumnName};
-		<#elseif (model.columnType=="DOUBLE")>
+		<#elseif (model.columnType=="DOUBLE" || model.columnType=="DECIMAL")>
     private Double ${model.changeColumnName};
 		<#elseif (model.columnType=="TINYINT")>
     private Boolean ${model.changeColumnName};
@@ -59,7 +59,7 @@ public class ${table_name} extends ExcelPojo <#if is_node>implements INode<${tab
     public Integer get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType=="DOUBLE")>
+		<#elseif (model.columnType=="DOUBLE" || model.columnType=="DECIMAL")>
     public void set${model.changeColumnName?cap_first}(Double ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }
