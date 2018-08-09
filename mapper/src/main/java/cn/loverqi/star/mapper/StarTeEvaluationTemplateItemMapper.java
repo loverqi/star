@@ -6,7 +6,7 @@ import cn.loverqi.star.core.mapper.base.BaseMapper;
 /**
  * 评分模板项目配置表数据操作类
  * @author LoverQi
- * @date 2018年8月06日
+ * @date 2018年8月07日
  */
 public interface StarTeEvaluationTemplateItemMapper extends BaseMapper<StarTeEvaluationTemplateItem> {
 
