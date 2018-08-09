@@ -1,6 +1,8 @@
 package cn.loverqi.star.domain;
 
 import java.util.Date;
+
+import cn.loverqi.star.core.annotation.TimeNow;
 import cn.loverqi.star.core.basepojo.ExcelPojo;
 
 /**
@@ -44,6 +46,7 @@ public class StarTeEvaluationTemplateItem extends ExcelPojo {
     private Date createDate;
 
     /** 最后修改时间*/
+    @TimeNow
     private Date updateDate;
 
     public void setId(Integer id) {

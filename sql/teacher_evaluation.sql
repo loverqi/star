@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50556
 File Encoding         : 65001
 
-Date: 2018-08-06 22:28:48
+Date: 2018-08-10 00:13:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -691,7 +691,7 @@ CREATE TABLE `star_sys_log` (
   `access_user_name` varchar(32) DEFAULT NULL,
   `enable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1518 DEFAULT CHARSET=utf8 COMMENT='日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=1548 DEFAULT CHARSET=utf8 COMMENT='日志表';
 
 -- ----------------------------
 -- Records of star_sys_log
@@ -1871,6 +1871,36 @@ INSERT INTO `star_sys_log` VALUES ('1514', '/1325.html', '权限管理', '127.0.
 INSERT INTO `star_sys_log` VALUES ('1515', '/report/log_report.html', '系统日志', '127.0.0.1:80', '127.0.0.1', '2018-07-29 18:51:11', '1', null, '1');
 INSERT INTO `star_sys_log` VALUES ('1516', '/index.html', '系统首页', '127.0.0.1:80', '127.0.0.1', '2018-07-29 18:51:12', '1', null, '1');
 INSERT INTO `star_sys_log` VALUES ('1517', '/getKaptchaImg.do', null, '127.0.0.1:80', '127.0.0.1', '2018-07-29 18:51:29', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1518', '/getKaptchaImg.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:07:59', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1519', '/swagger-ui.html', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:08:15', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1520', '/swagger-resources/configuration/ui', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:08:16', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1521', '/swagger-resources', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:08:16', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1522', '/swagger-resources/configuration/security', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:08:16', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1523', '/swagger-ui.html', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:22:54', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1524', '/swagger-resources/configuration/ui', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:22:54', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1525', '/swagger-resources', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:22:54', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1526', '/swagger-resources/configuration/security', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:22:55', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1527', '/getKaptchaImg.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:23:19', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1528', '/getKaptchaImg.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:23:29', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1529', '/', '系统首页', '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:23:32', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1530', '/customer/ListStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:23:37', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1531', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:24:35', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1532', '/customer/ListStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:24:40', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1533', '/getKaptchaImg.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:27:28', null, null, '1');
+INSERT INTO `star_sys_log` VALUES ('1534', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:23', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1535', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:25', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1536', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:26', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1537', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:26', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1538', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:26', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1539', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:26', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1540', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:26', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1541', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:26', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1542', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:27', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1543', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:27', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1544', '/customer/ListStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:30:30', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1545', '/customer/AddStarTeScoreRecord.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:31:17', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1546', '/customer/AddStarTeStudentScore.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:35:35', '1', null, '1');
+INSERT INTO `star_sys_log` VALUES ('1547', '/customer/ListStarTeStudentScore.do', null, '127.0.0.1:80', '127.0.0.1', '2018-08-09 21:35:40', '1', null, '1');
 
 -- ----------------------------
 -- Table structure for star_sys_menu
@@ -2101,6 +2131,15 @@ INSERT INTO `star_sys_user_info` VALUES ('42', '123456', '123456', '$2a$04$JW4wF
 DROP TABLE IF EXISTS `star_te_evaluation_activity`;
 CREATE TABLE `star_te_evaluation_activity` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '活动id',
+  `template_id` int(11) unsigned NOT NULL COMMENT '模板d',
+  `name` varchar(64) NOT NULL COMMENT '活动名称',
+  `state` int(2) NOT NULL DEFAULT '0' COMMENT '活动状态',
+  `group_ids` varchar(255) NOT NULL COMMENT '相关用户组，暂时不维护多对多的关系',
+  `star_time` datetime NOT NULL COMMENT '活动开始时间',
+  `end_time` datetime NOT NULL COMMENT '活动结束时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_date` timestamp NULL DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分活动表';
 
@@ -2114,6 +2153,11 @@ CREATE TABLE `star_te_evaluation_activity` (
 DROP TABLE IF EXISTS `star_te_evaluation_template`;
 CREATE TABLE `star_te_evaluation_template` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '模板id',
+  `name` varchar(64) DEFAULT NULL COMMENT '模板名称',
+  `state` int(2) DEFAULT '0' COMMENT '模板状态',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评价模板表';
 
@@ -2127,6 +2171,16 @@ CREATE TABLE `star_te_evaluation_template` (
 DROP TABLE IF EXISTS `star_te_evaluation_template_item`;
 CREATE TABLE `star_te_evaluation_template_item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id',
+  `template_id` int(11) unsigned NOT NULL COMMENT '模板d',
+  `name` varchar(64) NOT NULL COMMENT '条目名称',
+  `default_score` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '默认初始分值',
+  `forward_score` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否正向计分；0为负向计分，1为正向计分',
+  `score_upper_limit` decimal(10,2) NOT NULL DEFAULT '-1.00' COMMENT '该项分值上限',
+  `score_lower_limit` decimal(10,2) NOT NULL DEFAULT '-1.00' COMMENT '一票否决分值下限',
+  `rule_description` varchar(255) DEFAULT NULL COMMENT '评分规则说明',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分模板项目配置表';
 
@@ -2139,7 +2193,14 @@ CREATE TABLE `star_te_evaluation_template_item` (
 -- ----------------------------
 DROP TABLE IF EXISTS `star_te_score_record`;
 CREATE TABLE `star_te_score_record` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '评分id',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '分数id',
+  `item_id` int(11) unsigned NOT NULL COMMENT '评分条目id',
+  `activity_id` int(11) unsigned NOT NULL COMMENT '关联活动id',
+  `score` decimal(10,2) NOT NULL COMMENT '分数',
+  `forward_score` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否正向计分；0为负向计分，1为正向计分',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评分记录表';
 
@@ -2153,6 +2214,12 @@ CREATE TABLE `star_te_score_record` (
 DROP TABLE IF EXISTS `star_te_student_score`;
 CREATE TABLE `star_te_student_score` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '分数id',
+  `user_id` int(11) unsigned NOT NULL COMMENT '关联用户id',
+  `activity_id` int(11) unsigned NOT NULL COMMENT '关联活动id',
+  `score` decimal(10,2) NOT NULL COMMENT '分数',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生评价分数表';
 
@@ -2166,6 +2233,14 @@ CREATE TABLE `star_te_student_score` (
 DROP TABLE IF EXISTS `star_te_teacher_detail`;
 CREATE TABLE `star_te_teacher_detail` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '教师id',
+  `user_id` int(11) unsigned NOT NULL COMMENT '关联用户id',
+  `school` varchar(64) DEFAULT NULL COMMENT '学校',
+  `college` varchar(64) DEFAULT NULL COMMENT '学院',
+  `group` varchar(64) DEFAULT NULL COMMENT '组别nick(冗余）',
+  `title` varchar(64) DEFAULT NULL COMMENT '职称',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='教师信息扩展表';
 
