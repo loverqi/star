@@ -6,7 +6,7 @@ import cn.loverqi.star.core.basepojo.ExcelPojo;
 /**
  * 评分模板项目配置表实体类
  * @author LoverQi
- * @date 2018年8月07日
+ * @date 2018年8月09日
  */
 public class StarTeEvaluationTemplateItem extends ExcelPojo {
 

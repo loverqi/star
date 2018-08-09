@@ -8,7 +8,7 @@ import cn.loverqi.star.core.service.base.impl.BaseServiceImpl;
 /**
  * 评分模板项目配置表逻辑处理类实现类
  * @author LoverQi
- * @date 2018年8月07日
+ * @date 2018年8月09日
  */
 @Service
 public class StarTeEvaluationTemplateItemServiceImpl extends BaseServiceImpl<StarTeEvaluationTemplateItem> implements StarTeEvaluationTemplateItemService {

@@ -6,7 +6,7 @@ import cn.loverqi.star.core.service.base.BaseService;
 /**
  * 评分记录表逻辑处理类
  * @author LoverQi
- * @date 2018年8月07日
+ * @date 2018年8月09日
  */
 public interface StarTeScoreRecordService extends BaseService<StarTeScoreRecord> {
 

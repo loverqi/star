@@ -6,7 +6,7 @@ import cn.loverqi.star.core.mapper.base.BaseMapper;
 /**
  * 教师信息扩展表数据操作类
  * @author LoverQi
- * @date 2018年8月07日
+ * @date 2018年8月09日
  */
 public interface StarTeTeacherDetailMapper extends BaseMapper<StarTeTeacherDetail> {
 

@@ -26,7 +26,9 @@ import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysUserInfoService;
 import cn.loverqi.star.core.utils.StringUtil;
 import cn.loverqi.star.domain.Customer;
+import cn.loverqi.star.domain.StarTeStudentScore;
 import cn.loverqi.star.service.CustomerService;
+import cn.loverqi.star.service.StarTeStudentScoreService;
 import cn.loverqi.star.web.controller.param.CustomerParam;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -48,6 +50,35 @@ public class CustomerController {
 
     @Autowired
     private StarSysUserInfoService userInfoService;
+
+    @Autowired
+    private StarTeStudentScoreService starTeStudentScoreService;
+
+    @ApiOperation(value = "新建StarTeStudentScore", notes = "新建")
+    @RequestMapping(value = "/AddStarTeStudentScore.do", method = { RequestMethod.POST })
+    public @ResponseBody ResponseData<Boolean> AddStarTeStudentScore(
+            @ModelAttribute StarTeStudentScore starTeScoreRecord) {
+
+        ResponseData<Boolean> responseDate = new ResponseData<Boolean>();
+
+        int insertSelective = starTeStudentScoreService.insertSelective(starTeScoreRecord);
+        responseDate.setData(insertSelective > 0);
+
+        return responseDate;
+    }
+
+    @ApiOperation(value = "查看StarTeStudentScore", notes = "新建")
+    @RequestMapping(value = "/ListStarTeStudentScore.do", method = { RequestMethod.GET, RequestMethod.POST })
+    public @ResponseBody ResponseData<List<StarTeStudentScore>> ListStarTeStudentScore() {
+
+        ResponseData<List<StarTeStudentScore>> responseDate = new ResponseData<List<StarTeStudentScore>>();
+
+        List<StarTeStudentScore> selectByExample = starTeStudentScoreService.selectByExample(null);
+
+        responseDate.setData(selectByExample);
+
+        return responseDate;
+    }
 
     @ApiOperation(value = "新建或者修改客户", notes = "新建或者修改客户,有id时为修改，无id时为新建，code为0是成功")
     @RequestMapping(value = "/AddOrModifyCustomer.do", method = { RequestMethod.POST })
