@@ -2,7 +2,7 @@ package ${package_name}.domain;
 
 <#if model_column?exists>
 	<#list model_column as model>
-    	<#if (model.columnType=="DATETIME" || model.columnType=="DATE")>
+    	<#if (model.columnType=="TIMESTAMP" || model.columnType=="DATE" || model.columnType=="DATETIME")>
 import java.util.Date;
    			<#break>
 		</#if> 
@@ -35,7 +35,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     private Double ${model.changeColumnName};
 		<#elseif (model.columnType=="TINYINT")>
     private Boolean ${model.changeColumnName};
-		<#elseif (model.columnType=="DATETIME" || model.columnType=="DATE")>
+		<#elseif (model.columnType=="TIMESTAMP" || model.columnType=="DATE" || model.columnType=="DATETIME")>
     private Date ${model.changeColumnName};
 		</#if> 
 
@@ -75,7 +75,7 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     public Boolean get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
-		<#elseif (model.columnType=="DATETIME" || model.columnType=="DATE")>
+		<#elseif (model.columnType=="TIMESTAMP" || model.columnType=="DATE" || model.columnType=="DATETIME")>
     public void set${model.changeColumnName?cap_first}(Date ${model.changeColumnName}) {
         this.${model.changeColumnName} = ${model.changeColumnName};
     }
