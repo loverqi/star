@@ -5,6 +5,7 @@ import java.util.Date;
 import cn.loverqi.star.core.annotation.ExcelColumn;
 import cn.loverqi.star.core.annotation.ExcelName;
 import cn.loverqi.star.core.annotation.FieldIgnore;
+import cn.loverqi.star.core.annotation.TimeNow;
 import cn.loverqi.star.core.basepojo.ExcelPojo;
 import cn.loverqi.star.core.domain.StarSysUserInfo;
 import cn.loverqi.star.core.utils.StringUtil;
@@ -48,6 +49,7 @@ public class Customer extends ExcelPojo {
     private String createUserName;
 
     /** 创建时间*/
+    @TimeNow
     @ExcelColumn(value = "创建时间", order = 6)
     private Date createDate;
 

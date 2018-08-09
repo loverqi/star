@@ -57,54 +57,13 @@ public class CustomerController {
 
         int insert = 0;
         if (customer.getId() != null) {
-            if (StringUtil.isNotNull(customer.getQqName()) || StringUtil.isNotNull(customer.getWechatNumber())) {
-                Example example1 = new Example();
-                if (StringUtil.isNotNull(customer.getQqName())) {
-                    example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber())
-                            .andFieldNotEqualTo("id", customer.getId());
-                }
-                List<Customer> customers1 = customerService.selectByExample(example1);
 
-                Example example2 = new Example();
-                if (StringUtil.isNotNull(customer.getWechatNumber())) {
-                    example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber())
-                            .andFieldNotEqualTo("id", customer.getId());
-                }
-                List<Customer> customers2 = customerService.selectByExample(example2);
-
-                if (customers1 != null && customers1.size() > 0) {
-                    responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
-                    responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_QQ_MESSAGE);
-                } else if (customers2 != null && customers2.size() > 0) {
-                    responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_WX_ERROR);
-                    responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_WX_MESSAGE);
-                } else {
-                    insert = customerService.updateByPrimaryKeySelective(customer);
-                }
-            } else {
-                insert = customerService.updateByPrimaryKeySelective(customer);
-            }
+            insert = customerService.updateByPrimaryKeySelective(customer);
 
             responseDate.setData(insert > 0);
         } else {
-            Example example1 = new Example();
-            example1.createCriteria().andFieldEqualTo("qqNumber", customer.getQqNumber());
-            Example example2 = new Example();
-            example2.createCriteria().andFieldEqualTo("wechatNumber", customer.getWechatNumber());
-            List<Customer> customers1 = customerService.selectByExample(example1);
-            List<Customer> customers2 = customerService.selectByExample(example2);
-            if (customers1 != null && customers1.size() > 0) {
-                responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_QQ_ERROR);
-                responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_QQ_MESSAGE);
-            } else if (customers2 != null && customers2.size() > 0) {
-                responseDate.setCode(ResponseDataCode.FIND_CUSTOMER_WX_ERROR);
-                responseDate.setMessage(ResponseDataCode.FIND_CUSTOMER_WX_MESSAGE);
-            } else {
-                customer.setCreateDate(new Date());
-                customer.setCreateUser(SecurityUtil.getUser().getId());
-                insert = customerService.insertSelective(customer);
-                responseDate.setData(insert > 0);
-            }
+            insert = customerService.insertSelective(customer);
+            responseDate.setData(insert > 0);
         }
 
         return responseDate;

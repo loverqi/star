@@ -20,7 +20,6 @@ public class NameFormatConversionUtil {
      * @return 驼峰格式的字段名
      */
     public static String lineToHump(String str) {
-        str = str.toLowerCase();
         Matcher matcher = linePattern.matcher(str);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {

@@ -6,8 +6,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.poi.ss.formula.functions.T;
 
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cn.loverqi.star.core.annotation.FieldIgnore;
 import cn.loverqi.star.core.annotation.TableId;
 import cn.loverqi.star.core.annotation.TableName;
+import cn.loverqi.star.core.annotation.TimeNow;
 import cn.loverqi.star.core.exception.PojoStructureException;
 import cn.loverqi.star.core.mybaties.utils.AnnotationUtil;
 import cn.loverqi.star.core.utils.NameFormatConversionUtil;
@@ -30,9 +34,17 @@ import cn.loverqi.star.core.utils.NameFormatConversionUtil;
  * @author LoverQi
  * @date 2018年6月9日
  */
+/**
+ * 
+ * @author LoverQi
+ * @date 2018年8月9日
+ */
 public abstract class BasePojo implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 7017005956368469919L;
+
+    @FieldIgnore
+    private Set<String> nowTimeDate = new HashSet<>(2);
 
     /**
      * 获取POJO对应的表名，要求数据库中的表名必须和类名对应
@@ -169,6 +181,10 @@ public abstract class BasePojo implements Serializable, Cloneable {
     @JsonIgnore
     public String getTableFieldValue(String fieldName) {
 
+        if (isSetNowTime(fieldName)) {
+            this.setFieldValueByKey(fieldName, new Date());
+        }
+
         String fieldValue = null;
         try {
             Class<? extends BasePojo> clazz = getClass();
@@ -243,6 +259,7 @@ public abstract class BasePojo implements Serializable, Cloneable {
      * @param fieldValue 属性值
      * @return 方法执行的成功与否    
      */
+    @JsonIgnore
     public boolean setFieldValueByKey(String fieldName, Object fieldValue) {
         if (fieldName == null) {
             return false;
@@ -272,6 +289,32 @@ public abstract class BasePojo implements Serializable, Cloneable {
     @JsonIgnore
     public void setKeyProperty(Integer keyProperty) {
         this.setFieldValueByKey(getTablePrimaryKey(), keyProperty);
+    }
+
+    /**
+     * 判断当前字段是否需要填充当前时间
+     * @return
+     */
+    @JsonIgnore
+    private boolean isSetNowTime(String fieldName) {
+
+        //判断是否添加了注解
+        try {
+            Field field = getClass().getDeclaredField(fieldName);
+            TimeNow timeNow = AnnotationUtil.getAnnotation(field, TimeNow.class);
+            if (timeNow != null) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @JsonIgnore
+    public void setNowTime(String fieldName) {
+        this.setFieldValueByKey(NameFormatConversionUtil.lineToHump(fieldName), new Date());
     }
 
     @Override
