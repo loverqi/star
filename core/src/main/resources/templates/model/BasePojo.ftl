@@ -31,6 +31,8 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     private String ${model.changeColumnName};
 		<#elseif (model.columnType=="INT")>
     private Integer ${model.changeColumnName};
+		<#elseif (model.columnType=="BIGINT")>
+    private Long ${model.changeColumnName};
 		<#elseif (model.columnType=="DOUBLE" || model.columnType=="DECIMAL")>
     private Double ${model.changeColumnName};
 		<#elseif (model.columnType=="TINYINT")>
@@ -57,6 +59,14 @@ public class ${table_name} extends BasePojo <#if is_node>implements INode<${tabl
     }
     
     public Integer get${model.changeColumnName?cap_first}() {
+        return ${model.changeColumnName};
+    }
+		<#elseif (model.columnType=="BIGINT")>
+    public void set${model.changeColumnName?cap_first}(Long ${model.changeColumnName}) {
+        this.${model.changeColumnName} = ${model.changeColumnName};
+    }
+    
+    public Long get${model.changeColumnName?cap_first}() {
         return ${model.changeColumnName};
     }
 		<#elseif (model.columnType=="DOUBLE" || model.columnType=="DECIMAL")>
