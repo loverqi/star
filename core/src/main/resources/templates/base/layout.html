@@ -33,7 +33,7 @@
 				<a href="/index.html" class="navbar-brand">
 					<small>
 						<img src="/assets/avatars/logo.png" width="120px" height="20px" alt=""
-							th:src="${application.config.SYSTEM_LOGO_BAR}" />
+							th:src="${session.config.SYSTEM_LOGO_BAR}" />
 					</small>
 				</a>
 			</div>
@@ -199,7 +199,7 @@
 			<div class="footer-inner">
 				<div class="footer-content">
 					<span class="bigger-120">
-						<span th:text="${application.config.SYSTEM_NAME}"></span>
+						<span th:text="${session.config.SYSTEM_NAME}"></span>
 						&copy;
 						<a href="https://github.com/loverqi/star" target="_blank">loverqi.cn</a>
 					</span>

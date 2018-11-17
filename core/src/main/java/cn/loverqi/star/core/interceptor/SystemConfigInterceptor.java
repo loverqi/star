@@ -1,8 +1,8 @@
 package cn.loverqi.star.core.interceptor;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -21,10 +21,10 @@ public class SystemConfigInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        ServletContext servletContext = request.getServletContext();
+        HttpSession session = request.getSession();
 
-        if (servletContext.getAttribute("config") == null) {
-            servletContext.setAttribute("config", SystemConfiguration.getConfigs());
+        if (session.getAttribute("config") == null) {
+            session.setAttribute("config", SystemConfiguration.getConfigs());
 
         }
 

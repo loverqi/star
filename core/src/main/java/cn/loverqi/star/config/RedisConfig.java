@@ -1,17 +1,16 @@
 package cn.loverqi.star.config;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.loverqi.star.core.serializer.ObjectRedisSerializer;
 
 /**
  * redis配置
@@ -22,23 +21,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @EnableCaching
 public class RedisConfig {
 
-    @Autowired
-    private LettuceConnectionFactory lettuceConnectionFactory;
-
     /**
      * 配置Redis操作类
      */
     @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
-        StringRedisTemplate template = new StringRedisTemplate(lettuceConnectionFactory);
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
-                Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+    public RedisTemplate<Serializable, Serializable> redisTemplate(@Autowired RedisConnectionFactory connectionFactory) {
+        RedisTemplate<Serializable, Serializable> template = new RedisTemplate<Serializable, Serializable>();
+        template.setConnectionFactory(connectionFactory);
         template.afterPropertiesSet();
+        // redis存取对象的关键配置
+        template.setKeySerializer(new StringRedisSerializer());
+        // ObjectRedisSerializer类为java对象的序列化和反序列化工具类
+        template.setValueSerializer(new ObjectRedisSerializer());
         return template;
     }
 }

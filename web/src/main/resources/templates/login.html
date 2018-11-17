@@ -32,7 +32,7 @@
 					<div class="login-container">
 						<div class="center">
 							<h1>
-								<span class="white" th:text="${application.config.SYSTEM_NAME}"></span>
+								<span class="white" th:text="${session.config.SYSTEM_NAME}"></span>
 								<span class="white">登陆</span>
 							</h1>
 						</div>
@@ -64,7 +64,7 @@
 														<i class="ace-icon fa fa-lock"></i>
 													</span>
 												</label>
-												<label class="block clearfix" th:if="${application.config.CODE_ENABLE}">
+												<label class="block clearfix" th:if="${session.config.CODE_ENABLE}">
 													<span class="block input-icon input-icon-right">
 														<input type="text" class="form-control" name="kaptcha" placeholder="验证码" />
 														<img id="kaptchaCode" onclick="changeCode();" style="height: 32px; right: -2px" class="ace-icon" alt=""
@@ -147,7 +147,7 @@
 		});
 	</script>
 
-	<script type="text/javascript" th:if="${application.config.CODE_ENABLE}">
+	<script type="text/javascript" th:if="${session.config.CODE_ENABLE}">
 		//切换验证码
 		function changeCode() {
 			$("#kaptchaCode").attr("src", "/getKaptchaImg.do?" + Math.random());

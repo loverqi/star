@@ -27,24 +27,9 @@ import io.swagger.annotations.Api;
 @Api(tags = "登陆")
 @RequestMapping("/")
 public class IndexController {
-
-    //    @Autowired
-    //    private StringRedisTemplate template;
-
+    
     @RequestMapping(value = { "/", "/index.html" }, method = RequestMethod.GET)
     public String index(HttpSession session) {
-        //测试使用redis缓存数据
-        //        template.opsForValue().set("test", "100");
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
-        //        System.err.println(session.getId());
         return "index";
     }
 

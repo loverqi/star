@@ -2,7 +2,6 @@ package cn.loverqi.star.core.controller;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.loverqi.star.core.bean.ResponseData;
+import cn.loverqi.star.core.bean.SysCofigBean;
 import cn.loverqi.star.core.domain.StarSysConfig;
 import cn.loverqi.star.core.domain.StarSysMenu;
 import cn.loverqi.star.core.domain.StarSysUserInfo;
 import cn.loverqi.star.core.mapper.StarSysPrivMapper;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.redies.CacheKey;
+import cn.loverqi.star.core.redies.RedisManager;
 import cn.loverqi.star.core.security.manager.DynamicInvocationSecurityMetadataSource;
 import cn.loverqi.star.core.security.util.SecurityUtil;
 import cn.loverqi.star.core.service.StarSysConfigService;
@@ -29,6 +31,7 @@ import cn.loverqi.star.core.service.StarSysMenuService;
 import cn.loverqi.star.core.utils.SystemConfiguration;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.minidev.json.JSONUtil;
 
 /**
  * 验证码的获取
@@ -48,7 +51,8 @@ public class RefreshController {
     private StarSysMenuService starSysMenuService;
     @Autowired
     private StarSysPrivMapper starSysPrivMapper;
-
+    @Autowired
+    private RedisManager redisManager;
     @Autowired
     private SessionRegistry sessionRegistry;
 
@@ -74,12 +78,17 @@ public class RefreshController {
 
         //更新系统参数
         if (config != null && config) {
-            Example example = new Example();
-            example.createCriteria().andFieldEqualTo("enable", true);
-            List<StarSysConfig> starSysConfigs = starSysConfigService.selectByExample(example);
+            List<StarSysConfig> starSysConfigs = null;
+            Object object = redisManager.get(CacheKey.SYS_CONFIG.getKey());
+            if (object != null && object instanceof SysCofigBean) {
+                starSysConfigs = ((SysCofigBean) object).getList();
+            }else {
+                Example example = new Example();
+                example.createCriteria().andFieldEqualTo("enable", true);
+                starSysConfigs = starSysConfigService.selectByExample(example);
+                redisManager.set(CacheKey.SYS_CONFIG.getKey(), new SysCofigBean(starSysConfigs), CacheKey.SYS_CONFIG.getTtl());
+            }
             SystemConfiguration.setConfig(starSysConfigs);
-            ServletContext servletContext = request.getServletContext();
-            servletContext.setAttribute("config", SystemConfiguration.getConfigs());
             count++;
         }
 

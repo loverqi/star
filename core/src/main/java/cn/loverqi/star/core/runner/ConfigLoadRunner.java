@@ -7,8 +7,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import cn.loverqi.star.core.bean.SysCofigBean;
 import cn.loverqi.star.core.domain.StarSysConfig;
 import cn.loverqi.star.core.mybaties.example.Example;
+import cn.loverqi.star.core.redies.CacheKey;
+import cn.loverqi.star.core.redies.RedisManager;
 import cn.loverqi.star.core.service.StarSysConfigService;
 import cn.loverqi.star.core.utils.SystemConfiguration;
 
@@ -24,8 +27,8 @@ public class ConfigLoadRunner implements CommandLineRunner {
     @Autowired
     private StarSysConfigService starSysConfigService;
     
-//    @Autowired
-//    private RedisTemplate<String, List<StarSysConfig>> template;
+    @Autowired
+    private RedisManager redisManager;
 
     /*
      * 启动时执行，从数据库加载文件
@@ -33,11 +36,17 @@ public class ConfigLoadRunner implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
-        Example example = new Example();
-        example.createCriteria().andFieldEqualTo("enable", true);
-        List<StarSysConfig> starSysConfigs = starSysConfigService.selectByExample(example);
+        List<StarSysConfig> starSysConfigs = null;
+        Object object = redisManager.get(CacheKey.SYS_CONFIG.getKey());
+        if (object != null && object instanceof SysCofigBean) {
+            starSysConfigs = ((SysCofigBean) object).getList();
+        }else {
+            Example example = new Example();
+            example.createCriteria().andFieldEqualTo("enable", true);
+            starSysConfigs = starSysConfigService.selectByExample(example);
+            redisManager.set(CacheKey.SYS_CONFIG.getKey(), new SysCofigBean(starSysConfigs), CacheKey.SYS_CONFIG.getTtl());
+        }
         
-//        template.opsForList().set("configds", starSysConfigs.size(), starSysConfigs);
         SystemConfiguration.setConfig(starSysConfigs);
     }
 
